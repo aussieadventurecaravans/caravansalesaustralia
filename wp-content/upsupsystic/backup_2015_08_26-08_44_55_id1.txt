@@ -1,0 +1,59 @@
+[2015-08-26 08:32:01] Backup settings: Full backup; Wordpress Core; Plugins folder; Themes folder; Uploads folder; Any folder inside wp-content; Database backup; Exclude: upgrade,cache.
+[2015-08-26 08:32:01] 11499 files scanned.
+[2015-08-26 08:32:01] Clear out old temporary files
+[2015-08-26 08:32:01] Send request to generate temporary file stacks
+[2015-08-26 08:32:02] Trying to generate a stack of 500 files
+[2015-08-26 08:32:45] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7982c95986.98439341 successfully generated
+[2015-08-26 08:32:46] Trying to generate a stack of 500 files
+[2015-08-26 08:33:36] Temporary stack wp-content/upsupsystic/tmp/BUP55dd79ae9fb861.98595326 successfully generated
+[2015-08-26 08:33:40] Trying to generate a stack of 500 files
+[2015-08-26 08:34:24] Temporary stack wp-content/upsupsystic/tmp/BUP55dd79e4cc5f45.26627073 successfully generated
+[2015-08-26 08:34:26] Trying to generate a stack of 500 files
+[2015-08-26 08:35:44] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7a126bbad0.41393178 successfully generated
+[2015-08-26 08:35:45] Trying to generate a stack of 500 files
+[2015-08-26 08:37:00] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7a61bd4a89.92435608 successfully generated
+[2015-08-26 08:37:01] Trying to generate a stack of 500 files
+[2015-08-26 08:38:13] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7aad7cdb55.67544545 successfully generated
+[2015-08-26 08:38:21] Trying to generate a stack of 500 files
+[2015-08-26 08:39:36] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7afdb731c0.92555779 successfully generated
+[2015-08-26 08:39:40] Trying to generate a stack of 500 files
+[2015-08-26 08:40:12] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7b4c17be83.51039177 successfully generated
+[2015-08-26 08:40:14] Trying to generate a stack of 500 files
+[2015-08-26 08:40:41] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7b6eda13f3.84414042 successfully generated
+[2015-08-26 08:40:42] Trying to generate a stack of 500 files
+[2015-08-26 08:41:00] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7b8aa44e37.73828635 successfully generated
+[2015-08-26 08:41:00] Trying to generate a stack of 500 files
+[2015-08-26 08:41:19] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7b9cb8f625.58143265 successfully generated
+[2015-08-26 08:41:21] Trying to generate a stack of 500 files
+[2015-08-26 08:41:31] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7bb1152c04.13518809 successfully generated
+[2015-08-26 08:41:34] Trying to generate a stack of 500 files
+[2015-08-26 08:42:05] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7bbe7a6158.07535227 successfully generated
+[2015-08-26 08:42:28] Trying to generate a stack of 500 files
+[2015-08-26 08:42:35] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7bf4ac98d6.45136434 successfully generated
+[2015-08-26 08:42:36] Trying to generate a stack of 500 files
+[2015-08-26 08:42:58] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7bfca67b42.03064959 successfully generated
+[2015-08-26 08:42:59] Trying to generate a stack of 500 files
+[2015-08-26 08:43:19] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c13677fb9.23570124 successfully generated
+[2015-08-26 08:43:20] Trying to generate a stack of 500 files
+[2015-08-26 08:43:41] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c287a9ac1.04968522 successfully generated
+[2015-08-26 08:43:42] Trying to generate a stack of 500 files
+[2015-08-26 08:44:00] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c3eaf3dc3.79346327 successfully generated
+[2015-08-26 08:44:01] Trying to generate a stack of 500 files
+[2015-08-26 08:44:16] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c5112cad9.04877668 successfully generated
+[2015-08-26 08:44:17] Trying to generate a stack of 500 files
+[2015-08-26 08:44:33] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c61516b19.42694725 successfully generated
+[2015-08-26 08:44:34] Trying to generate a stack of 500 files
+[2015-08-26 08:44:38] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c7296f1a4.17101986 successfully generated
+[2015-08-26 08:44:39] Trying to generate a stack of 500 files
+[2015-08-26 08:44:44] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c77323c19.85791880 successfully generated
+[2015-08-26 08:44:45] Trying to generate a stack of 499 files
+[2015-08-26 08:44:54] Temporary stack wp-content/upsupsystic/tmp/BUP55dd7c7d02a4e0.28282636 successfully generated
+[2015-08-26 08:44:55] Create a backup of the file system: /home/webnetco/public_html/webdesignmalaysia.net/caravan/wp-content/upsupsystic/backup_2015_08_26-08_44_55_id1.zip
+[2015-08-26 08:47:11] Create a backup of the database: /home/webnetco/public_html/webdesignmalaysia.net/caravan/wp-content/upsupsystic/backup_2015_08_26-08_44_55_id1.sql
+[2015-08-26 08:47:11] Send requests to getting database tables name.
+[2015-08-26 08:47:13] Tables backup complete: wp_bup_htmltype, wp_bup_modules, wp_bup_modules_type, wp_bup_options, wp_bup_options_categories, wp_commentmeta, wp_comments, wp_links, wp_mts_wp_reviews, wp_numix_post_slider_lite
+[2015-08-26 08:47:14] Tables backup complete: wp_options, wp_postmeta, wp_posts, wp_term_relationships, wp_term_taxonomy, wp_terms, wp_usermeta, wp_users
+[2015-08-26 08:47:15] Database backup complete.
+[2015-08-26 08:47:15] Backup complete
+[2015-08-26 08:47:15] Please, don't delete the line that is lower, it is used for technical purposes!
+a:7:{s:4:"full";s:1:"1";s:7:"wp_core";s:1:"1";s:7:"plugins";s:1:"1";s:6:"themes";s:1:"1";s:7:"uploads";s:1:"1";s:15:"any_directories";s:1:"1";s:7:"exclude";s:13:"upgrade,cache";}
