@@ -84,7 +84,7 @@ $orc_field = get_field( "orc_field" );
 												</div>
 											</div>
 										</div>
-									<? $i++;
+									<?php $i++;
 									endwhile;
 									echo '</div>';
 								endif;
