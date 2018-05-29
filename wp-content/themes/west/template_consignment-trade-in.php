@@ -30,11 +30,11 @@ Template Name: Trade in / Consignment
             <div class="col-md-8 main-form">
                 <?php //get_template_part( 'template-parts/content', 'page' ); ?>
                 <div class="row consignment-form" >
-                    <?php echo FrmFormsController::show_form(5, $key = '', $title=false, $description=true); ?>
+                    <?php echo FrmFormsController::show_form('', $key = 'consignment', $title=false, $description=true); ?>
                 </div>
 
                 <div class="row trade-in-form">
-                    <?php echo FrmFormsController::show_form(6, $key = '', $title=false, $description=true); ?>
+                    <?php echo FrmFormsController::show_form('', $key = 'tradein', $title=false, $description=true); ?>
                 </div>
 
             </div>
