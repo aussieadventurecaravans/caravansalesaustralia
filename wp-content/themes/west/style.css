@@ -2152,3 +2152,49 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	font-size: 44px;
 	color: #0193dd!important;
 }
+.consignment-trade-in-form
+{
+	background: #fff;
+	padding: 10px 30px;
+}
+.consignment-trade-in-form .second-nav ul.nav.flex-column
+{
+	list-style-type: none;
+	background-color: #fff;
+	padding: 0;
+}
+.consignment-trade-in-form .second-nav ul.nav.flex-column .nav-item:first-child
+{
+	border-top: 1px solid #eee;
+}
+.consignment-trade-in-form .second-nav ul.nav.flex-column .nav-item
+{
+	padding: 15px 24px;
+	cursor: pointer;
+	border-bottom: 1px solid #eee;
+}
+.consignment-trade-in-form .second-nav ul.nav.flex-column .nav-item.active
+{
+	background-color: #e67719;
+}
+.consignment-trade-in-form .second-nav ul.nav.flex-column .nav-item span
+{
+	color: #9FA7AF;
+}
+.consignment-trade-in-form .second-nav ul.nav.flex-column .nav-item.active span
+{
+	color: #fff;
+}
+.consignment-trade-in-form .main-form .trade-in-form
+{
+	display:none;
+}
+
+.consignment-trade-in-form h1.consignment-trade-in-title
+{
+	padding: 20px 0px;
+	text-transform: uppercase;
+	margin: 0;
+	font-size: 32px;
+}
+

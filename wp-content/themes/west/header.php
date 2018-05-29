@@ -52,7 +52,9 @@
 	<?php endif; ?>
 
 	<div id="content" class="site-content">
-	<?php if(is_tax() == 1){?>
+     <?php if(is_page_template('template_consignment-trade-in.php')){?>
+        <div class="container-fluid">
+	<?php } elseif(is_tax() == 1){?>
 	    <div class="fullwidth">
 	<?php }  elseif ( !is_page_template('page-templates/page_composer.php') ) { ?>
 		<div class="container">
