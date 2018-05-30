@@ -207,10 +207,13 @@ class ic_price_display {
 	 * @return string
 	 */
 	static function set_archive_price( $archive_price, $post ) {
+		if ( !isset( $post->ID ) ) {
+			return $archive_price;
+		}
 		$price_value = self::product_price( $post->ID );
 		if ( $price_value !== '' ) {
 			$archive_price	 = '<span class="product-price ' . design_schemes( 'color', 0 ) . '">';
-			$archive_price	 .= self::price_format( $price_value );
+			$archive_price	 .= apply_filters( 'ic_set_archive_price', self::price_format( $price_value ), $post->ID );
 			$archive_price	 .= '</span>';
 		}
 		return $archive_price;

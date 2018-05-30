@@ -42,7 +42,7 @@ add_action( 'add_meta_boxes', 'product_listing_remove_wpseo', 16 );
  */
 function product_listing_remove_wpseo() {
 	$id = get_product_listing_id();
-	if ( is_admin() && isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] == $id ) {
+	if ( is_admin() && isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] == $id && !is_ic_shortcode_integration() ) {
 		remove_meta_box( 'wpseo_meta', 'page', 'normal' );
 	}
 }

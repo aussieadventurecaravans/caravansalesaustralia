@@ -162,6 +162,44 @@ if ( !function_exists( 'select_page' ) ) {
 
 }
 
+if ( !function_exists( 'ic_select_product' ) ) {
+
+	function ic_select_product( $first_option, $selected_value, $select_name, $class = null, $echo = 1, $exclude = '' ) {
+		$product_count = ic_products_count();
+		if ( $product_count < 1000 ) {
+			$catalogs	 = product_post_type_array();
+			$set		 = array(
+				'posts_per_page'	 => 1000,
+				'offset'			 => 0,
+				'category'			 => '',
+				'orderby'			 => 'post_date',
+				'order'				 => 'DESC',
+				'include'			 => '',
+				'exclude'			 => $exclude,
+				'meta_key'			 => '',
+				'meta_value'		 => '',
+				'post_type'			 => $catalogs,
+				'post_mime_type'	 => '',
+				'post_parent'		 => '',
+				'post_status'		 => 'publish',
+				'suppress_filters'	 => true );
+
+			$pages			 = get_posts( $set );
+			$field_number	 = filter_var( $select_name, FILTER_SANITIZE_NUMBER_INT );
+
+			$select_box = '<select custom="' . $field_number . '" id="' . $select_name . '" name="' . $select_name . '" class="all-products-dropdown ' . $class . '"><option value="noid">' . $first_option . '</option>';
+			foreach ( $pages as $page ) {
+				$select_box .= '<option class="id_' . $page->ID . '" value="' . $page->ID . '" ' . selected( $page->ID, $selected_value, 0 ) . '>' . $page->post_title . '</option>';
+			}
+			$select_box .= '</select>';
+		} else {
+			$select_box = '<input type="text" name="' . $select_name . '" placeholder="' . __( 'Set Product ID', 'al-implecode-product-sidebar' ) . '" value="' . $selected_value . '"/>';
+		}
+		return echo_ic_setting( $select_box, $echo );
+	}
+
+}
+
 function show_page_link( $page_id ) {
 	$page_url	 = post_permalink( $page_id );
 	$page_link	 = '<a target="_blank" href=' . $page_url . '>' . $page_url . '</a>';
@@ -294,12 +332,12 @@ function show_short_desc( $product_id = false ) {
 	if ( is_object( $product_id ) && isset( $product_id->ID ) ) {
 		$product_id = $product_id->ID;
 	}
-	//add_filter( 'product_short_description', 'wptexturize' );
-	//add_filter( 'product_short_description', 'convert_smilies' );
-	//add_filter( 'product_short_description', 'convert_chars' );
-	//add_filter( 'product_short_description', 'wpautop' );
-	//add_filter( 'product_short_description', 'shortcode_unautop' );
-	add_filter( 'the_excerpt', 'do_shortcode', 11 );
+	add_filter( 'product_short_description', 'wptexturize' );
+	add_filter( 'product_short_description', 'convert_smilies' );
+	add_filter( 'product_short_description', 'convert_chars' );
+	add_filter( 'product_short_description', 'wpautop' );
+	add_filter( 'product_short_description', 'shortcode_unautop' );
+	add_filter( 'product_short_description', 'do_shortcode', 11 );
 	ic_show_template_file( 'product-page/product-short-description.php', AL_BASE_TEMPLATES_PATH, $product_id );
 }
 
@@ -470,12 +508,13 @@ function product_breadcrumbs() {
 		} else {
 			$current_product = '';
 		}
+		$bread_divider	 = apply_filters( 'ic_breadcrumbs_divider', '»' );
 		$archive_names	 = get_archive_names();
 		$bread			 = '<p id="breadcrumbs"><span itemscope itemtype="http://schema.org/BreadcrumbList">';
 		$count			 = 0;
 		if ( !empty( $archive_names[ 'bread_home' ] ) ) {
 			$count++;
-			$bread .= apply_filters( 'product_breadcrumbs_home', '<span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="breadcrumbs-home"><a itemprop="item" href="' . $home_page . '"><span itemprop="name">' . $archive_names[ 'bread_home' ] . '</span></a><meta itemprop="position" content="' . $count . '" /></span> » ' );
+			$bread .= apply_filters( 'product_breadcrumbs_home', '<span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="breadcrumbs-home"><a itemprop="item" href="' . $home_page . '"><span itemprop="name">' . $archive_names[ 'bread_home' ] . '</span></a><meta itemprop="position" content="' . $count . '" /></span> ' . $bread_divider . ' ' );
 		}
 		if ( !empty( $product_archive ) ) {
 			$count++;
@@ -485,7 +524,7 @@ function product_breadcrumbs() {
 			foreach ( $parents as $parent ) {
 				if ( !empty( $parent ) ) {
 					$count++;
-					$additional .= ' » <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">' . $parent . '<meta itemprop="position" content="' . $count . '" /></span>';
+					$additional .= ' ' . $bread_divider . ' <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">' . $parent . '<meta itemprop="position" content="' . $count . '" /></span>';
 				}
 			}
 			if ( !empty( $additional ) ) {
@@ -493,12 +532,18 @@ function product_breadcrumbs() {
 			}
 		}
 		if ( !empty( $current_product ) ) {
-			$bread .= ' » <span><span class="breadcrumb_last">' . $current_product . '</span></span>';
+			$bread .= ' ' . $bread_divider . ' <span><span class="breadcrumb_last">' . $current_product . '</span></span>';
 		}
 		$bread	 .= '</span>';
 		$bread	 .= '</p>';
 		return $bread;
 	}
+}
+
+function ic_get_current_category_id() {
+	$obj				 = get_queried_object();
+	$current_category_id = $obj->term_id;
+	return apply_filters( 'ic_current_category_id', $current_category_id );
 }
 
 function ic_get_product_category_parents( $id, $taxonomy, $link = false, $separator = '/', $nicename = false,
@@ -843,8 +888,18 @@ function thumbnail_support_products() {
 add_action( 'pre_get_posts', 'ic_pre_get_products', 99 );
 
 function ic_pre_get_products( $query ) {
-	if ( ((!is_admin() && $query->is_main_query()) || is_ic_ajax()) && !isset( $_GET[ 'order' ] ) && (is_ic_product_listing( $query ) || is_ic_taxonomy_page( $query ) || is_ic_product_search( $query ) || is_home_archive( $query )) ) {
+	if ( ((!is_admin() && $query->is_main_query()) || is_ic_ajax()) && !isset( $_GET[ 'order' ] ) && ((!empty( $query->query[ 'post_type' ] ) && $query->query[ 'post_type' ] == 'al_product') || is_ic_product_listing( $query ) || is_ic_taxonomy_page( $query ) || is_ic_product_search( $query ) || is_home_archive( $query )) ) {
 		do_action( 'ic_pre_get_products', $query );
+		if ( is_ic_product_listing( $query ) ) {
+			do_action( 'ic_pre_get_products_listing', $query );
+		} else if ( is_ic_taxonomy_page( $query ) ) {
+			do_action( 'ic_pre_get_products_tax', $query );
+		} else if ( is_ic_product_search( $query ) ) {
+			do_action( 'ic_pre_get_products_search', $query );
+		}
+		if ( (!empty( $query->query[ 'post_type' ] ) && ic_string_contains( $query->query[ 'post_type' ], 'al_product' )) || !empty( $query->query[ 'al_product-cat' ] ) ) {
+			do_action( 'ic_pre_get_products_only', $query );
+		}
 	}
 }
 
@@ -855,7 +910,7 @@ function ic_pre_get_products_shortcode( $query ) {
 	return $query;
 }
 
-add_action( 'ic_pre_get_products', 'set_product_order', 20 );
+add_action( 'ic_pre_get_products_only', 'set_product_order', 20 );
 
 /**
  * Sets default product order
@@ -901,6 +956,9 @@ function set_shortcode_product_order( $shortcode_query, $args = null ) {
 		if ( $archive_multiple_settings[ 'product_order' ] == 'product-name' && empty( $args[ 'orderby' ] ) ) {
 			$shortcode_query[ 'orderby' ]	 = 'title';
 			$shortcode_query[ 'order' ]		 = 'ASC';
+		}
+		if ( isset( $shortcode_query[ 'orderby' ] ) && $shortcode_query[ 'orderby' ] == 'name' ) {
+			$shortcode_query[ 'orderby' ] = 'title';
 		}
 		$shortcode_query = apply_filters( 'shortcode_modify_product_order', $shortcode_query, $archive_multiple_settings, $args );
 	} else if ( $_GET[ 'product_order' ] != 'newest' && !empty( $_GET[ 'product_order' ] ) ) {
@@ -949,7 +1007,7 @@ function show_product_order_dropdown( $archive_template = null, $multiple_settin
 function ic_get_to_hidden_field( $get, $exclude = '', $name = '' ) {
 	$fields = '';
 	foreach ( $get as $key => $get_value ) {
-		if ( $key != $exclude ) {
+		if ( (is_array( $exclude ) && !in_array( $key, $exclude )) || (!is_array( $exclude ) && $key != $exclude) ) {
 			if ( is_array( $get_value ) ) {
 				$fields .= ic_get_to_hidden_field( $get_value, $exclude, $key );
 			} else {
@@ -1018,6 +1076,7 @@ function show_default_product_sort_bar( $archive_template, $multiple_settings = 
 			echo sprintf( __( 'Add widgets to the filters bar %snow%s or %sdismiss this notice%s.', 'ecommerce-product-catalog' ), '<a href="' . $customize_url . '">', '</a>', '<a class="dismiss-empty-bar" href="#">', '</a>' );
 			echo '</div>';
 			echo '</div>';
+			$is_filter_bar	 = false;
 			unset( $is_filter_bar );
 		}
 	}
@@ -1057,7 +1116,7 @@ function ic_products_count( $post_types = '' ) {
 			}
 		}
 	}
-	return $total;
+	return intval( $total );
 }
 
 /**
@@ -1239,4 +1298,10 @@ function ic_get_post_type( $id = null ) {
 		}
 	}
 	return get_post_type( $id );
+}
+
+function ic_get_archive_price( $product_id ) {
+	$post			 = get_post( $product_id );
+	$archive_price	 = apply_filters( 'archive_price_filter', '', $post );
+	return $archive_price;
 }

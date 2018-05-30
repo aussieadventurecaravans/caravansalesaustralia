@@ -16,11 +16,21 @@ if ( !defined( 'ABSPATH' ) ) {
 class ic_catalog_ajax {
 
 	function __construct() {
+		add_action( 'wp_loaded', array( $this, 'ajax_get' ), 5 );
 		add_action( 'wp_ajax_nopriv_ic_self_submit', array( $this, 'ajax_self_submit' ) );
 		add_action( 'wp_ajax_ic_self_submit', array( $this, 'ajax_self_submit' ) );
 		add_action( 'register_catalog_styles', array( $this, 'register_styles' ) );
-		add_action( 'enqueue_catalog_scripts', array( $this, 'enqueue_styles' ) );
+		add_action( 'enqueue_catalog_scripts', array( __CLASS__, 'enqueue_styles' ) );
 		add_filter( 'product-list-attr', array( $this, 'shortcode_query_data' ), 10, 2 );
+	}
+
+	function ajax_get() {
+		if ( is_admin() && !empty( $_POST[ 'self_submit_data' ] ) ) {
+			//check_ajax_referer( 'ic_ajax', 'security' );
+			$params	 = array();
+			parse_str( $_POST[ 'self_submit_data' ], $params );
+			$_GET	 = $params;
+		}
 	}
 
 	/**
@@ -28,7 +38,7 @@ class ic_catalog_ajax {
 	 *
 	 */
 	function ajax_self_submit() {
-		check_ajax_referer( 'ic_ajax', 'security' );
+		//check_ajax_referer( 'ic_ajax', 'security' );
 		if ( isset( $_POST[ 'self_submit_data' ] ) ) {
 			$params				 = array();
 			parse_str( $_POST[ 'self_submit_data' ], $params );
@@ -56,7 +66,6 @@ class ic_catalog_ajax {
 				remove_action( 'ic_pre_get_products', 'set_products_limit', 99 );
 				remove_action( 'pre_get_posts', 'set_multi_products_limit', 99 );
 			}
-
 			$posts = new WP_Query( $ic_ajax_query_vars );
 			if ( !empty( $ic_ajax_query_vars[ 'paged' ] ) && $ic_ajax_query_vars[ 'paged' ] > 1 && empty( $posts->post ) ) {
 				unset( $ic_ajax_query_vars[ 'paged' ] );
@@ -64,7 +73,8 @@ class ic_catalog_ajax {
 				$return[ 'remove_pagination' ]	 = 1;
 				$posts							 = new WP_Query( $ic_ajax_query_vars );
 			}
-			if ( !empty( $_POST[ 'shortcode' ] ) ) {
+
+			if ( !empty( $_POST[ 'ic_shortcode' ] ) ) {
 				global $shortcode_query;
 				$shortcode_query = $posts;
 			}
@@ -93,6 +103,11 @@ class ic_catalog_ajax {
 				the_widget( 'product_price_filter' );
 				$return[ 'product_price_filter' ] = ob_get_clean();
 			}
+			if ( !empty( $_POST[ 'ajax_elements' ][ 'product-size-filter-container' ] ) ) {
+				ob_start();
+				the_widget( 'ic_product_size_filter' );
+				$return[ 'product-size-filter-container' ] = ob_get_clean();
+			}
 			if ( !empty( $_POST[ 'ajax_elements' ][ 'product_order' ] ) ) {
 				ob_start();
 				the_widget( 'product_sort_filter' );
@@ -103,6 +118,7 @@ class ic_catalog_ajax {
 				show_product_sort_bar( $archive_template, $multiple_settings );
 				$return[ 'product-sort-bar' ] = ob_get_clean();
 			}
+			$return						 = apply_filters( 'ic_ajax_self_submit_return', $return );
 			$_SERVER[ 'REQUEST_URI' ]	 = $old_request_url;
 			$echo						 = json_encode( $return );
 			echo $echo;
@@ -114,17 +130,21 @@ class ic_catalog_ajax {
 		wp_register_script( 'ic_product_ajax', AL_PLUGIN_BASE_PATH . 'js/product-ajax.min.js' . ic_filemtime( AL_BASE_PATH . '/js/product-ajax.min.js' ) );
 	}
 
-	function enqueue_styles() {
+	static function enqueue_styles() {
 		wp_enqueue_script( 'ic_product_ajax' );
 		$query_vars = array();
 		if ( is_ic_catalog_page() ) {
 			global $wp_query;
 			$query_vars = apply_filters( 'ic_product_ajax_query_vars', $wp_query->query );
-			if ( empty( $query_vars ) && is_home_archive() ) {
+			if ( (empty( $query_vars ) && is_home_archive()) || (is_ic_shortcode_integration() && is_ic_product_listing()) ) {
 				$query_vars = array( 'post_type' => 'al_product' );
 			}
 			if ( empty( $query_vars[ 'post_type' ] ) ) {
-				$query_vars[ 'ic_post_type' ] = get_post_type();
+				$post_type = get_post_type();
+				if ( !ic_string_contains( $post_type, 'al_product' ) ) {
+					$post_type = 'al_product';
+				}
+				$query_vars[ 'ic_post_type' ] = $post_type;
 			}
 		}
 		$active_filters = get_active_product_filters();

@@ -135,9 +135,21 @@
 	});
 
 	/**
+	 * Hook - Edit Module On Click ( Display Options Panel ) - Fixed: https://github.com/live-composer/live-composer-page-builder/issues/895
+	 */
+	LiveComposer.Builder.PreviewAreaDocument.on({
+	    mouseenter: function() {
+	        jQuery('.dslca-modules-section-manage', LiveComposer.Builder.PreviewAreaDocument).css("z-index", "99998");
+	    },
+	    mouseleave: function() {
+	        jQuery('.dslca-modules-section-manage', LiveComposer.Builder.PreviewAreaDocument).css("z-index", "999999");
+	    },
+	}, ".dslca-change-width-module-hook, .dslc-module-front .dslca-module-manage");
+
+	/**
 	 * Action - Show/Hide Width Options
 	 */
-	LiveComposer.Builder.PreviewAreaDocument.on( 'click', '.dslca-change-width-module-hook', function(e){
+/* 	LiveComposer.Builder.PreviewAreaDocument.on( 'click', '.dslca-change-width-module-hook', function(e){
 
 		e.preventDefault();
 
@@ -157,14 +169,22 @@
 			jQuery(this).hide();
 			// Remove class that puts module on the very top level.
 			$(this).closest('.dslc-module-front').removeClass('dslca-change-width-active');
-	});
-
+	}); */
 	/**
 	 * Hook - Set Module Width
 	 */
 	LiveComposer.Builder.PreviewAreaDocument.on( 'click', '.dslca-change-width-module-options span', function(){
+		if ( ! jQuery(this).hasClass('dslca-action-disabled') ) {
+			var moduleJQ = jQuery(this).closest('.dslc-module-front');
+			var oldSize = moduleJQ.data('dslc-module-size');
+			var newSize = jQuery(this).data('size');
 
-		dslc_module_width_set( jQuery(this).closest('.dslc-module-front'), jQuery(this).data('size') );
+			// Start expensive function only if the value changed.
+			if (  Number(oldSize) !== Number(newSize) ) {
+				dslc_module_width_set( moduleJQ, newSize );
+			}
+		}
+
 	});
 
 	/**
@@ -279,7 +299,7 @@
 		}
 	});
 
-	// Editable Content
+	// Editable Contents
 	LiveComposer.Builder.PreviewAreaDocument.on('blur', '.dslca-editable-content', function() {
 
 		if ( ! jQuery('body').hasClass( 'dslca-composer-hidden' ) && jQuery(this).data('type') == 'simple' ) {
@@ -440,8 +460,8 @@ function dslc_module_width_set( module, new_width ) {
 	// Add new column class and change size "data"
 	module
 		.removeClass('dslc-1-col dslc-2-col dslc-3-col dslc-4-col dslc-5-col dslc-6-col dslc-7-col dslc-8-col dslc-9-col dslc-10-col dslc-11-col dslc-12-col')
-		.addClass(newClass);
-		// .data('dslc-module-size', new_width);
+		.addClass(newClass)
+		.data('dslc-module-size', new_width);
 		//.addClass('dslca-module-being-edited'); – Deprecated
 
 	// Change module size in element attribute
@@ -509,7 +529,7 @@ function dslc_module_options_show( moduleID ) {
 	// Hide the publish button
 	dslc_hide_publish_button();
 
-	LiveComposer.Builder.UI.initInlineEditors();
+	// LiveComposer.Builder.UI.initInlineEditors();
 
 	// Set up backup
 	var moduleBackup = jQuery('.dslca-module-options-front', dslcModule).children().clone();

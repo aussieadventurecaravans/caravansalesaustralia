@@ -182,3 +182,11 @@ function ic_get_product_image( $product_id, $size = 'full', $attributes = array(
 	}
 	return $image;
 }
+
+add_action( 'ic_pre_get_products_search', 'ic_product_search_fix' );
+
+function ic_product_search_fix( $query ) {
+	if ( !empty( $_GET[ 'post_type' ] ) ) {
+		$query->query_vars[ 'post_type' ] = esc_attr( $_GET[ 'post_type' ] );
+	}
+}

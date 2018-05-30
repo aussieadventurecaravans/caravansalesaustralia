@@ -1,24 +1,28 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes\Redirect
  */
 
 /**
- * Validates the accessibility of a redirect's target
+ * Validates the accessibility of a redirect's target.
  */
 class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation {
 
 	/**
-	 * @var WPSEO_Validation_Result The validation error.
+	 * The validation error.
+	 *
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
 
 	/**
 	 * Validates if the target is accessible and based on its response code it will set a warning (if applicable).
 	 *
-	 * @param WPSEO_Redirect $redirect  The redirect to validate.
+	 * @param WPSEO_Redirect $redirect     The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
-	 * @param array|null     $redirects Unused.
+	 * @param array|null     $redirects    Unused.
 	 *
 	 * @return bool Whether or not the target is valid.
 	 */
@@ -97,7 +101,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */
@@ -119,17 +123,20 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	/**
 	 * Check if the target is relative, if so just parse a full URL.
 	 *
-	 * @param string $target The target to pars.
+	 * @param string $target The target to parse.
 	 *
 	 * @return string
 	 */
 	protected function parse_target( $target ) {
-		$url_parts = wp_parse_url( $target );
+		$scheme = wp_parse_url( $target, PHP_URL_SCHEME );
 
 		// If we have an absolute url return it.
-		if ( ! empty( $url_parts['scheme'] ) ) {
+		if ( ! empty( $scheme ) ) {
 			return $target;
 		}
+
+		// Removes the installation directory if present.
+		$target = WPSEO_Redirect_Util::strip_base_url_path_from_url( $this->get_home_url(), $target );
 
 		// If we have a relative url make it absolute.
 		$absolute = get_home_url( null, $target );
@@ -140,5 +147,14 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		}
 
 		return $absolute;
+	}
+
+	/**
+	 * Returns the home url.
+	 *
+	 * @return string The home url.
+	 */
+	protected function get_home_url() {
+		return home_url();
 	}
 }

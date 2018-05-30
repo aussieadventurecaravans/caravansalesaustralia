@@ -20,8 +20,8 @@ add_action( 'admin_product_details', 'ic_price_metabox', 10, 2 );
  */
 function ic_price_metabox( $product_details, $product_id ) {
 	if ( is_ic_price_enabled() ) {
-		$set	 = get_currency_settings();
-		$price	 = get_post_meta( $product_id, '_price', true );
+		$set			 = get_currency_settings();
+		$price			 = get_post_meta( $product_id, '_price', true );
 		$product_details .= apply_filters( 'admin_price_table', '<table><tr><td class="label-column">' . __( 'Price', 'ecommerce-product-catalog' ) . ':</td><td class="price-column"><input type="text" title="' . sprintf( __( 'Example price format: %s or %s', 'ecommerce-product-catalog' ), price_format( '1587.89', 1, 0 ), '1587' . $set[ 'dec_sep' ] . '89' ) . ' (' . __( 'you can change it in product settings', 'ecommerce-product-catalog' ) . ')" pattern="^(([1-9](\\d*|\\d{0,2}(' . $set[ 'th_sep' ] . '\\d{3})*))|0)(' . $set[ 'dec_sep' ] . '\\d{1,2})?$" name="_price" value="' . $price . '" class="widefat" /></td><td>' . product_currency() . '</td></tr></table>', $product_id );
 		$product_details .= '<div id="invalid-_price" class="ui-state-error ui-corner-all message" style="padding: 0 .7em; display: none;"><p>' . sprintf( __( 'Please provide a correct price format according to your currency settings. Example price format: %s or %s', 'ecommerce-product-catalog' ), price_format( '1587.89', 1, 0 ), '1587' . $set[ 'dec_sep' ] . '89' ) . '</p></div>';
 	}
@@ -83,7 +83,7 @@ add_action( 'pre_get_posts', 'column_orderby_price', 20 );
  * @return type
  */
 function column_orderby_price( $query ) {
-	if ( !is_admin() ) {
+	if ( !is_ic_product_list_admin_screen() ) {
 		return;
 	}
 	$orderby = $query->get( 'orderby' );

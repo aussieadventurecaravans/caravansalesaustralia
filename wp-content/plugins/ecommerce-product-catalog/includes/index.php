@@ -12,11 +12,14 @@ if ( !defined( 'ABSPATH' ) ) {
  * @package		ecommerce-product-catalog/includes
  * @author 		impleCode
  */
+require_once(AL_BASE_PATH . '/includes/class-ic-activation-wizard.php' );
+require_once(AL_BASE_PATH . '/includes/activation-config.php' );
 require_once(AL_BASE_PATH . '/includes/hooks.php' );
 require_once(AL_BASE_PATH . '/includes/settings/index.php');
 require_once(AL_BASE_PATH . '/includes/widgets/index.php');
 require_once(AL_BASE_PATH . '/includes/register-product.php' );
 require_once(AL_BASE_PATH . '/includes/product.php' );
+require_once(AL_BASE_PATH . '/includes/product_details.php' );
 require_once(AL_BASE_PATH . '/includes/product-columns.php');
 require_once(AL_BASE_PATH . '/includes/product-category-columns.php');
 require_once(AL_BASE_PATH . '/includes/system.php');

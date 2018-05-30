@@ -98,3 +98,11 @@ if ( !function_exists( 'woocommerce_page_title' ) ) {
 	}
 
 }
+
+if ( !function_exists( 'woocommerce_template_single_title' ) ) {
+
+	function woocommerce_template_single_title() {
+		the_title( '<h1 class="product_title entry-title">', '</h1>' );
+	}
+
+}

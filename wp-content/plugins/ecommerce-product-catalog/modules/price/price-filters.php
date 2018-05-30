@@ -68,7 +68,7 @@ function ic_price_filter_apply( $query ) {
 				'key'		 => '_price',
 				'compare'	 => '>=',
 				'value'		 => $min_price,
-				'type'		 => 'FLOAT'
+				'type'		 => 'DECIMAL'
 			);
 		}
 		$max_price = get_product_filter_value( 'max-price' );
@@ -80,7 +80,7 @@ function ic_price_filter_apply( $query ) {
 				'key'		 => '_price',
 				'compare'	 => '<=',
 				'value'		 => $max_price,
-				'type'		 => 'FLOAT'
+				'type'		 => 'DECIMAL'
 			);
 		}
 		$query->set( 'meta_query', $metaquery );
@@ -108,7 +108,7 @@ function ic_price_filter_shortcode_apply( $shortcode_query ) {
 				'key'		 => '_price',
 				'compare'	 => '>=',
 				'value'		 => $min_price,
-				'type'		 => 'FLOAT'
+				'type'		 => 'DECIMAL'
 			);
 		}
 		$max_price = get_product_filter_value( 'max-price' );
@@ -120,7 +120,7 @@ function ic_price_filter_shortcode_apply( $shortcode_query ) {
 				'key'		 => '_price',
 				'compare'	 => '<=',
 				'value'		 => $max_price,
-				'type'		 => 'FLOAT'
+				'type'		 => 'DECIMAL'
 			);
 		}
 		$shortcode_query[ 'meta_query' ] = $metaquery;

@@ -38,8 +38,6 @@ jQuery(document).on('click', '.lc-activate-plugin', function (e) {
  */
 var showPopupMessage = function (message, style, delay) {
 
-	console.log('showPopupMessage');
-
 	if (undefined === message) return;
 	if (undefined === style || '' === style) var style = 'normal';
 	if (undefined === delay) var delay = 4000;
@@ -75,7 +73,7 @@ jQuery(document).on('click', '.lc-toggle-license', function (e) {
 	var buttonLabelBackup = jQuery(e.target).html();
 	var actionType = e.target.getAttribute('data-action-type');
 	var lincenseField = jQuery(e.target).closest('.lc-license-block').find('.lc-license-field');
-	
+
 	jQuery(e.target).html('<span class="dashicons dashicons-update"></span>');
 
 	if ( 'activate' !== actionType && 'deactivate' !== actionType ) {
@@ -104,24 +102,28 @@ jQuery(document).on('click', '.lc-toggle-license', function (e) {
 		url: ajaxurl,
 	}).done(function (response) {
 
-		jQuery(e.target).html(buttonLabelBackup);
-
-		var messageStyle = '';
-		if ( response.success === false ) {
-			messageStyle = 'warning';
-		}
-		
-		showPopupMessage( response['message'], messageStyle );
-
-		// Softly scroll to the top.
-		jQuery('html, body').animate({
-			scrollTop: 0
-		}, 700);
-
-		if (response.status === "valid") {
-			jQuery('[data-license-status]').attr('data-license-status', 'valid');
+		if ( response.redirect === true ) {
+			window.location.reload(true);
 		} else {
-			jQuery('[data-license-status]').attr('data-license-status', 'invalid');
+			jQuery(e.target).html(buttonLabelBackup);
+
+			var messageStyle = '';
+			if ( response.success === false ) {
+				messageStyle = 'warning';
+			}
+
+			showPopupMessage( response['message'], messageStyle );
+
+			// Softly scroll to the top.
+			jQuery('html, body').animate({
+				scrollTop: 0
+			}, 700);
+
+			if (response.status === "valid") {
+				jQuery('[data-license-status]').attr('data-license-status', 'valid');
+			} else {
+				jQuery('[data-license-status]').attr('data-license-status', 'invalid');
+			}
 		}
 	})
 

@@ -54,7 +54,7 @@ class ic_catalog_customizer {
 				)
 			);
 		}
-		$settings[]	 = array(
+		$settings[] = array(
 			'name'		 => 'multi_single_options[enable_product_gallery]',
 			'args'		 => array( 'type' => 'option', 'default' => 1 ),
 			'control'	 => array(
@@ -67,6 +67,7 @@ class ic_catalog_customizer {
 				)
 			)
 		);
+
 		$settings[]	 = array(
 			'name'		 => 'catalog_lightbox',
 			'args'		 => array( 'type' => 'option', 'default' => 1 ),
@@ -76,6 +77,19 @@ class ic_catalog_customizer {
 					'label'		 => __( 'Enable lightbox gallery', 'ecommerce-product-catalog' ),
 					'section'	 => 'ic_product_catalog_integration',
 					'settings'	 => 'catalog_lightbox',
+					'type'		 => 'checkbox',
+				)
+			)
+		);
+		$settings[]	 = array(
+			'name'		 => 'catalog_magnifier',
+			'args'		 => array( 'type' => 'option', 'default' => 1 ),
+			'control'	 => array(
+				'name'	 => 'ic_pc_integration_magnifier',
+				'args'	 => array(
+					'label'		 => __( 'Enable image magnifier', 'ecommerce-product-catalog' ),
+					'section'	 => 'ic_product_catalog_integration',
+					'settings'	 => 'catalog_magnifier',
 					'type'		 => 'checkbox',
 				)
 			)

@@ -37,6 +37,7 @@ function product_extensions() {
 	?>
 	<div id="implecode_settings" class="wrap">
 		<h2><?php echo sprintf( __( 'Extensions for %s', 'ecommerce-product-catalog' ), IC_CATALOG_PLUGIN_NAME ) ?></h2>
+		<?php do_action( 'ic_cat_extensions_page_start' ) ?>
 		<h3><?php _e( 'All premium extensions come with premium support provided by dev team.<br>Feel free to contact impleCode for configuration help, troubleshooting, installation assistance and any other plugin support at any time!', 'ecommerce-product-catalog' ) ?></h3>
 		<h2 class="nav-tab-wrapper">
 			<?php do_action( 'extensions-menu' ) ?>
@@ -69,15 +70,37 @@ function product_extensions() {
 							$extensions = implecode_extensions();
 						}
 					}
-					$all_ic_plugins = '';
+					$all_ic_plugins = array();
 					if ( function_exists( 'get_implecode_active_plugins' ) ) {
 						$all_ic_plugins = get_implecode_active_plugins();
 					}
+					$all_ic_plugins = array_merge( get_implecode_active_free_plugins(), $all_ic_plugins );
+
 					$not_active_ic_plugins = get_implecode_not_active_plugins();
+
 					do_action( 'ic_before_extensions_list', $tab );
+					$extensions			 = apply_filters( 'ic_cat_extensions', $extensions );
+					$count				 = 1;
+					$extensions_by_type	 = array();
+					$number				 = 2;
 					foreach ( $extensions as $extension ) {
 						$extension[ 'type' ] = isset( $extension[ 'type' ] ) ? $extension[ 'type' ] : 'premium';
-						echo extension_box( $extension[ 'name' ], $extension[ 'url' ], $extension[ 'desc' ], $extension[ 'comp' ], $extension[ 'slug' ], $all_ic_plugins, $not_active_ic_plugins, $extension[ 'type' ] );
+						if ( $count % $number == 0 && !empty( $extensions_by_type ) ) {
+							if ( !empty( $extensions_by_type[ 0 ] ) ) {
+								echo extension_box( $extensions_by_type[ 0 ], $all_ic_plugins, $not_active_ic_plugins );
+								unset( $extensions_by_type[ 0 ] );
+								$number++;
+							}
+							if ( !empty( $extensions_by_type ) ) {
+								$extensions_by_type = array_values( $extensions_by_type );
+							}
+							$count++;
+						} else if ( $extension[ 'type' ] == 'free' ) {
+							$extensions_by_type[] = $extension;
+							continue;
+						}
+						echo extension_box( $extension, $all_ic_plugins, $not_active_ic_plugins );
+						$count++;
 					}
 					ic_show_affiliate_content();
 					?>
@@ -117,7 +140,7 @@ function product_extensions() {
 					$not_active_ic_plugins = get_implecode_not_active_plugins();
 					do_action( 'ic_before_extensions_list', $tab );
 					foreach ( $extensions as $extension ) {
-						echo extension_box( $extension[ 'name' ], $extension[ 'url' ], $extension[ 'desc' ], $extension[ 'comp' ], $extension[ 'slug' ], $all_ic_plugins, $not_active_ic_plugins );
+						echo extension_box( $extension, $all_ic_plugins, $not_active_ic_plugins );
 					}
 					?>
 				</div>
@@ -154,10 +177,12 @@ function product_extensions() {
 					if ( function_exists( 'get_implecode_active_plugins' ) ) {
 						$all_ic_plugins = get_implecode_active_plugins();
 					}
-					$not_active_ic_plugins = get_implecode_not_active_plugins();
+					$not_active_ic_plugins	 = get_implecode_not_active_plugins();
 					do_action( 'ic_before_extensions_list', $tab );
+					$extensions				 = apply_filters( 'ic_cat_extensions', $extensions );
+
 					foreach ( $extensions as $extension ) {
-						echo extension_box( $extension[ 'name' ], $extension[ 'url' ], $extension[ 'desc' ], $extension[ 'comp' ], $extension[ 'slug' ], $all_ic_plugins, $not_active_ic_plugins );
+						echo extension_box( $extension, $all_ic_plugins, $not_active_ic_plugins );
 					}
 					?>
 				</div>
@@ -210,203 +235,203 @@ function product_extensions() {
 
 function implecode_extensions() {
 	$extensions = array(
-		array(
+		'implecode-product-sidebar'		 => array(
 			'url'	 => 'premium-support',
 			'name'	 => 'Premium Toolset',
 			'desc'	 => 'Product sidebar, product tags, enhanced category widget and premium email support.',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-product-sidebar',
 		),
-		array(
+		'implecode-shopping-cart'		 => array(
 			'url'	 => 'shopping-cart',
 			'name'	 => 'Shopping Cart',
 			'desc'	 => 'Full featured shopping cart with advanced customisation options. Transform your product catalog into a Web Store!',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-shopping-cart',
 		),
-		array(
+		'implecode-quote-cart'			 => array(
 			'url'	 => 'quote-cart',
 			'name'	 => 'Quote Cart',
 			'desc'	 => 'Allow your users to send a quote for multiple products. Quote Cart adds a store like experience even for products without price!',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-quote-cart',
 		),
-		array(
+		'implecode-quote-form'			 => array(
 			'url'	 => 'quote-form',
 			'name'	 => 'Quote Form',
 			'desc'	 => 'Improve the conversion rate with quote/inquiry button which redirects to fully customizable product quote form.',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-quote-form',
 		),
-		array(
+		'implecode-order-form'			 => array(
 			'url'	 => 'order-form',
 			'name'	 => 'Order Form',
 			'desc'	 => 'This powerful extension allows you to sell individual products with buy now button and fully customizable order form.',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-order-form',
 		),
-		array(
+		'implecode-paypal-gateway'		 => array(
 			'url'	 => 'paypal-gateway',
 			'name'	 => 'PayPal Gateway',
 			'desc'	 => 'Boost the conversion rate with a robust PayPal shopping cart, buy now button or order form implementation.',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-paypal-gateway',
 		),
-		array(
+		'2checkout-gateway'				 => array(
 			'url'	 => '2checkout-gateway',
 			'name'	 => '2Checkout Gateway',
 			'desc'	 => 'Take credit card payments with 2Checkout Gateway.',
 			'comp'	 => 'simple',
 			'slug'	 => '2checkout-gateway',
 		),
-		array(
+		'catalog-users-manager'			 => array(
 			'url'	 => 'catalog-users-manager',
 			'name'	 => 'Catalog Users Manager',
 			'desc'	 => 'Manage catalog visibility options depending on logged in visitor.',
 			'comp'	 => 'simple',
 			'slug'	 => 'catalog-users-manager',
 		),
-		array(
+		'implecode-printable-coupons'	 => array(
 			'url'	 => 'printable-coupons',
 			'name'	 => 'Printable Coupons',
 			'desc'	 => 'Sell printable coupons for your products or for certain value directly from the website. Generate customized coupons!',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-printable-coupons',
 		),
-		array(
+		'product-page-customizer'		 => array(
 			'url'	 => 'product-page-customizer',
 			'name'	 => 'Product Page Customizer',
 			'desc'	 => 'Customize product page with simple settings. Change product page elements, their size, position and colors easily in a few seconds.',
 			'comp'	 => 'simple',
 			'slug'	 => 'product-page-customizer',
 		),
-		array(
+		'product-gallery-advanced'		 => array(
 			'url'	 => 'product-gallery-advanced',
 			'name'	 => 'Product Gallery Advanced',
 			'desc'	 => 'Add unlimited number of product images and show them in a robust product slider or beautiful light-box presentation.',
 			'comp'	 => 'simple',
 			'slug'	 => 'product-gallery-advanced',
 		),
-		array(
+		'custom-product-order'			 => array(
 			'url'	 => 'custom-product-order',
 			'name'	 => 'Custom Product Order',
 			'desc'	 => 'Sort products by priority, lowest price, highest price or randomly. New options in sort drop-down. Assign featured products.',
 			'comp'	 => 'simple',
 			'slug'	 => 'custom-product-order',
 		),
-		array(
+		'implecode-upload-pdf'			 => array(
 			'url'	 => 'upload-pdf',
 			'name'	 => 'Upload PDF',
 			'desc'	 => 'Easily attach unlimited PDF files to the products, upload to server and provide to clients on product pages.',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-upload-pdf',
 		),
-		array(
+		'product-pdf'					 => array(
 			'url'	 => 'product-pdf',
 			'name'	 => 'Product Print & PDF',
 			'desc'	 => 'Print product pages with one click. Export product pages to PDF files with easy.',
 			'comp'	 => 'simple',
 			'slug'	 => 'product-pdf',
 		),
-		array(
+		'product-manufacturers'			 => array(
 			'url'	 => 'product-manufacturers',
 			'name'	 => 'Product Manufacturers',
 			'desc'	 => 'Manage product manufacturers & brands in separate screen and easily assign them to products. It has never been so simple!',
 			'comp'	 => 'simple',
 			'slug'	 => 'product-manufacturers',
 		),
-		array(
+		'implecode-product-search'		 => array(
 			'url'	 => 'product-search-pro',
 			'name'	 => 'Product Search PRO',
 			'desc'	 => 'Improve WordPress default search engine to provide better product search results. Show product search form with a shortcode.',
 			'comp'	 => 'adv',
 			'slug'	 => 'implecode-product-search',
 		),
-		array(
+		'smart-multiple-catalogs'		 => array(
 			'url'	 => 'smart-multiple-catalogs',
 			'name'	 => 'Smart Multiple Catalogs',
 			'desc'	 => 'Create completely separate, multiple catalogs at one website. Assign separate categories, parent URLs, manage them from different...',
 			'comp'	 => 'simple',
 			'slug'	 => 'smart-multiple-catalogs',
 		),
-		array(
+		'smarter-product-urls'			 => array(
 			'url'	 => 'smarter-product-urls',
 			'name'	 => 'Smarter Product URLs',
 			'desc'	 => 'Set up SEO and USER friendly product page URLs. Add product category in product page URLs.',
 			'comp'	 => 'adv',
 			'slug'	 => 'smarter-product-urls',
 		),
-		array(
+		'implecode-product-locations'	 => array(
 			'url'	 => 'product-locations',
 			'name'	 => 'Product Locations',
 			'desc'	 => 'Easily manage product locations and get product quotes to multiple email addresses directly from product pages.',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-product-locations',
 		),
-		array(
+		'product-attributes-pro'		 => array(
 			'url'	 => 'product-attributes-pro',
 			'name'	 => 'Product Attributes PRO',
 			'desc'	 => 'Filter products by attributes. Select attributes values with a drop-down, checkbox or radio button.',
 			'comp'	 => 'simple',
 			'slug'	 => 'product-attributes-pro',
 		),
-		array(
+		'advanced-shipping-table'		 => array(
 			'url'	 => 'advanced-shipping-tables',
 			'name'	 => 'Advanced Shipping Tables',
 			'desc'	 => 'Calculates shipping based on Shopping Cart total and checkout fields values.',
 			'comp'	 => 'simple',
 			'slug'	 => 'advanced-shipping-table',
 		),
-		array(
+		'implecode-product-csv'			 => array(
 			'url'	 => 'product-csv',
 			'name'	 => 'Product CSV',
 			'desc'	 => 'Import, Export & Update products all fields and attributes with a simple CSV file.',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-product-csv',
 		),
-		array(
+		'multiple-product-price'		 => array(
 			'url'	 => 'multiple-prices',
 			'name'	 => 'Multiple Pricing',
 			'desc'	 => 'Set multiple, automatically calculated or manually inserted prices for each product.',
 			'comp'	 => 'simple',
 			'slug'	 => 'multiple-product-price',
 		),
-		array(
+		'implecode-product-discounts'	 => array(
 			'url'	 => 'product-discounts',
 			'name'	 => 'Product Discounts',
 			'desc'	 => 'Apply percentage or value discounts for catalog products. Show the discount offers with a robust widget or shortcode and more!',
 			'comp'	 => 'simple',
 			'slug'	 => 'implecode-product-discounts',
 		),
-		array(
+		'table-view'					 => array(
 			'url'	 => 'table-view',
 			'name'	 => 'Table View',
 			'desc'	 => 'Show products in nicely formatted table with customizable columns.',
 			'comp'	 => 'simple',
 			'slug'	 => 'table-view',
 		),
-		array(
+		'classic-list-button'			 => array(
 			'url'	 => 'classic-list-button',
 			'name'	 => 'Classic List with Button',
 			'desc'	 => 'Premium product listing theme for your catalog. Easily set image size, description name and button position.',
 			'comp'	 => 'simple',
 			'slug'	 => 'classic-list-button',
 		),
-		array(
+		'slim-classic-grid'				 => array(
 			'url'	 => 'slim-grid',
 			'name'	 => 'Slim Grid Theme',
 			'desc'	 => 'Premium Grid Theme for product listing. Has additional settings for size, per row elements, description length and price.',
 			'comp'	 => 'simple',
 			'slug'	 => 'slim-classic-grid',
 		),
-		array(
+		'no-image-grid'					 => array(
 			'url'	 => 'no-image-grid',
 			'name'	 => 'No Image Grid Theme',
 			'desc'	 => 'Premium Grid Theme for product listing. Best for products without image.',
 			'comp'	 => 'simple',
 			'slug'	 => 'no-image-grid',
 		),
-		array(
+		'side-grid'						 => array(
 			'url'	 => 'side-grid',
 			'name'	 => 'Side Grid',
 			'desc'	 => 'Premium product listing grid with image on the left side.',
@@ -455,8 +480,13 @@ function ic_show_affiliate_content() {
 	}
 }
 
-function extension_box( $name, $url, $desc, $comp = 'simple', $slug, $all_ic_plugins, $not_active_ic_plugins,
-						$type = 'premium' ) {
+function extension_box( $extension, $all_ic_plugins, $not_active_ic_plugins ) {
+	$name	 = $extension[ 'name' ];
+	$url	 = $extension[ 'url' ];
+	$desc	 = $extension[ 'desc' ];
+	$comp	 = $extension[ 'comp' ];
+	$slug	 = $extension[ 'slug' ];
+	$type	 = !empty( $extension[ 'type' ] ) ? $extension[ 'type' ] : 'premium';
 	if ( $type == 'free' ) {
 		return free_extension_box( $name, $url, $desc, $comp, $slug, $all_ic_plugins, $not_active_ic_plugins );
 	}
@@ -468,7 +498,7 @@ function extension_box( $name, $url, $desc, $comp = 'simple', $slug, $all_ic_plu
 		$comp_class	 = 'good';
 	}
 
-	$return		 = '<div class="extension ' . $url . '">
+	$return		 = '<div class="extension ' . $slug . '">
 	<a class="extension-name" href="https://implecode.com/wordpress/plugins/' . $url . '/#cam=extensions&key=' . $url . '"><h3><span>' . $name . '</span></h3><span class="click-span">' . __( 'Click for more', 'ecommerce-product-catalog' ) . '</span></a>
 	<p>' . $desc . '</p>';
 	$disabled	 = '';
@@ -480,7 +510,8 @@ function extension_box( $name, $url, $desc, $comp = 'simple', $slug, $all_ic_plu
 	if ( !empty( $all_ic_plugins ) && is_ic_plugin_active( $slug, $all_ic_plugins ) ) {
 		$return .= '<p><a href="https://implecode.com/support/" class="button-primary">Support</a> <a href="https://implecode.com/docs/" class="button-primary">Docs</a> <span class="comp installed">' . __( 'Active Extension', 'ecommerce-product-catalog' ) . '</span></p>';
 	} else if ( !empty( $not_active_ic_plugins ) && is_ic_plugin_active( $slug, $not_active_ic_plugins ) ) {
-		$return .= '<p><a ' . $disabled . ' href="' . wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $slug . '/' . $slug . '.php' ), 'activate-plugin_' . $slug . '/' . $slug . '.php' ) . '" class="button-primary">Activate Now</a><span class="comp info">' . __( 'Installed Extension', 'ecommerce-product-catalog' ) . '</span></p>';
+		$plugin_file = ic_cat_get_plugin_file( $slug );
+		$return		 .= '<p><a ' . $disabled . ' href="' . wp_nonce_url( 'plugins.php?ic_cat_activation=1&action=activate&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file ) . '" class="button-primary">Activate Now</a><span class="comp info">' . __( 'Installed Extension', 'ecommerce-product-catalog' ) . '</span></p>';
 	} else {
 		if ( $comp_class == 'wrong' ) {
 			$return .= '<p><a href="https://implecode.com/wordpress/plugins/' . $url . '/#cam=extensions&key=' . $url . '" class="button-primary">See the Extension</a><span class="comp ' . $comp_class . '">' . $comp_txt . '</span></p>';
@@ -492,6 +523,16 @@ function extension_box( $name, $url, $desc, $comp = 'simple', $slug, $all_ic_plu
 	}
 	$return .= '</div>';
 	return $return;
+}
+
+function ic_cat_get_plugin_file( $slug ) {
+	if ( $slug == 'catalog-booster-for-woocommerce' ) {
+		$file_name = 'woocommerce-catalog-booster';
+	} else {
+		$file_name = $slug;
+	}
+	$plugin_file = $slug . '/' . $file_name . '.php';
+	return $plugin_file;
 }
 
 /**
@@ -506,7 +547,7 @@ function extension_box( $name, $url, $desc, $comp = 'simple', $slug, $all_ic_plu
  * @param type $not_active_ic_plugins
  * @return string
  */
-function free_extension_box( $name, $url, $desc, $comp = 'simple', $slug, $all_ic_plugins, $not_active_ic_plugins ) {
+function free_extension_box( $name, $url, $desc, $comp, $slug, $all_ic_plugins, $not_active_ic_plugins ) {
 	if ( $comp == 'adv' && get_integration_type() == 'simple' ) {
 		$comp_txt	 = __( 'Advanced Mode Required', 'ecommerce-product-catalog' );
 		$comp_class	 = 'wrong';
@@ -530,7 +571,7 @@ function free_extension_box( $name, $url, $desc, $comp = 'simple', $slug, $all_i
 	if ( !empty( $all_ic_plugins ) && is_ic_plugin_active( $slug, $all_ic_plugins ) ) {
 		$return .= '<p><a href="https://wordpress.org/support/plugin/' . $url . '" class="button-primary">Support</a> <a href="https://implecode.com/docs/" class="button-primary">Docs</a> <span class="comp installed">' . __( 'Active Extension', 'ecommerce-product-catalog' ) . '</span></p>';
 	} else if ( !empty( $not_active_ic_plugins ) && is_ic_plugin_active( $slug, $not_active_ic_plugins ) ) {
-		$return .= '<p><a ' . $disabled . ' href="' . wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $slug . '/' . $slug . '.php' ), 'activate-plugin_' . $slug . '/' . $slug . '.php' ) . '" class="button-primary">Activate Now</a><span class="comp info">' . __( 'Installed Extension', 'ecommerce-product-catalog' ) . '</span></p>';
+		$return .= '<p><a ' . $disabled . ' href="' . wp_nonce_url( 'plugins.php?ic_cat_activation=1&action=activate&amp;plugin=' . urlencode( ic_cat_get_plugin_file( $slug ) ), 'activate-plugin_' . ic_cat_get_plugin_file( $slug ) ) . '" class="button-primary">Activate Now</a><span class="comp info">' . __( 'Installed Extension', 'ecommerce-product-catalog' ) . '</span></p>';
 	} else {
 		if ( $comp_class == 'wrong' ) {
 			$return .= '<p><a href="https://wordpress.org/plugins/' . $url . '" class="button-primary">See the Extension</a><span class="comp ' . $comp_class . '">' . $comp_txt . '</span></p>';
@@ -647,8 +688,34 @@ function start_free_implecode_install() {
 }
 
 function implecode_install_actions( $install_actions, $api, $plugin_file ) {
-	$install_actions[ 'plugins_page' ] = '<a href="' . admin_url( 'edit.php?post_type=al_product&page=extensions.php&tab=product-extensions' ) . '">' . __( 'Reload the Page', 'ecommerce-product-catalog' ) . '</a>';
+	if ( !empty( $plugin_file ) ) {
+		$disabled = '';
+		if ( !current_user_can( 'install_plugins' ) ) {
+			$disabled = 'disabled';
+		}
+		$install_actions[ 'activate_plugin' ] = '<style>.extension_installer .button.button-primary:first-of-type{display: none;}</style><a ' . $disabled . ' href="' . wp_nonce_url( 'plugins.php?ic_cat_activation=1&action=activate&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file ) . '" class="button-primary">Activate Now</a>';
+	}
+	$install_actions[ 'plugins_page' ] = '';
 	return $install_actions;
+}
+
+function get_implecode_active_free_plugins() {
+	$all_active = get_option( 'active_plugins' );
+	if ( !function_exists( 'get_plugins' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	$all_plugins = get_plugins();
+	$i			 = 0;
+	$ic_plugins	 = array();
+	foreach ( $all_active as $active_name ) {
+		if ( $all_plugins[ $active_name ][ 'Author' ] == 'impleCode' && $all_plugins[ $active_name ][ 'Name' ] != 'eCommerce Product Catalog for WordPress' && $all_plugins[ $active_name ][ 'Name' ] != 'Product Catalog X' ) {
+			$ic_plugins[ $i ][ 'dir_file' ]	 = $active_name;
+			$active_name					 = explode( '/', $active_name );
+			$ic_plugins[ $i ][ 'slug' ]		 = $active_name[ 0 ];
+		}
+		$i++;
+	}
+	return $ic_plugins;
 }
 
 function implecode_installation_url() {
@@ -705,7 +772,7 @@ function get_implecode_not_active_plugins() {
 		unset( $all_plugins[ $active_name ] );
 	}
 	foreach ( $all_plugins as $not_active_name => $not_active_plugin ) {
-		if ( $not_active_plugin[ 'Author' ] == 'Norbert Dreszer' && $not_active_plugin[ 'Name' ] != 'eCommerce Product Catalog by impleCode' && $not_active_plugin[ 'Name' ] != 'Post Type X' ) {
+		if ( $not_active_plugin[ 'Author' ] == 'Norbert Dreszer' || $not_active_plugin[ 'Author' ] == 'impleCode' && $not_active_plugin[ 'Name' ] != 'eCommerce Product Catalog by impleCode' && $not_active_plugin[ 'Name' ] != 'Post Type X' ) {
 			$ic_plugins[ $i ][ 'dir_file' ]	 = $not_active_name;
 			$not_active_name				 = explode( '/', $not_active_name );
 			$ic_plugins[ $i ][ 'slug' ]		 = $not_active_name[ 0 ];
@@ -810,13 +877,14 @@ function get_implecode_free_not_active_plugins() {
 	return $ic_plugins;
 }
 
-add_action( 'ic_before_extensions_list', 'ic_epc_free_extensions' );
+//add_action( 'ic_before_extensions_list', 'ic_epc_free_extensions' );
+add_filter( 'ic_cat_extensions', 'ic_epc_free_extensions' );
 
 /**
  * Shows Post Type X free extensions
  *
  */
-function ic_epc_free_extensions() {
+function ic_epc_free_extensions( $existing_extensions = null ) {
 	if ( false === ($extensions = get_site_transient( 'implecode_epc_free_extensions_data' )) ) {
 		$extensions = wp_remote_get( 'http://app.implecode.com/index.php?provide_extensions&free_epc=1' );
 		if ( !is_wp_error( $extensions ) && 200 == wp_remote_retrieve_response_code( $extensions ) ) {
@@ -828,19 +896,21 @@ function ic_epc_free_extensions() {
 			$extensions = implecode_free_extensions();
 		}
 	}
-	$all_ic_plugins = '';
+	//$all_ic_plugins = '';
 	if ( function_exists( 'get_free_implecode_active_plugins' ) ) {
-		$all_ic_plugins = get_free_implecode_active_plugins();
+		//$all_ic_plugins = get_free_implecode_active_plugins();
 	}
-	$not_active_ic_plugins = get_implecode_free_not_active_plugins();
-	echo '<div class="free-extensions">';
+	//$not_active_ic_plugins = get_implecode_free_not_active_plugins();
+	//echo '<div class="free-extensions">';
 	foreach ( $extensions as $extension ) {
 		$extension[ 'type' ] = isset( $extension[ 'type' ] ) ? $extension[ 'type' ] : 'premium';
 		if ( $extension[ 'slug' ] !== 'catalog-booster-for-woocommerce' || class_exists( 'WooCommerce' ) ) {
-			echo extension_box( $extension[ 'name' ], $extension[ 'url' ], $extension[ 'desc' ], $extension[ 'comp' ], $extension[ 'slug' ], $all_ic_plugins, $not_active_ic_plugins, $extension[ 'type' ] );
+			$new_extensions[] = $extension;
+			//echo extension_box( $extension[ 'name' ], $extension[ 'url' ], $extension[ 'desc' ], $extension[ 'comp' ], $extension[ 'slug' ], $all_ic_plugins, $not_active_ic_plugins, $extension[ 'type' ] );
 		}
 	}
-	echo '</div>';
+	//echo '</div>';
+	return array_merge( $new_extensions, $existing_extensions );
 }
 
 //add_action( 'general_submenu', 'ic_epc_submenu_extensions_info', 99 );
@@ -853,7 +923,7 @@ function ic_epc_submenu_extensions_info() {
 
 function implecode_free_extensions() {
 	$free_extensions = array(
-		array(
+		'reviews-plus'						 => array(
 			'url'	 => 'reviews-plus',
 			'name'	 => 'Product Reviews',
 			'desc'	 => 'Add reviews support for your catalog items. Use it for all or selected products.',
@@ -861,7 +931,7 @@ function implecode_free_extensions() {
 			'slug'	 => 'reviews-plus',
 			'type'	 => 'free'
 		),
-		array(
+		'mailer-dragon'						 => array(
 			'url'	 => 'mailer-dragon',
 			'name'	 => 'Catalog Newsletter',
 			'desc'	 => 'Let users subscribe for product-related newsletters.',
@@ -869,14 +939,33 @@ function implecode_free_extensions() {
 			'slug'	 => 'mailer-dragon',
 			'type'	 => 'free'
 		),
-		array(
+		'catalog-booster-for-woocommerce'	 => array(
 			'url'	 => 'catalog-booster-for-woocommerce',
 			'name'	 => 'WooCommerce Catalog',
 			'desc'	 => 'Display WooCommerce products with ' . IC_CATALOG_PLUGIN_NAME . ' layout.',
 			'comp'	 => 'simple',
-			'slug'	 => 'woocommerce-catalog-booster',
+			'slug'	 => 'catalog-booster-for-woocommerce',
 			'type'	 => 'free'
 		)
 	);
 	return $free_extensions;
+}
+
+add_action( 'activated_plugin', 'ic_cat_extension_page_activation' );
+
+function ic_cat_extension_page_activation() {
+	if ( !empty( $_GET[ 'ic_cat_activation' ] ) ) {
+		wp_redirect( admin_url( 'edit.php?post_type=al_product&page=extensions.php&ic_cat_extension_activated=1' ) );
+		exit;
+	}
+}
+
+add_action( 'ic_cat_extensions_page_start', 'ic_cat_extension_activated_message' );
+
+function ic_cat_extension_activated_message() {
+	if ( !empty( $_GET[ 'ic_cat_extension_activated' ] ) ) {
+		?>
+		<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Extension <strong>activated</strong>.', 'ecommerce-product-catalog' ) ?></p></div>
+		<?php
+	}
 }

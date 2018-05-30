@@ -1,10 +1,10 @@
 === WooCommerce Stripe Payment Gateway ===
 Contributors: automattic, royho, akeda, mattyza, bor0, woothemes
-Tags: credit card, stripe, apple pay, payment request, google pay, sepa, sofort, bancontact, alipay, giropay, ideal, bitcoin, p24, woocommerce, automattic
+Tags: credit card, stripe, apple pay, payment request, google pay, sepa, sofort, bancontact, alipay, giropay, ideal, p24, woocommerce, automattic
 Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 4.0.3
+Stable tag: 4.1.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Attributions: thorsten-stripe
@@ -101,13 +101,14 @@ If you get stuck, you can ask for help in the Plugin Forum.
 
 == Changelog ==
 
-= 4.0.3 - 2018-01-18 =
-* Fix - Pass Stripe source as id instead of object as some sites may conflict with objects being passed.
-* Fix - For Payment Request Button, if test keys are not filled, it can cause live mode not to function.
+= 4.1.4 - 2018-05-22 =
+* Tweak - Improve performance when getting source id and charge id from database.
+* Add - GDPR privacy support.
+* Update - WC 3.4 compatibility.
 
 [See changelog for all versions](https://raw.githubusercontent.com/woothemes/woocommerce-gateway-stripe/master/changelog.txt).
 
 == Upgrade Notice ==
 
-= 4.0 =
-4.0 is a major update. Please do a full site backup and test on a staging site before deploying to a live/production server.
+= 4.1 =
+4.1 is a minor release. Please do a full site backup and test on a staging site before deploying to a live/production server.

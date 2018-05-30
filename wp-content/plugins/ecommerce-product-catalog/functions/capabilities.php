@@ -20,7 +20,7 @@ add_action( 'admin_init', 'ic_restore_product_caps' );
  *
  */
 function ic_restore_product_caps() {
-	if ( !current_user_can( 'publish_products' ) && current_user_can( 'administrator' ) ) {
+	if ( !current_user_can( 'manage_product_settings' ) && current_user_can( 'administrator' ) ) {
 		add_product_caps( false );
 	}
 }

@@ -8,11 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class DSLC_Accordion extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
-	var $handle_like;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
+	public $handle_like;
 
 	function __construct() {
 
@@ -1199,7 +1199,7 @@ class DSLC_Accordion extends DSLC_Module {
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
 		// Cache calculated array in WP Object Cache.
-		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options, 'dslc_modules' );
 
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
@@ -1252,10 +1252,10 @@ class DSLC_Accordion extends DSLC_Module {
 								</div>
 
 								<div class="dslc-accordion-content">
-									<div class="dslca-editable-content"<?php if ( $dslc_is_admin ) { echo ' data-exportable-content';} ?>>
+									<div class="dslca-editable-content"<?php if ( $dslc_is_admin ) { echo ' data-exportable-content'; } ?>>
 										<?php
 											$accordion_content_output = stripslashes( $accordion_content );
-											echo apply_filters( 'dslc_before_render', $accordion_content_output );
+											echo apply_filters( 'dslc_text_block_render', $accordion_content_output );
 										?>
 									</div>
 									<?php if ( $dslc_is_admin ) : ?>
@@ -1274,7 +1274,7 @@ endforeach; ?>
 						<div class="dslc-accordion-item">
 
 							<div class="dslc-accordion-header dslc-accordion-hook">
-								<span class="dslc-accordion-title" <?php if ( $dslc_is_admin ) { echo 'contenteditable';} ?>><?php _e( 'CLICK TO EDIT', 'live-composer-page-builder' ); ?></span>
+								<span class="dslc-accordion-title" <?php if ( $dslc_is_admin ) { echo 'contenteditable'; } ?>><?php _e( 'CLICK TO EDIT', 'live-composer-page-builder' ); ?></span>
 								<?php if ( $dslc_is_admin ) : ?>
 									<div class="dslca-accordion-action-hooks">
 										<span class="dslca-move-up-accordion-hook"><span class="dslca-icon dslc-icon-arrow-up"></span></span>

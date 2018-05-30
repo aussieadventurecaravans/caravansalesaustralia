@@ -3,80 +3,147 @@ Contributors: LiveComposer
 Tags: page builder, visual composer, visual editor, visual builder, drag and drop builder, landing page builder, frontend editor, frontend builder, landing pages, landing page, website builder, theme builder, site-builder, layout builder, drag-and-drop, builder, editor, responsive, mobile, layout, front end, frontend, Page Layout, squeeze page, page builder plugin, drag-n-drop page builder
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 1.3.9
+Stable tag: 1.3.15
 License: GPLv3
 
 Front-end page builder for WordPress with drag and drop editing. Build PRO responsive websites and landing pages. Visually customize any page element.
 
 == Description ==
 
-= Create Stunning Websites Visually =
+= 👓 Create Stunning Websites Visually =
 
-[Live Composer](https://livecomposerplugin.com/) is the most innovative website builder for WordPress. Create stunning custom page designs in real-time right on your page. Drag & drop front-end editing is a perfectly intuitive way to create and customize great looking websites.
+[Live Composer page builder](https://livecomposerplugin.com/) is complete and feature-reach website builder for WordPress. In our page builder, you get most of the features for free paying only for [Woo-Commerce support](https://livecomposerplugin.com/downloads/woocommerce-page-builder/?utm_source=wp-admin&utm_medium=changelog&utm_campaign=woo-integration) and [advanced integrations](https://livecomposerplugin.com/downloads/extensions/?utm_source=wp-admin&utm_medium=changelog&utm_campaign=add-ons) (ACF, CPT, Mega Menus). Create stunning custom page designs in real-time. Drag & drop front-end editing is a perfectly intuitive way to create and customize great looking websites.
 
-Do it yourself with easy content editing in real-time. Save your money on expensive coding and customization services. No tech skills needed. Live Composer is a great tool for web designers, digital marketing specialists, WordPress theme developers and freelance consultants. Create an exceptional landing page, portfolio or fully featured pro website for your client.
+Do it yourself with easy content editing in real-time. Save your money on expensive coding and customization services. No tech skills needed to create professional websites in our page builder. Live Composer is a great tool for web designers, digital marketing specialists, WordPress theme developers and freelance consultants. Learn our page builder once and cut your website building time with every next project. Create an exceptional landing page, portfolio or fully featured pro website for your client.
 
-= Over 50,000 Site Owners Chose Live Composer =
+= 🏆 Over 50,000 Site Owners Chose Live Composer page builder =
 
-You can trust our page builder. It's a proven solution for your business. 100% open source and backed by the experienced team of web developers. We are on the market for more than 2 years. All the major bugs already fixed and new updates released regularly. Every day our developers work on code improvement and new features. Our support is exceptional but still free.
+You can trust our plugin. 100% open source page builder backed by the experienced team of web developers. Our page builder on the market for more than 2 years. All the major bugs already fixed and new updates released regularly. Every day our developers work on code improvements and new features. With a purchase of any [premium extension](https://livecomposerplugin.com/downloads/extensions/?utm_source=wp-admin&utm_medium=changelog&utm_campaign=add-ons) you also getting access to our exceptional one-to-one support.
 
-= Get Started Without Reading Any Documentation =
+= 📙 Our Page Builder comes with an [extensive documentation](https://livecomposer.help/), but you don't need it =
 
-Site design customization or page layout changes shouldn't be difficult or expensive. Our page builder is easy to use without reading any documentation. You'll be building beautiful custom WordPress site designs in no time. Create multi-media rich pages with very little effort: add new sections, rearrange columns, and add media from the same screen. It's a perfect solution for ALL users. No technical skills required.
+Site design customization or page layout changes shouldn't be difficult or expensive. Our page builder is easy to use without reading [any documentation](https://livecomposer.help/). You'll be building beautiful custom WordPress site designs in no time. Create multi-media rich pages with very little effort: add new sections, rearrange columns, and add media from the same screen. It's a perfect solution for ALL users. No technical skills required.
 
-= Create Custom Page Layouts in Minutes =
+= ⏳ Create Custom Page Layouts in Minutes =
 
-Live Composer is a simple but very powerful [WordPress site builder](https://livecomposerplugin.com/). Customize every little detail on your website or build stunning custom pages from scratch.
+Live Composer page builder is a simple but very powerful [WordPress site builder](https://livecomposerplugin.com/). Customize every little detail on your website or build stunning custom pages from scratch.
 
-= Well Integrated With WordPress =
+= 🎯 Well Integrated With WordPress =
 
 Our page builder works with works with any standard compliant WordPress theme. It's fully compatible with other plugins like Yoast WP SEO or contact form builders. We also have a [marketplace with free and premium themes](https://livecomposerplugin.com/themes/) created especially for Live Composer.
 
-= No Code Left Behind When the Plugin Deactivated =
+= ♻ No Code Left Behind When the Plugin Deactivated =
 
-Unlike other page builders, Live Composer doesn't leave behind horrible amount of shortcodes when the plugin deactivated. It's not a commitment to a single plugin. We don't lock you. It's easy to start using any other page builder without a need to remove all the custom shortcodes before implementing a new solution.
+Unlike other page builders, Live Composer doesn't leave behind the horrible amount of shortcodes when the plugin deactivated. It's not a commitment to a single plugin. We don't lock you. It's easy to start using any other page builder without a need to remove all the custom shortcodes before implementing a new solution.
 
-= 100% Open Source =
+= ⭐ 100% Open Source Page Builder =
 
-Previously a premium plugin, Live Composer page builder is now free fully functional plugin. Actively developed by [professional web developers](https://livecomposerplugin.com/) it has a bright future for years to come.
+Previously a premium plugin, Live Composer page builder is now a free fully functional plugin. Actively developed by [professional web developers](https://livecomposerplugin.com/) it has a bright future for years to come.
 
-= No Coding Skills Required =
+= 🙈 No Coding Skills Required =
 
 Anyone can build pro website with Live Composer page builder. No coding or technical skills required. Our site builder will generate all the code for you.
 
-= Export/Import Sections, Layouts or while Pages =
+= 🌀 Export/Import Sections, Layouts or while Pages =
 
 Export any page section or the whole page. Reuse layout or page design you created.
 
-= Mobile Responsive =
+= 📱 Mobile Responsive Page Builder =
 
-It's easy to create responsive websites in our page builder. You can customize responsive presentation of any page element to make it looks perfect on all mobile devices, ensuring your site is mobile-ready.
+It's easy to create responsive websites in our page builder. You can customize the responsive presentation of any page element to make it looks perfect on all mobile devices, ensuring your site is mobile-ready.
 
 
 == Installation ==
 
-Install and Activate as you would any other plugin
+Install and Activate our page builder from your WordPress admin as any other plugin
 
 == Frequently Asked Questions ==
 
 = How to I activate the page builder on a page? =
 
-When you visit a page you'll see a green "activate editor" button in the bottom right corner, click that and the page will reload in LC mode ( LCPB ).
+When you visit a page you'll see a green "activate editor" button in the bottom right corner, click that and the page will reload with page builder ready to use.
 
 = Why is the "activate editor" button missing from the homepage =
 
-In most of the cases, this is because the homepage is not a real WordPress page, it's custom content generated by the theme's index.php. Publish a new page and set it as the homepage ( WP Admin > Settings > Reading > Front Page ). Now you can use LC on the homepage.
+In most of the cases, this is because the homepage is not a real WordPress page, it's custom content generated by the theme's index.php. Publish a new page and set it as the homepage ( WP Admin > Settings > Reading > Front Page ). Now you can use page builder on the homepage too.
 
 == Screenshots ==
 
-1. Editor activated on a page
+1. Page builder in editing mode
 
 == Changelog ==
 
-Upcoming Releases:
+[Peace](https://livecomposerplugin.com/peace) · [Pace](https://livecomposerplugin.com/peace) · [Paix](https://livecomposerplugin.com/peace) · [Paz](https://livecomposerplugin.com/peace) · [Pokój](https://livecomposerplugin.com/peace) · [Мир](https://livecomposerplugin.com/peace) · [Mír](https://livecomposerplugin.com/peace) · [Mier](https://livecomposerplugin.com/peace) · [Frieden](https://livecomposerplugin.com/peace) · [Fred](https://livecomposerplugin.com/peace) · [Vrede](https://livecomposerplugin.com/peace) · [Barış](https://livecomposerplugin.com/peace) · [Béke](https://livecomposerplugin.com/peace) · [Kedamaian](https://livecomposerplugin.com/peace) · [Hasîtî](https://livecomposerplugin.com/peace) · [Ειρήνη](https://livecomposerplugin.com/peace) · [和平](https://livecomposerplugin.com/peace) · [平和](https://livecomposerplugin.com/peace) · [שָׁלוֹם](https://livecomposerplugin.com/peace) · [سلام](https://livecomposerplugin.com/peace) · [สันติภาพ](https://livecomposerplugin.com/peace) · [शान्ति](https://livecomposerplugin.com/peace)
 
-* [Please, report any bugs on GitHub](https://github.com/livecomposer/live-composer-page-builder/issues/)
-* [You can download any previous version here](https://github.com/live-composer/live-composer-page-builder/releases)
+= FOUND A BUG? =
+* 🐛 [Please, report any bugs on GitHub](https://github.com/livecomposer/live-composer-page-builder/issues/)
+* ⌛ [You can download any previous version here](https://github.com/live-composer/live-composer-page-builder/releases)
+
+= FOR OUR PRO USERS: =
+* 🦊 [Check out our WooCommerce Page Builder Extension](https://livecomposerplugin.com/downloads/woocommerce-page-builder/?utm_source=wp-admin&utm_medium=changelog&utm_campaign=woo-integration)
+* 👀 [We keep updating and improving our extensions pack](https://livecomposerplugin.com/downloads/extensions/?utm_source=wp-admin&utm_medium=changelog&utm_campaign=add-ons) ACF + CPT + MegaMenu + 9 more add-ons.
+
+= 1.3.15 - May 1th 2018 =
+
+= New: =
+* Issue [#908](https://github.com/live-composer/live-composer-page-builder/issues/908): Add the sticky feature to the rows.
+
+= Improved: =
+* Grouping the row settings
+
+= 1.3.14 - April 12th 2018 =
+
+= Bug Fixes: =
+* Issue [#902](https://github.com/live-composer/live-composer-page-builder/issues/902): Deactivate LC cache if popular caching plugins are active
+* Issue [#903](https://github.com/live-composer/live-composer-page-builder/issues/903): Improved section icons
+
+= 1.3.13 - March 22nd 2018 =
+
+= Bug Fixes: =
+* Issue [#902](https://github.com/live-composer/live-composer-page-builder/issues/902): Fixing bug introduced in the previous version. (Temporary disables detection of the other caching plugins).
+
+
+= 1.3.12 - March 21st 2018 =
+
+= Bug Fixes: =
+* Issue [#863](https://github.com/live-composer/live-composer-page-builder/issues/863): Cache not resetting properly preventing for the page to update
+* Issue [#895](https://github.com/live-composer/live-composer-page-builder/issues/895): The section icons cannot be selected when there is no padding set
+* Issue [#714](https://github.com/live-composer/live-composer-page-builder/issues/714): WordPress SEO by Yoast don't read the "Info box module"
+
+= Improved: =
+* Issue [#890](https://github.com/live-composer/live-composer-page-builder/issues/890): WooCommerce out of stock products
+* Issue [#889](https://github.com/live-composer/live-composer-page-builder/issues/889): Improve the module 'Title' for WooCommerce
+* Issue [#845](https://github.com/live-composer/live-composer-page-builder/issues/845): Deactivate LC cache if popular caching plugins are active
+
+
+= 1.3.11 - February 9th 2018 =
+
+In this update we improve compatibility with Yoast SEO plugin and our premium [WooCommerce Integration](https://livecomposerplugin.com/downloads/woocommerce-page-builder/?utm_source=wp-admin&utm_medium=changelog&utm_campaign=woo-integration). Added a possibility to create your custom SVG icons, and improved design controls for many default modules. Default caching engine works better as well.
+
+= Bug Fixes: =
+* Issue [#877](https://github.com/live-composer/live-composer-page-builder/issues/877): The category archive listing issue with the very first post ( Custom Post Type )
+* Issue [#873](https://github.com/live-composer/live-composer-page-builder/issues/873): Show/Hide Dependency
+* Issue [#860](https://github.com/live-composer/live-composer-page-builder/issues/860): A string from the Comment module cannot be translated
+* Issue [#852](https://github.com/live-composer/live-composer-page-builder/issues/852): Module Testimonials: Option 'Row Separator' don't work
+* Issue [#740](https://github.com/live-composer/live-composer-page-builder/issues/740): Broken select control in SLIDER module
+* Issue [#850](https://github.com/live-composer/live-composer-page-builder/issues/850): Broken shortcodes in the posts preview.
+* Issue [#847](https://github.com/live-composer/live-composer-page-builder/issues/847): Yoast Open Graph tags do not show on the posts powered by custom templates.
+* Issue [#846](https://github.com/live-composer/live-composer-page-builder/issues/846): Missing color transparency control for the text shadow block in the Text module.
+* Issue [#844](https://github.com/live-composer/live-composer-page-builder/issues/844): Broken cache engine when premium extensions enabled.
+* Issue [#840](https://github.com/live-composer/live-composer-page-builder/issues/840): Improve compatibility with our premium [WooCommerce Integration](https://livecomposerplugin.com/downloads/woocommerce-page-builder/?utm_source=wp-admin&utm_medium=changelog&utm_campaign=woo-integration).
+
+= Improved: =
+* Issue [#868](https://github.com/live-composer/live-composer-page-builder/issues/868): Module Testimonials: Add Logo and Icon
+* Issue [#867](https://github.com/live-composer/live-composer-page-builder/issues/867): Add arrows on the sides for modules ( post based )
+* Some editing iterface elements polished also removed unwated Google font calls.
+* Issue [#839](https://github.com/live-composer/live-composer-page-builder/issues/839): Add filter for display module options (useful for 3-rd party developers).
+* Issue [#838](https://github.com/live-composer/live-composer-page-builder/issues/838): Add action hooks for css-generation.php (useful for 3-rd party developers).
+* Issue [#799](https://github.com/live-composer/live-composer-page-builder/issues/799): Removed direct access to the footer/header templates.
+
+= New: =
+* Issue [#871](https://github.com/live-composer/live-composer-page-builder/issues/871): Add the ability to add icon SVG
+* Issue [#859](https://github.com/live-composer/live-composer-page-builder/issues/859): New options for modules
+
 
 = 1.3.9 - November 27th 2017 =
 

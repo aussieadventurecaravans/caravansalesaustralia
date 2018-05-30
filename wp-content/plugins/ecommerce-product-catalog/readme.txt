@@ -4,11 +4,11 @@ Donate link: https://implecode.com/wordpress/plugins/premium-support/#cam=wordpr
 Tags: e-commerce, ecommerce, product catalog, catalog, store, sales, shop, product catalogue, catalogue, WordPress eCommerce, display products, inventory
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 2.7.16
+Stable tag: 2.8.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-eCommerce Product Catalog is a powerful and free 100% responsive plugin for beautiful ecommerce or request a quote WordPress website.
+eCommerce Product Catalog is a powerful and free plugin to sell with a beautiful ecommerce or request a quote WordPress website.
 
 == Description ==
 
@@ -349,7 +349,7 @@ Bugs can be reported on the support forum.
 
 If you prefer page reload instead of AJAX functionality place the following line of code in your theme functions.php file:
 
-remove_action( 'enqueue_catalog_scripts', 'ic_product_ajax_enqueue_styles' );
+remove_action( 'enqueue_catalog_scripts', array( 'ic_catalog_ajax', 'enqueue_styles' ) );
 
 = Where can I find impleCode documentation and user guides? =
 
@@ -377,84 +377,43 @@ This is not a store. It's main purpose is to present products or services on the
 
 Use [EPC Translate Project](https://translate.wordpress.org/projects/wp-plugins/ecommerce-product-catalog "eCommerce Product Catalog Translation Project") to add new or fix the existing translations in eCommerce Product Catalog. Use [Premium EPC Translation Project](http://translate.implecode.com/projects/ "eCommerce Product Catalog Translation Project") for all the extensions. 
 
-= 2.7.16 - 10/01/2018 =
+= 2.8.5 - 17/05/2018 =
 
-* Fix - search pagination fixed
-* Fix - shortcode integration improved on category pages
+* Problems with ecommerce category page title on some themes fixed
+* Unnecessary semicolon on modern grid product listing removed
+* Same image showing up on the ecommerce product listing on some themes fixed
 
-= 2.7.15 - 04/01/2018 =
+= 2.8.4 - 11/05/2018 =
 
-* Tweak - support for categories import from other post type
-* Tweak - compatibility info modified
+* Ability to edit each individual ecommerce product listing element, also classic grid, modern grid and classic list with template files placed in child theme folder
+* Database and disk usage performance improved when displaying ecommerce pages
+* Now product details box shows up when the product weight or product size is disabled
 
-= 2.7.14 - 02/01/2018 =
+= 2.8.3 - 08/05/2018 =
 
-* Tweak - support for multiple product categories import
-* Tweak - ecommerce multilingual support improved
+* Fix the product listing on category page when category widget is placed in the ecommerce filters bar
+* Fix the edit product link on the WordPress admin bar when logged in as administrator on any of the eCommerce Product Catalog pages
+* The currency switcher in the catalog settings and the configuration wizard now shows the currency code first for better usability
 
-= 2.7.13 - 18/12/2017 =
+= 2.8.2 - 07/05/2018 =
 
-* Tweak - shortcode theme integration improved
+* Fix wrong page title for some themes on eCommerce Product Catalog category pages. If you still see some incompatibility with the theme please let us know on the [support forum](https://wordpress.org/support/plugin/ecommerce-product-catalog)
 
-= 2.7.12 - 13/12/2017 =
+= 2.8.1 - 05/05/2018 =
 
-* Tweak - shortcode theme integration improved
+Two tweaks for the magnifier feature that appears on each ecommerce product page:
 
-= 2.7.11 - 11/12/2017 =
+* Tweak - magnifier disabled on small screens for better usability - now the product page magnifier will not work on the smartphone screen. Only the lightbox will be available as in previous releases. On desktop the magnifier will work as expected on each ecommerce page.
+* Tweak - magnifier option in WordPress customizer to disable or enable (the customizer opens when you click the Customize Page Design link on individual ecommerce page in admin options section when logged in)
 
-* Tweak - more unique class name for tooltips to avoid incompatibility with other plugins
-* Tweak - code improvements for even better performance and readability
+= 2.8.0 - 29/04/2018 =
 
-= 2.7.10 - 06/12/2017 =
+eCommerce Product Catalog gets 4 new features:
 
-* Tweak - code improvements for even better performance and readability
-
-= 2.7.9 - 09/11/2017 =
-
-* Fix - show only subcategories setting with eCommerce shortcode integration
-
-= 2.7.8 - 04/11/2017 =
-
-* Fix - product name on classic grid listing
-
-= 2.7.7 - 03/11/2017 =
-
-* Tweak - new shortcode theme integration method for eCommerce Product Catalog
-* Tweak - multiple code improvements for even better performance and readability
-
-= 2.7.6 - 31/10/2017 =
-
-* Tweak - support for comma decimal separator in price filter
-
-= 2.7.5 - 23/10/2017 =
-
-* Tweak - support for decimal price in eCommerce price filter
-
-= 2.7.4 - 05/07/2017 =
-
-* Tweak - compatibility with WordPress password protected feature
-* Tweak - admin edit links on product page when logged in as admin
-
-= 2.7.3 - 12/06/2017 =
-
-* Tweak - speed optimization for eCommerce Product Catalog CSS and JS files on product display pages
-* Tweak - 168 currencies available out of the box for ecommerce
-
-= 2.7.2 - 29/05/2017 =
-
-* Tweak - ability to import products from other post type to eCommerce Product Catalog 
-
-= 2.7.1 - 12/05/2017 =
-
-* Tweak - ajax filters usability improvements for all eCommerce pages 
-* Localisation - Polish language improved
-
-= 2.7.0 - 08/05/2017 =
-
-* Feature - ability to customize product page and product display in WordPress customizer
-* Tweak - settings usability improved
-* Tweak - initial configuration improved
-* Tweak - simple mode improved
+* Feature - optional ecommerce product comparison - when you define ecommerce parameters comparison page in settings > attributes a new compare button will show up on each product page. When the button is clicked it will redirect the user to the comparison page where another product can be selected to be compared. 
+* Feature - optional magnifier on main product image - when you point the mouse cursor over the main product image on ecommerce product catalog individual product page it wil show the magnified portion of the image on the left or right side depending of the product page template enabled
+* Feature - optional size field with different units available and size filter widget - now you can define height, width and length for each product in ecommerce. You can use it if the size is important for the products that you sell of offer. The customer will be able to use the size filter to display products only within certain range for height, width or length.
+* Feature - optional weight field - if you enable the weight you will be able to define it for each ecommerce product. Different units are available. You can define it in the ecommerce attributes settings.
 
 [See changelog for all versions](https://plugins.trac.wordpress.org/browser/ecommerce-product-catalog/trunk/changelog.txt).
 

@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class DSLC_TP_Title extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
 
 	function __construct() {
 
@@ -540,7 +540,7 @@ class DSLC_TP_Title extends DSLC_Module {
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
 		// Cache calculated array in WP Object Cache.
-		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options, 'dslc_modules' );
 
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
@@ -577,9 +577,8 @@ class DSLC_TP_Title extends DSLC_Module {
 			$title = get_the_date( 'F j, Y' );
 		} elseif ( is_post_type_archive() ) {
 			$title = post_type_archive_title( '', false );
-		} elseif ( is_tax() ) {
-			$tax = get_taxonomy( get_queried_object()->taxonomy );
-			$title = $tax->labels->singular_name . ' ' . single_term_title( '', false );
+		} elseif ( class_exists( 'WooCommerce' ) && ( is_product_category() || is_product_tag() ) ) {
+			$title = single_term_title( '', false );
 		} elseif ( is_search() ) {
 			$title = get_the_title( $post_id ) . ' ' . get_search_query();
 		} else {

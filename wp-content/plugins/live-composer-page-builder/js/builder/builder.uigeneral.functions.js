@@ -51,46 +51,41 @@ jQuery(document).ready(function($) {
 	 * Try to detect JS errors in preview area.
 	 */
 	jQuery("#page-builder-frame")[0].contentWindow.onerror = function( error, file, line, char ) {
-
 		dslca_generate_error_report ( error, file, line, char );
 	}
 
 	// Put JS error log data in a hidden textarea.
 	dslca_update_report_log();
 
-
  	jQuery('body').addClass('dslca-enabled dslca-drag-not-in-progress');
  	jQuery('.dslca-invisible-overlay').hide();
  	jQuery('.dslca-section').eq(0).show();
-
-
-	/** Wait till tinyMCE loaded */
-	window.previewAreaTinyMCELoaded = function(){
-
-		var self = this;
-		LiveComposer.Builder.PreviewAreaWindow = this;
-		LiveComposer.Builder.PreviewAreaDocument = jQuery(this.document);
-
-		// Disable WP admin bar in editing mode
-		jQuery('#wpadminbar', LiveComposer.Builder.PreviewAreaDocument).remove();
-
-		LiveComposer.Builder.UI.initInlineEditors();
-		dslc_fix_contenteditable();
-
-		var mainDraggable = LiveComposer.Builder.PreviewAreaDocument.find("#dslc-main").eq(0)[0];
-		new LiveComposer.Builder.Elements.CSectionsContainer( mainDraggable );
-
-		jQuery(document).trigger('editorFrameLoaded');
-
-		dslc_drag_and_drop();
-
-		dslc_generate_code();
-
-		// Catch keypress events (from both parent and iframe) to add keyboard support
-		dslc_keypress_events();
-		LiveComposer.Builder.UI.initPreviewAreaScroller();
-	};
 });
+
+/** Wait till tinyMCE loaded */
+window.previewAreaTinyMCELoaded = function(){
+
+	var self = this;
+	LiveComposer.Builder.PreviewAreaWindow = this;
+	LiveComposer.Builder.PreviewAreaDocument = jQuery(this.document);
+
+	// Disable WP admin bar in editing mode
+	jQuery('#wpadminbar', LiveComposer.Builder.PreviewAreaDocument).remove();
+
+	// LiveComposer.Builder.UI.initInlineEditors();
+	dslc_fix_contenteditable();
+
+	var mainDraggable = LiveComposer.Builder.PreviewAreaDocument.find("#dslc-main").eq(0)[0];
+	new LiveComposer.Builder.Elements.CSectionsContainer( mainDraggable );
+
+	jQuery(document).trigger('editorFrameLoaded');
+	dslc_drag_and_drop();
+	dslc_generate_code();
+
+	// Catch keypress events (from both parent and iframe) to add keyboard support
+	dslc_keypress_events();
+	LiveComposer.Builder.UI.initPreviewAreaScroller();
+};
 
 /**
  * Action - "Currently Editing" scroll on click
@@ -200,8 +195,8 @@ jQuery(document).on( 'click', '.dslca-close-composer-hook', function(e){
 
 	var redirect_url = jQuery(this).attr('href');
 
-	if ( ! jQuery('body').hasClass('dslca-saving-in-progress') ) {
-
+	if ( ! jQuery('body').hasClass('dslca-saving-in-progress') && jQuery('.dslca-save-composer').is(':visible') ) {
+		// Show warning if changes weren't saved.
 		LiveComposer.Builder.UI.CModalWindow({
 
 			title: DSLCString.str_exit_title,
@@ -210,9 +205,8 @@ jQuery(document).on( 'click', '.dslca-close-composer-hook', function(e){
 				window.location = redirect_url;
 			}
 		});
-
-		/*dslc_js_confirm( 'disable_lc', '<span class="dslca-prompt-modal-title">' +
-			DSLCString.str_exit_title + '</span><span class="dslca-prompt-modal-descr">' + DSLCString.str_exit_descr + '</span>', jQuery(this).attr('href') );*/
+	} else {
+		window.location = redirect_url;
 	}
 });
 
@@ -557,8 +551,8 @@ function dslc_drag_and_drop() {
 						jQuery('body').removeClass('dslca-module-drop-in-progress');
 					}, 700 );
 
-					// "Show" no content text
-					jQuery('.dslca-no-content-primary', modulesArea ).css({ opacity : 1 });
+					// "Show" no content text // Not used anymore?
+					// jQuery('.dslca-no-content-primary', modulesArea ).css({ opacity : 1 });
 
 					// "Show" modules area management
 					jQuery('.dslca-modules-area-manage', modulesArea).css ({ visibility : 'visible' });
@@ -572,7 +566,7 @@ function dslc_drag_and_drop() {
 					// Show publish
 					dslc_show_publish_button();
 
-					LiveComposer.Builder.UI.initInlineEditors();
+					// LiveComposer.Builder.UI.initInlineEditors();
 				});
 
 				// Loading animation
@@ -584,8 +578,8 @@ function dslc_drag_and_drop() {
 				jQuery(itemEl).find('.dslca-icon').attr('class', '').attr('class', 'dslca-icon dslc-icon-refresh dslc-icon-spin');
 
 
-				// Hide no content text
-				jQuery('.dslca-no-content-primary', modulesArea).css({ opacity : 0 });
+				// Hide no content text // Not used anymore?
+				// jQuery('.dslca-no-content-primary', modulesArea).css({ opacity : 0 });
 
 				// Hide modules area management
 				jQuery('.dslca-modules-area-manage', modulesArea).css ({ visibility : 'hidden' });

@@ -19,7 +19,7 @@ if ( !empty( $shortdesc ) ) {
 
 	<div class="shortdesc">
 		<?php
-		echo apply_filters( 'the_excerpt', $shortdesc );
+		echo $shortdesc;
 		?>
 	</div>
 

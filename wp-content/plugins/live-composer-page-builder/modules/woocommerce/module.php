@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class DSLC_WooCommerce_Products extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
 
 	function __construct() {
 
@@ -2679,6 +2679,10 @@ function dslc_module_woocommerce_output( $atts, $content = null ) {
 		if ( $show_heading || $show_filters || $show_carousel_arrows ) {
 			$show_header = true;
 		}
+		
+		if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) {
+			$container_class .= 'dslc-carousel-arrow-aside ';
+		}
 
 		/**
 		 * Carousel Items
@@ -2775,7 +2779,7 @@ function dslc_module_woocommerce_output( $atts, $content = null ) {
 
 					<!-- Carousel -->
 
-					<?php if ( $show_carousel_arrows ) : ?>
+					<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'above' ) ) : ?>
 							<span class="dslc-carousel-nav fr">
 								<span class="dslc-carousel-nav-inner">
 									<a href="#" class="dslc-carousel-nav-prev"><span class="dslc-icon-chevron-left"></span></a>
@@ -2795,9 +2799,13 @@ function dslc_module_woocommerce_output( $atts, $content = null ) {
 
 		if ( $dslc_query->have_posts() ) :
 
-			?><div class="<?php echo $container_class; ?>"><?php
+			?><div class="<?php echo $container_class; ?>">
+				
+				<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) : ?>
+					<a href="#" class="dslc-carousel-nav-prev position-aside"><span class="dslc-icon-chevron-left"></span></a>
+				<?php endif; ?>
 
-			?><div class="dslc-posts-inner"><?php
+			<div class="dslc-posts-inner"><?php
 
 if ( 'carousel' === $options['type'] ) :
 
@@ -2835,9 +2843,15 @@ while ( $dslc_query->have_posts() ) : $dslc_query->the_post();
 		}
 	}
 
+	if ( $product->is_in_stock() ) {
+		$stock_class = '';
+	} else {
+		$stock_class = ' dslc-product-out-of-stock';
+	}
+
 	?>
 
-	<div class="<?php echo $element_class . $columns_class . $extra_class; ?>" data-cats="<?php echo $post_cats_data; ?>">
+	<div class="<?php echo $element_class . $columns_class . $extra_class . $stock_class; ?>" data-cats="<?php echo $post_cats_data; ?>">
 
 	<?php if ( $post_elements == 'all' || in_array( 'thumbnail', $post_elements ) ) : ?>
 
@@ -3059,9 +3073,13 @@ if ( $options['type'] == 'carousel' ) :
 
 				endif;
 
-				?></div><!-- .dslc-posts-inner --><?php
+				?></div><!-- .dslc-posts-inner -->
+				
+				<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) : ?>
+					<a href="#" class="dslc-carousel-nav-next position-aside"><span class="dslc-icon-chevron-right"></span></a>
+				<?php endif; ?>
 
-		?></div><?php
+		</div><?php
 
 			else :
 

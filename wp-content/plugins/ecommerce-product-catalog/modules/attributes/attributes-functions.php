@@ -63,10 +63,12 @@ function get_product_attributes( $product_id, $v_single_names = null ) {
  * @return type
  */
 function get_attribute_label( $i = 1, $product_id ) {
-	$label = ic_get_global( $product_id . "_attribute-label" . $i );
+	$field_name = apply_filters( 'ic_attribute_label_field_name', "_attribute-label" ) . $i;
+
+	$label = ic_get_global( $product_id . $field_name );
 	if ( !$label ) {
-		$label = get_post_meta( $product_id, "_attribute-label" . $i, true );
-		ic_save_global( $product_id . "_attribute-label" . $i, $label );
+		$label = get_post_meta( $product_id, $field_name, true );
+		ic_save_global( $product_id . $field_name, $label );
 	}
 	return $label;
 }
@@ -79,14 +81,18 @@ function get_attribute_label( $i = 1, $product_id ) {
  * @return type
  */
 function get_attribute_value( $i = 1, $product_id ) {
-	$value = ic_get_global( $product_id . "_attribute" . $i );
+	$field_name	 = apply_filters( 'ic_attribute_value_field_name', "_attribute" ) . $i;
+	$value		 = ic_get_global( $product_id . $field_name );
 	if ( !$value ) {
-		$value = get_post_meta( $product_id, "_attribute" . $i, true );
+		$value = get_post_meta( $product_id, $field_name, true );
+	}
+	if ( is_array( $value ) && !function_exists( 'start_attributes_pro' ) ) {
+		$value = implode( ',', $value );
 	}
 	if ( function_exists( 'is_ic_product_page' ) && is_ic_product_page() && !is_array( $value ) ) {
 		$value = str_replace( 'rel="nofollow"', '', make_clickable( $value ) );
 	}
-	ic_save_global( $product_id . "_attribute" . $i, $value );
+	ic_save_global( $product_id . $field_name, $value );
 	return apply_filters( 'ic_attribute_value', $value, $product_id, $i );
 }
 
@@ -98,10 +104,12 @@ function get_attribute_value( $i = 1, $product_id ) {
  * @return type
  */
 function get_attribute_unit( $i = 1, $product_id ) {
-	$label = ic_get_global( $product_id . "_attribute-unit" . $i );
+	$field_name = apply_filters( 'ic_attribute_unit_field_name', "_attribute-unit" ) . $i;
+
+	$label = ic_get_global( $product_id . $field_name );
 	if ( !$label ) {
-		$label = get_post_meta( $product_id, "_attribute-unit" . $i, true );
-		ic_save_global( $product_id . "_attribute-unit" . $i, $label );
+		$label = get_post_meta( $product_id, $field_name, true );
+		ic_save_global( $product_id . $field_name, $label );
 	}
 	return $label;
 }
@@ -137,4 +145,45 @@ if ( !function_exists( 'get_attribute_value_id' ) ) {
 		return false;
 	}
 
+}
+
+add_action( 'product_details', 'ic_show_size', 9, 1 );
+
+/**
+ * Shows product SKU table
+ *
+ * @param object $post
+ * @param array $single_names
+ */
+function ic_show_size( $product_id = false ) {
+	if ( is_object( $product_id ) && isset( $product_id->ID ) ) {
+		$product_id = $product_id->ID;
+	}
+	ic_show_template_file( 'product-page/product-size.php', AL_BASE_TEMPLATES_PATH, $product_id );
+}
+
+add_action( 'product_details', 'ic_show_weight', 9, 1 );
+
+/**
+ * Shows product SKU table
+ *
+ * @param object $post
+ * @param array $single_names
+ */
+function ic_show_weight( $product_id = false ) {
+	if ( is_object( $product_id ) && isset( $product_id->ID ) ) {
+		$product_id = $product_id->ID;
+	}
+	ic_show_template_file( 'product-page/product-weight.php', AL_BASE_TEMPLATES_PATH, $product_id );
+}
+
+add_action( 'classic_grid_product_listing_element_inside', 'ic_listing_add_attributes', 10, 2 );
+add_action( 'classic_list_entry_bottom', 'ic_listing_add_attributes', 10, 2 );
+add_action( 'modern_grid_entry_inside', 'ic_listing_add_attributes', 10, 2 );
+
+function ic_listing_add_attributes( $product_id, $settings ) {
+	if ( $settings[ 'attributes' ] == 1 ) {
+		ic_save_global( 'listing_attributes_num', $settings[ 'attributes_num' ] );
+		ic_show_template_file( 'product-listing/listing-attributes.php' );
+	}
 }

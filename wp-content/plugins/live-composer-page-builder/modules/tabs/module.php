@@ -8,11 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class DSLC_Tabs extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
-	var $handle_like;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
+	public $handle_like;
 
 	function __construct() {
 
@@ -3514,7 +3514,7 @@ class DSLC_Tabs extends DSLC_Module {
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
 		// Cache calculated array in WP Object Cache.
-		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options, 'dslc_modules' );
 
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 
@@ -3549,7 +3549,7 @@ class DSLC_Tabs extends DSLC_Module {
 
 						<?php foreach ( $tabs_nav as $tab_nav ) : ?>
 							<span class="dslc-tabs-nav-hook">
-								<span class="dslc-tabs-nav-hook-title" <?php if ( $dslc_is_admin ) { echo 'contenteditable';} ?>><?php echo stripslashes( $tab_nav ); ?></span>
+								<span class="dslc-tabs-nav-hook-title" <?php if ( $dslc_is_admin ) { echo 'contenteditable'; } ?>><?php echo stripslashes( $tab_nav ); ?></span>
 								<?php if ( $dslc_is_admin ) : ?>
 									<span class="dslca-delete-tab-hook"><span class="dslca-icon dslc-icon-remove"></span></span>
 								<?php endif; ?>
@@ -3558,7 +3558,7 @@ class DSLC_Tabs extends DSLC_Module {
 
 					<?php else : ?>
 						<span class="dslc-tabs-nav-hook">
-							<span class="dslc-tabs-nav-hook-title" <?php if ( $dslc_is_admin ) { echo 'contenteditable';} ?>><?php _e( 'Click to edit', 'live-composer-page-builder' ); ?></span>
+							<span class="dslc-tabs-nav-hook-title" <?php if ( $dslc_is_admin ) { echo 'contenteditable'; } ?>><?php _e( 'Click to edit', 'live-composer-page-builder' ); ?></span>
 							<?php if ( $dslc_is_admin ) : ?>
 								<span class="dslca-delete-tab-hook"><span class="dslca-icon dslc-icon-remove"></span></span>
 							<?php endif; ?>
@@ -3583,11 +3583,11 @@ class DSLC_Tabs extends DSLC_Module {
 						<?php foreach ( $tabs_content as $tab_content ) : ?>
 
 							<div class="dslc-tabs-tab-content">
-								<h4 class="dslc-tabs-nav-hook"<?php if ( $dslc_is_admin ) { echo ' data-exportable-content="h3"';} ?>><?php echo $tabs_nav[ $count ]; ?></h4>
-								<div class="dslca-editable-content"<?php if ( $dslc_is_admin ) { echo ' data-exportable-content';} ?>>
+								<h4 class="dslc-tabs-nav-hook"<?php if ( $dslc_is_admin ) { echo ' data-exportable-content="h3"'; } ?>><?php echo $tabs_nav[ $count ]; ?></h4>
+								<div class="dslca-editable-content"<?php if ( $dslc_is_admin ) { echo ' data-exportable-content'; } ?>>
 									<?php
 										$tab_content_output = stripslashes( $tab_content );
-										echo apply_filters( 'dslc_before_render', $tab_content_output );
+										echo apply_filters( 'dslc_text_block_render', $tab_content_output );
 									?>
 								</div>
 								<?php if ( $dslc_is_admin ) : ?>

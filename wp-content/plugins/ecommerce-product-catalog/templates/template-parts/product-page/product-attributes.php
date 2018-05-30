@@ -19,8 +19,16 @@ $product_id = function_exists( 'ic_get_product_id' ) ? ic_get_product_id() : get
 
 if ( has_product_any_attributes( $product_id ) ) {
 	$attributes_number = product_attributes_number();
+	if ( !empty( $single_names[ 'product_features' ] ) ) {
+		$container_id = sanitize_title( $single_names[ 'product_features' ] );
+		if ( ic_string_contains( $container_id, '%' ) ) {
+			$container_id = 'product_features';
+		}
+	} else {
+		$container_id = 'product_features';
+	}
 	?>
-	<div id="product_features" class="product-features">
+	<div id="<?php echo $container_id ?>" class="product-features">
 		<?php if ( !empty( $single_names[ 'product_features' ] ) ) { ?>
 			<h3 class="catalog-header"><?php echo $single_names[ 'product_features' ] ?></h3>
 		<?php } ?>

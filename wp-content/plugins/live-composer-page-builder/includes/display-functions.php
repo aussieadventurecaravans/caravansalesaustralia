@@ -113,11 +113,11 @@ function dslc_display_composer() {
 					</a><!-- .dslca-save-draft-composer -->
 
 					<!-- Hide/Show -->
-					<a href="#" class="dslca-show-composer-hook"><span class="dslca-icon dslc-icon-arrow-up"></span><?php _e( 'Show Editor', 'live-composer-page-builder' ); ?></a>
-					<a href="#" class="dslca-hide-composer-hook"><span class="dslca-icon dslc-icon-arrow-down"></span><?php _e( 'Hide Editor', 'live-composer-page-builder' ); ?></a>
+					<a href="#" class="dslca-show-composer-hook"><span class="dslca-icon dslc-icon-arrow-up"></span><?php _e( 'Show', 'live-composer-page-builder' ); ?></a>
+					<a href="#" class="dslca-hide-composer-hook"><span class="dslca-icon dslc-icon-arrow-down"></span><?php _e( 'Hide', 'live-composer-page-builder' ); ?></a>
 
 					<!-- Disable -->
-					<a href="<?php echo $link; ?>" class="dslca-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span><?php _e( 'Disable Editor', 'live-composer-page-builder' ); ?></a>
+					<a href="<?php echo esc_attr( $link ); ?>" class="dslca-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span><?php _e( 'Close', 'live-composer-page-builder' ); ?></a>
 
 					<div class="dslc-clear"></div>
 
@@ -345,10 +345,10 @@ function dslc_display_composer() {
 					<div class="dslca-pseudo-actions">
 
 						<!-- Hide/Show -->
-						<a href="#" class="dslca-pseudo-hide-composer-hook"><span class="dslca-icon dslc-icon-arrow-down"></span>Hide Editor</a>
+						<a href="#" class="dslca-pseudo-hide-composer-hook"><span class="dslca-icon dslc-icon-arrow-down"></span>Hide</a>
 
 						<!-- Disable -->
-						<a href="#" class="dslca-pseudo-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span>Disable Editor</a>
+						<a href="#" class="dslca-pseudo-close-composer-hook"><span class="dslca-icon dslc-icon-remove"></span>Close</a>
 
 						<div class="dslc-clear"></div>
 
@@ -466,11 +466,9 @@ function dslc_display_modules( $page_id ) {
 				$module_non_active = '';
 			}
 
-			?>
-				<div class="dslca-module dslca-scroller-item dslca-origin dslca-origin-<?php echo esc_attr( $dslc_module['origin'] ); ?> <?php if ( isset( $dslc_module['exclude'] ) ) { echo 'dslca-exclude'; } ?> <?php echo $module_non_active; ?>" data-origin="<?php echo esc_attr( $dslc_module['origin'] ); ?>" data-id="<?php echo esc_attr( $dslc_module['id'] ); ?>">
+			?><div class="dslca-module dslca-scroller-item dslca-origin dslca-origin-<?php echo esc_attr( $dslc_module['origin'] ); ?> <?php if ( isset( $dslc_module['exclude'] ) ) { echo 'dslca-exclude'; } ?> <?php echo $module_non_active; ?>" data-origin="<?php echo esc_attr( $dslc_module['origin'] ); ?>" data-id="<?php echo esc_attr( $dslc_module['id'] ); ?>">
 					<span class="dslca-icon dslc-icon-<?php echo esc_attr( $dslc_module['icon'] ); ?>"></span><span class="dslca-module-title"><?php echo esc_html( $dslc_module['title'] ); ?></span>
-				</div><!-- .dslc-module -->
-			<?php
+				</div><?php
 
 		}
 	} else {
@@ -544,39 +542,7 @@ function dslc_filter_content( $content ) {
 	// Get ID of the post in which the content filter fired.
 	$curr_id = get_the_ID();
 
-	if ( is_category() ) {
-		$categories = get_the_category();
-		$curr_id = $categories[0]->cat_ID;
-	}
-
-	if ( is_tag() ) {
-		$tags = get_the_tags();
-		$curr_id = $tags[0]->term_id;
-	}
-
-	if ( is_search() ) {
-
-		$args = array(
-		    'post_type'  => 'dslc_templates',
-		    'meta_query' => array(
-				array(
-				    'key'     => 'dslc_template_for',
-				    'value'   => 'search_results',
-				),
-				array(
-				    'key'     => 'dslc_template_type',
-				    'value'   => 'default',
-				),
-		    ),
-		);
-
-		$query = get_posts( $args );
-
-		$template_search = $query[0];
-		$curr_id = $template_search->ID;
-	}
-
-	// If post pass protected and pass not supplied return original content
+	// If post pass protected and pass not supplied return original content.
 	if ( post_password_required( $curr_id ) ) {
 		return $content;
 	}
@@ -584,12 +550,24 @@ function dslc_filter_content( $content ) {
 	// Initiate simple html rendering cache.
 	$cache = new DSLC_Cache( 'html' );
 	$cache_id = $curr_id;
+	
+	if ( is_archive() ) {
+		$post_type_slug = get_post_type();
+		$template_id = dslc_get_archive_template_by_pt( $post_type_slug );
+		$cache_id = $template_id;
+	}
+	
+	if ( is_search() ) {
+		$template_id = dslc_get_option( 'search_results', 'dslc_plugin_options_archives' );
+		$cache_id = $template_id;
+	}
 
 	// Check if we have html for this code cached?
 	if ( ! dslc_is_editor_active() && $cache->enabled() && $cache->cached( $cache_id ) ) {
 		// Check if any dynamic content included before caching.
 		$cached_page_html = $cache->get_cache( $cache_id );
-		return do_shortcode( $cached_page_html );
+		// We need double do_shortcode as our module shortcodes can contain encoded 3-rd party shortcodes.
+		return do_shortcode( do_shortcode( $cached_page_html ) );
 	}
 
 	// Global variables.
@@ -732,12 +710,12 @@ function dslc_filter_content( $content ) {
 			</div>';
 		}
 
-		if ( $composer_code || $template_code ) {
+		if ( ! empty( $composer_code ) || ! empty( $template_code ) ) {
 			// If there is LC code to add to the content output.
 			// Turn the LC code into HTML code.
 			$composer_content = dslc_render_content( $composer_code );
 
-		} elseif ( $composer_header || $composer_footer ) {
+		} elseif ( ! empty( $composer_header ) || ! empty( $composer_footer ) ) {
 			// If there is header or footer LC code to add to the content output.
 			// If editor not active.
 			if ( ! dslc_is_editor_active() ) {
@@ -746,7 +724,8 @@ function dslc_filter_content( $content ) {
 				$cache->set_cache( $rendered_header_footer, $cache_id );
 
 				// Pass the LC header, regular content and LC footer
-				return do_shortcode( $rendered_header_footer );
+				// We need double do_shortcode as our module shortcodes can contain encoded 3-rd party shortcodes.
+				return do_shortcode( do_shortcode( $rendered_header_footer ) );
 			}
 		} else {
 
@@ -782,7 +761,8 @@ function dslc_filter_content( $content ) {
 			$cache->set_cache( $rendered_page, $cache_id );
 		}
 
-		return do_shortcode( $rendered_page );
+		// We need double do_shortcode as our module shortcodes can contain encoded 3-rd party shortcodes.
+		return do_shortcode( do_shortcode( $rendered_page ) );
 
 	} else {
 		// If LC should not filter the content (full content posts output in the blog/posts modules ).
@@ -989,7 +969,7 @@ function dslc_json_decode( $raw_code, $ignore_migration = false ) {
 			// Add a marker indicating that this module
 			// was imported from shortcode format.
 			if ( is_array( $decoded ) ) {
-				$decoded['code_version'] = 1;	
+				$decoded['code_version'] = 1;
 			}
 
 			// Preset is always being stored in base64 format,
@@ -1301,7 +1281,6 @@ function dslc_modules_section_front( $atts, $content = null, $version = 1 ) {
 	}
 
 	// Show on Class.
-	// if ( '' !== $atts['show_on']  ) {
 	$show_on = explode( ' ', trim( $atts['show_on'] ) );
 
 	if ( ! in_array( 'desktop', $show_on, true ) ) {
@@ -1315,7 +1294,21 @@ function dslc_modules_section_front( $atts, $content = null, $version = 1 ) {
 	if ( ! in_array( 'phone', $show_on, true ) ) {
 		$section_class .= 'dslc-hide-on-phone ';
 	}
-	// }
+
+	// Sticky Class.
+	if ( ! empty( $atts['sticky_row'] ) && 'enabled' === trim( $atts['sticky_row'] ) ) {
+		$section_class .= 'dslc-sticky-row';
+		$sticky_style   = '<style type="text/css">';
+		$sticky_style  .= '.dslc-sticky-row[data-section-id="' . $atts['section_instance_id'] . '"].dslc-sticky-section-fixed {';
+		$sticky_style  .= 'padding-top: ' . $atts['sticky_row_padding_vertical'] . 'px !important; ';
+		$sticky_style  .= 'padding-bottom: ' . $atts['sticky_row_padding_vertical'] . 'px !important;';
+		$sticky_style  .= '}';
+		$sticky_style  .= '</style>';
+	} else {
+		$section_class .= '';
+		$sticky_style = '';
+	}
+
 	// Allow other developers to add classes.
 	$filter_classes = array();
 	$filter_classes = apply_filters( 'dslc_row_class', $filter_classes, $atts );
@@ -1378,7 +1371,7 @@ function dslc_modules_section_front( $atts, $content = null, $version = 1 ) {
 
 					. $a_prepend . $content_render . $a_append
 
-					. '</div>';
+					. '</div>' . $sticky_style;
 
 	if ( $dslc_active && is_user_logged_in() && current_user_can( DS_LIVE_COMPOSER_CAPABILITY ) ) {
 

@@ -210,7 +210,7 @@ function get_single_names() {
 		foreach ( $default_single_names as $key => $value ) {
 			$single_names[ $key ] = isset( $single_names[ $key ] ) ? $single_names[ $key ] : $value;
 		}
-		ic_save_global( 'single_names', apply_filters( 'ic_get_single_names', $single_names ) );
+		ic_save_global( 'single_names', $single_names );
 	}
-	return $single_names;
+	return apply_filters( 'ic_get_single_names', $single_names );
 }

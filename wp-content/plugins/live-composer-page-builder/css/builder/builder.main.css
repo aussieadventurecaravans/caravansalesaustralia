@@ -200,7 +200,10 @@ body a:focus {
 }
 
 .dslca-container {
-	font-family: 'Open Sans', sans-serif;
+	/* font-family: 'Open Sans', sans-serif; */
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 13px;
+
 	bottom: 0;
 	color: #fff;
 	left: 0;
@@ -395,7 +398,7 @@ body a:focus {
 			.dslca-wp-editor-cancel-hook {
 				background: #78ca4f;
 				border-radius: 3px;
-				color: #fff;
+				color: #fff!important;
 				cursor: pointer;
 				display: inline-block;
 				font-size: 13px;
@@ -513,7 +516,6 @@ body a:focus {
 				float: left;
 				background: #3b6fbe;
 				color: #fff;
-				font-family: 'Open Sans', sans-serif;
 				font-size: 17px;
 				line-height: 1;
 				padding: 28px 25px;
@@ -610,8 +612,6 @@ body a:focus {
 		.dslca-module {
 			color: #fff;
 			display: inline-block;
-			font-family: font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-			font-size: 15px;
 			font-weight: 400;
 			line-height: 1;
 			padding: 2px 12px 9px 12px;
@@ -731,7 +731,7 @@ body a:focus {
 			padding: 16px 15px 5px 15px;
 			min-height: 58px;
 
-			transform: translate(0,0); 
+			transform: translate(0,0);
 			/* fix the bug with wrong position
 			of the horizontal scrolling bar
 			in macOS Chorme */
@@ -739,7 +739,8 @@ body a:focus {
 
 			.dslca-modules-section-edit-option,
 			.dslca-module-edit-option,
-			.dslca-pseudo-module-edit-option {
+			.dslca-pseudo-module-edit-option,
+			.dslca-section-edit-option {
 				display: table-cell;
 				padding-bottom: 40px;
 				padding-left: 15px;
@@ -749,11 +750,14 @@ body a:focus {
 				position: relative;
 			}
 
-			.dslca-module-control-group {
+			.dslca-module-control-group,
+			.dslca-section-control-group
+			 {
 				padding: 4px;
 			}
 
-			.dslca-module-control-group > .controls-group-inner {
+			.dslca-module-control-group > .controls-group-inner,
+			.dslca-section-control-group > .controls-group-inner {
 				padding-left: 15px;
 				padding-right: 15px;
 				padding-top: 0;
@@ -764,7 +768,8 @@ body a:focus {
 				position: relative;
 			}
 
-			.dslca-module-control-group > .controls-group-inner > .dslca-module-edit-label {
+			.dslca-module-control-group > .controls-group-inner > .dslca-module-edit-label,
+			.dslca-section-control-group > .controls-group-inner > .dslca-section-edit-label {
 				position: absolute;
 				background: rgba(76, 129, 207, 0.4);
 				padding: 6px 11px;
@@ -1243,7 +1248,6 @@ body a:focus {
 			cursor: pointer;
 			display: block;
 			float: left;
-			font-family: 'Open Sans', sans-serif;
 			font-size: 15px;
 			line-height: 1;
 			padding: 29px 29px 27px 29px;
@@ -1432,6 +1436,12 @@ body a:focus {
 		margin-left: -10px;
 	}
 
+
+.dslca-module-placeholder,
+.dslca-modules-section-placeholder {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
 .dslca-module-placeholder {
 	position: relative;
 	background: #5890e5;
@@ -1451,9 +1461,9 @@ body a:focus {
 			background: #5890e5;
 			border-radius: 3px 3px 0 0;
 			color: #fff;
-			font-family: 'Open Sans', sans-serif;
-			font-style: 12px;
-			font-weight: bold;
+			font-size: 12px;
+			font-weight: 400;
+			letter-spacing: .5px;
 			/* text-transform: uppercase; */
 			display: inline-block;
 			padding: 5px 10px;
@@ -1490,7 +1500,7 @@ body a:focus {
 	 position: absolute;
 
 	 font-size: 15px;
-	 font-family: 'Open Sans', sans-serif;
+	 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 .dslc-module-front {
@@ -1498,7 +1508,12 @@ body a:focus {
 	min-height: 30px;
 }
 
-.dslc-module-front.dslca-change-width-active {
+/* .dslc-module-front.dslca-change-width-active {
+	z-index: 999999;
+} */
+
+/* experimental */
+.dslc-module-front:hover {
 	z-index: 999999;
 }
 
@@ -1657,8 +1672,6 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 	border-radius: 3px 6px 6px 3px;
 	cursor: pointer;
 	font-size: 13px;
-	font-weight: 400;
-	font-family: 'Open Sans',sans-serif;
 	float: left;
 	line-height: 1;
 	opacity: 0;
@@ -1731,20 +1744,18 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 	.dslc-modules-area-empty .dslca-no-content {
 		display: block;
 	}
-
+/*
 	.dslca-no-content-primary {
 		color: #5890e5;
 		display: inline-block;
 		background: rgba( 255, 255, 255, 0.75 );
 		font-size: 15px;
-		font-family: 'Open Sans', sans-serif;
 		line-height: 1;
 		margin: 0;
-		/* text-transform: uppercase; */
 		padding: 13px;
 		border-radius: 3px;
 	}
-
+ */
 		.dslca-no-content .dslca-icon {
 			margin-right: 10px;
 		}
@@ -1773,54 +1784,50 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 
 	/* Button */
 
-	.dslca-add-modules-section {
+	div.dslca-add-modules-section {
 		text-align: center;
 		margin-top: 30px;
-		width: 1180px;
+		width: 80%;
+		max-width: 620px;
 		margin-left: auto;
 		margin-right: auto;
-		max-width: 100%;
 		margin-bottom: 180px;
 		overflow: hidden;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	}
 
 		.dslca-add-modules-section-hook,
 		.dslca-import-modules-section-hook {
-			background: #e5855f;
-			/*border: 1px solid #d97a54;*/
+			background: #e5855f!important;
 			border-radius: 3px;
 			color: #fff!important;
 			cursor: pointer;
 			display: block;
-			font-size: 15px;
-			font-family: 'Open Sans', sans-serif;
+			font-size: 15px!important;
 			float: left;
-			line-height: 1;
+			line-height: 1!important;
 			padding: 14px 0;
-			text-decoration: none;
-			width: 80%;
+			text-decoration: none!important;
+			width: 70%!important;
+			box-shadow: none!important;
 		}
 
 		.dslca-add-modules-section-hook:hover,
 		.dslca-import-modules-section-hook:hover {
-			background: #FF9162;
-			color: #fff;
+			background: #FF9162!important;
+			color: #fff!important;
 		}
 
-			.dslca-add-modules-section .dslca-icon {
+			.dslca-add-modules-section .dslca-icon,
+			.dslca-import-modules-section .dslca-icon {
 				margin-right: 10px;
-				color: rgba( 255, 255, 255, 0.5 );
+				color: rgba( 255, 255, 255, 0.5 )!important;
 			}
 
 		.dslca-import-modules-section-hook {
 			float: right;
-			width: 18%;
+			width: 28%!important;
 		}
-
-			.dslca-import-modules-section .dslca-icon {
-				margin-right: 10px;
-				color: rgba( 255, 255, 255, 0.5 );
-			}
 
 	/* Main */
 
@@ -1881,7 +1888,7 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 		margin-bottom: 0;
 		padding-right: 0;
 		position: absolute;
-		z-index: 99998; /* Should be less than module control elements */
+		z-index: 999999; /* Fixed: https://github.com/live-composer/live-composer-page-builder/issues/895 */
  		width: 100%;
 		text-align: center;
 	}
@@ -1934,26 +1941,6 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 	.dslca-modules-section-placeholder .dslca-placeholder-help-text-inner {
 		background: #E5855F;
 	}
-
-		.dslca-placeholder-help-text {
-			position: absolute;
-			left: 0;
-			bottom: 0;
-			right: 0;
-			text-align: center;
-		}
-
-			.dslca-placeholder-help-text-inner {
-				background: #5890e5;
-				border-radius: 3px 3px 0 0;
-				color: #fff;
-				font-family: 'Open Sans', sans-serif;
-				font-style: 12px;
-				font-weight: bold;
-				/* text-transform: uppercase; */
-				display: inline-block;
-				padding: 5px 10px;
-			}
 
 
 /**
@@ -2105,6 +2092,12 @@ body.section-editing-in-progress .dslc-modules-section:not(.dslca-modules-sectio
 				left: 25px;
 				z-index: 99999;
 				width: 122px;
+			}
+
+			/* Show popup when parent icon hovered. */
+			.dslca-change-width-module-hook:hover > .dslca-change-width-module-options,
+			.dslca-change-width-modules-area-hook:hover > .dslca-change-width-modules-area-options{
+				display: block;
 			}
 
 			.dslca-change-width-module-options {
@@ -3467,7 +3460,7 @@ body.dslca-composer-hidden .dslca-container.active-message-panel {
 	margin-bottom: 0;
 }
 
-body.dslca-composer-hidden .dslc-editor-messages-section {
+body.dslca-composer-hidden .dslc-editor-messages-section-122017 {
 	display: none !important;
 }
 
@@ -3694,19 +3687,19 @@ body.page .dslca-module.dslca-origin-single[data-id="DSLC_TP_Staff_Social"] {
 	color: #fff;
 	cursor: pointer;
 	display: block;
-	font-size: 11px;
-	font-family: 'Roboto', sans-serif;
-	font-weight: 900;
+	font-size: 12px;
+	font-weight: 400;
+	letter-spacing: .5px;
 	line-height: 1;
 	padding: 11px 12px;
-	text-transform: uppercase;
+	/* text-transform: uppercase; */
 	text-decoration: none;
 	white-space: nowrap;
 	float: left;
 	margin-left: 5px;
 }
 
-/* Use Open Sans here as Roboto is not available at this point */
+/* No custom font available at this point */
 .dslca-activate-composer-hook {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
@@ -4257,7 +4250,7 @@ div#scroller-stopper {
 	margin-bottom: 40px;
 }
 
-.dslc-editor-messages-section {
+.dslc-editor-messages-section-122017 {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
@@ -4299,8 +4292,8 @@ a.dslc-editor-messages-title:hover {
     position: relative;
     padding: 13px 20px 11px 50px !important;
     margin: 0;
-    line-height: 1;
-    font-size: 16px;
+    line-height: 16px;
+    font-size: 14px;
 }
 
 #editor-messages a {
@@ -4315,6 +4308,21 @@ a.dslc-editor-messages-title:hover {
 
 #editor-messages strong {
 	font-weight: 500;
+}
+
+#editor-messages .cta {
+	font-size: 11px;
+	font-weight: 500;
+	background:#5A92E2;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: .5px;
+	display: inline-block;
+	padding: 4px 10px;
+	position: absolute;
+	border-radius: 3px;
+	margin-left: 14px;
+	margin-top: -4px;
 }
 
 #editor-messages .dslc-icon {

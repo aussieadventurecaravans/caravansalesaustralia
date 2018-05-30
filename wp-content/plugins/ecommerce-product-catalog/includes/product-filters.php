@@ -16,28 +16,46 @@ if ( !defined( 'ABSPATH' ) ) {
 if ( !function_exists( 'get_product_catalog_session' ) ) {
 
 	function get_product_catalog_session() {
-		if ( (!is_admin() || is_ic_ajax() ) ) {
+		if ( !is_admin() || is_ic_front_ajax() ) {
+			$prefix = ic_get_session_prefix();
+
 			if ( ic_use_php_session() ) {
-				if ( !session_id() && !headers_sent() ) {
+				if ( !ic_is_session_started() && !headers_sent() ) {
 					session_start();
 					add_action( 'shutdown', 'session_write_close', 10, 0 );
 					//add_action( 'ic_session_save_end', 'session_write_close', 10, 0 );
 				}
-				if ( !isset( $_SESSION[ 'implecode' ] ) ) {
-					$_SESSION[ 'implecode' ] = array();
+				if ( !isset( $_SESSION[ $prefix ] ) ) {
+					$_SESSION[ $prefix ] = array();
 				}
-				$wp_session = $_SESSION[ 'implecode' ];
+				$session = $_SESSION[ $prefix ];
 			} else {
-				$wp_session = WP_Session::get_instance();
+				global $IC_Session;
+				if ( empty( $IC_Session ) ) {
+					$IC_Session = WP_Session::get_instance();
+				}
+				if ( !isset( $IC_Session[ $prefix ] ) ) {
+					$IC_Session[ $prefix ] = array();
+				}
+				$session = $IC_Session[ $prefix ];
 			}
-			if ( empty( $wp_session ) || !is_array( $wp_session ) ) {
-				$wp_session = array();
+
+			if ( empty( $session ) || !is_array( $session ) ) {
+				$session = array();
 			}
-			return $wp_session;
+			return $session;
 		}
 		return array();
 	}
 
+}
+
+function ic_get_session_prefix() {
+	$prefix = 'implecode';
+	if ( is_multisite() ) {
+		$prefix .= '_' . get_current_blog_id();
+	}
+	return $prefix;
 }
 
 /**
@@ -46,11 +64,22 @@ if ( !function_exists( 'get_product_catalog_session' ) ) {
  * @param type $session
  */
 function set_product_catalog_session( $session ) {
-	if ( ic_use_php_session() ) {
-		if ( !ic_is_session_started() && !headers_sent() ) {
-			session_start();
+	if ( !is_admin() || is_ic_front_ajax() ) {
+		$prefix = ic_get_session_prefix();
+
+		if ( ic_use_php_session() ) {
+			if ( !ic_is_session_started() && !headers_sent() ) {
+				session_start();
+			}
+			$_SESSION[ $prefix ] = $session;
+		} else {
+			global $IC_Session;
+			if ( empty( $IC_Session ) ) {
+				$IC_Session = WP_Session::get_instance();
+			}
+			$IC_Session[ $prefix ] = $session;
 		}
-		$_SESSION[ 'implecode' ] = $session;
+
 		do_action( 'ic_session_save_end' );
 	}
 }
@@ -117,6 +146,7 @@ function set_product_filter() {
 			unset( $session[ 'filters' ][ 'product_category' ] );
 		}
 	}
+
 	set_product_catalog_session( $session );
 	do_action( 'ic_set_product_filters', $session );
 	$session = get_product_catalog_session();
@@ -158,12 +188,13 @@ add_action( 'wp_loaded', 'delete_product_filters', 11 );
  */
 function delete_product_filters() {
 //if ( !is_admin() && is_product_filters_active() && (!is_search() || isset( $_GET[ 'reset_filters' ] ) ) && $query->is_main_query() ) {
-	if ( is_product_filters_active() && (!is_search() || isset( $_GET[ 'reset_filters' ] ) ) ) {
+	if ( !is_ic_ajax() && is_product_filters_active() && (!is_search() || isset( $_GET[ 'reset_filters' ] ) ) ) {
 		$active_filters	 = get_active_product_filters();
 		$out			 = false;
 		foreach ( $active_filters as $filter ) {
 			if ( isset( $_GET[ $filter ] ) ) {
 				$out = true;
+				break;
 			}
 		}
 		if ( !$out ) {
@@ -211,20 +242,27 @@ add_action( 'ic_pre_get_products', 'apply_product_filters', 20 );
  * @param object $query
  */
 function apply_product_filters( $query ) {
-//if ( ((!is_admin() && $query->is_main_query()) || (defined( 'DOING_AJAX' ))) && !is_home_archive( $query ) && (is_ic_product_listing( $query ) || is_ic_taxonomy_page() || is_ic_product_search()) ) {
-	if ( is_product_filters_active() && is_product_filter_active( 'product_category' ) ) {
-		$category_id = get_product_filter_value( 'product_category' );
-		$taxonomy	 = get_current_screen_tax();
-		$taxquery	 = array(
-			array(
-				'taxonomy'	 => $taxonomy,
-				'terms'		 => $category_id,
-			)
-		);
-		$query->set( 'tax_query', $taxquery );
+	if ( !empty( $query->query[ 'pagename' ] ) ) {
+		return;
+	}
+	global $ic_product_filters_query;
+	if ( is_product_filters_active() ) {
+		if ( is_product_filter_active( 'product_category' ) ) {
+			$category_id = get_product_filter_value( 'product_category' );
+			$taxonomy	 = get_current_screen_tax();
+			$taxquery	 = array(
+				array(
+					'taxonomy'	 => $taxonomy,
+					'terms'		 => $category_id,
+				)
+			);
+			$query->set( 'tax_query', $taxquery );
+		}
 	}
 	do_action( 'apply_product_filters', $query );
-//}
+	if ( is_product_filters_active() ) {
+		$ic_product_filters_query = $query;
+	}
 }
 
 add_filter( 'shortcode_query', 'apply_product_category_filter' );

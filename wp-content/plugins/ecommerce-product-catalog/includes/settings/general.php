@@ -39,7 +39,7 @@ add_action( 'product-settings-list', 'general_settings' );
  */
 function archive_multiple_settings_validation( $new_value ) {
 	$product_slug = get_product_slug();
-	if ( $new_value[ 'category_archive_url' ] == $product_slug ) {
+	if ( isset( $new_value[ 'category_archive_url' ] ) && $new_value[ 'category_archive_url' ] == $product_slug ) {
 		$new_value[ 'category_archive_url' ] = $new_value[ 'category_archive_url' ] . '-1';
 	}
 	return $new_value;
@@ -437,17 +437,21 @@ function get_multiple_settings() {
 	return apply_filters( 'catalog_multiple_settings', $archive_multiple_settings );
 }
 
-function get_catalog_names() {
+function get_catalog_names( $which = null ) {
 	$multiple_settings	 = get_multiple_settings();
 	$names[ 'singular' ] = $multiple_settings[ 'catalog_singular' ];
 	$names[ 'plural' ]	 = $multiple_settings[ 'catalog_plural' ];
-	return apply_filters( 'product_catalog_names', $names );
+	$names				 = apply_filters( 'product_catalog_names', $names );
+	if ( !empty( $which ) && isset( $names[ $which ] ) ) {
+		return $names[ $which ];
+	}
+	return $names;
 }
 
 function get_integration_type() {
 	$settings	 = get_multiple_settings();
 	$theme		 = get_option( 'template' );
-	return $settings[ 'integration_type' ][ $theme ];
+	return apply_filters( 'ic_catalog_integration_type', $settings[ 'integration_type' ][ $theme ] );
 }
 
 function get_product_sort_options() {
@@ -501,10 +505,33 @@ function get_product_slug() {
 	return apply_filters( 'product_slug', $slug );
 }
 
-add_action( 'updated_option', 'rewrite_permalinks_after_update' );
+add_action( 'updated_option', 'rewrite_permalinks_after_update', 10, 3 );
 
-function rewrite_permalinks_after_update( $option ) {
+function rewrite_permalinks_after_update( $option, $old_value, $new_value ) {
 	if ( $option == 'product_archive' || $option == 'archive_multiple_settings' ) {
-		flush_rewrite_rules();
+		if ( $option == 'product_archive' ) {
+			$old_id	 = intval( $old_value );
+			$new_id	 = intval( $new_value );
+			if ( !empty( $new_id ) && $old_id !== $new_id ) {
+				$auto_add = false;
+
+				if ( !empty( $old_id ) ) {
+					$old_post = get_post( $old_id );
+					if ( !empty( $old_post->post_content ) && has_shortcode( $old_post->post_content, 'show_product_catalog' ) ) {
+						$auto_add = true;
+					}
+				} else if ( !empty( $new_id ) ) {
+					$auto_add = true;
+				}
+				if ( $auto_add && !empty( $new_id ) ) {
+					$new_post = get_post( $new_id );
+					if ( isset( $new_post->post_content ) && !has_shortcode( $new_post->post_content, 'show_product_catalog' ) ) {
+						$new_post->post_content = $new_post->post_content . '[show_product_catalog]';
+						wp_update_post( $new_post );
+					}
+				}
+			}
+		}
+		permalink_options_update();
 	}
 }

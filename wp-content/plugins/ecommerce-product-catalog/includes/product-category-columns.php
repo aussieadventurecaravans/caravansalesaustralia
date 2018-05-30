@@ -1,5 +1,4 @@
 <?php
-
 if ( !defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -35,7 +34,6 @@ function product_category_edit_form() {
 		} );
 	</script>
 	<?php
-
 }
 
 add_action( 'edit_al_product-cat', 'save_product_cat_image' );
@@ -89,7 +87,10 @@ add_filter( 'manage_edit-al_product-cat_columns', 'product_cat_columns' );
  * @return array
  */
 function product_cat_columns( $product_columns ) {
-	$product_columns				 = array_reverse( $product_columns );
+	$product_columns = array_reverse( $product_columns );
+	if ( !isset( $product_columns[ 'cb' ] ) ) {
+		return $product_columns;
+	}
 	$temp							 = $product_columns[ 'cb' ];
 	unset( $product_columns[ 'cb' ] );
 	unset( $product_columns[ 'slug' ] );
@@ -139,12 +140,119 @@ function get_product_category_image_id( $cat_id ) {
 	if ( function_exists( 'get_term_meta' ) ) {
 		$image_id = get_term_meta( $cat_id, 'thumbnail_id', true );
 	}
-	if ( empty( $image_id ) ) {
-		$image_id = get_option( 'al_product_cat_image_' . $cat_id );
-		if ( !empty( $image_id ) ) {
-			update_term_meta( $cat_id, 'thumbnail_id', intval( $image_id ) );
-			delete_option( 'al_product_cat_image_' . $cat_id );
+	if ( empty( $image_id ) && !metadata_exists( 'term', $cat_id, 'thumbnail_id' ) ) {
+		$image_id = intval( get_option( 'al_product_cat_image_' . $cat_id ) );
+		if ( empty( $image_id ) ) {
+			$image_id = '';
 		}
+		update_term_meta( $cat_id, 'thumbnail_id', $image_id );
+		delete_option( 'al_product_cat_image_' . $cat_id );
 	}
 	return apply_filters( 'ic_category_image_id', $image_id, $cat_id );
+}
+
+if ( !function_exists( 'vtde_php_upgrade_notice' ) ) {
+
+	add_action( 'al_product-cat_add_form_fields', 'ic_category_add_tinymce', 1, 0 );
+
+	function ic_category_add_tinymce() {
+
+		$settings = array(
+			'textarea_name'	 => 'description',
+			'textarea_rows'	 => 7,
+			'editor_class'	 => 'i18n-multilingual',
+		);
+		?>
+		<div class="form-field term-description-wrap">
+			<label for="tag-description"><?php _e( 'Description' ); ?></label>
+			<?php
+			wp_editor( '', 'html-tag-description', $settings );
+			ic_category_editor_word_count();
+			?>
+			<p><?php _e( 'The description is not prominent by default; however, some themes may show it.' ); ?></p>
+
+			<script type="text/javascript">
+				// Remove the non-html field
+				jQuery( 'textarea#tag-description' ).closest( '.form-field' ).remove();
+
+				jQuery( function () {
+					// Trigger save
+					jQuery( '#addtag' ).on( 'mousedown', '#submit', function () {
+						tinyMCE.triggerSave();
+					} );
+				} );
+
+			</script>
+		</div>
+		<?php
+	}
+
+	add_action( 'al_product-cat_edit_form_fields', 'ic_category_edit_tinymce', 1, 1 );
+
+	function ic_category_edit_tinymce( $tag ) {
+
+		$settings = array(
+			'textarea_name'	 => 'description',
+			'textarea_rows'	 => 10,
+			'editor_class'	 => 'i18n-multilingual',
+		);
+		?>
+		<tr class="form-field term-description-wrap">
+			<th scope="row"><label for="description"><?php _e( 'Description' ); ?></label></th>
+			<td>
+				<?php
+				wp_editor( htmlspecialchars_decode( $tag->description ), 'html-tag-description', $settings );
+				ic_category_editor_word_count();
+				?>
+				<p class="description"><?php _e( 'The description is not prominent by default; however, some themes may show it.' ); ?></p>
+			</td>
+		<script type="text/javascript">
+			// Remove the non-html field
+			jQuery( 'textarea#description' ).closest( '.form-field' ).remove();
+		</script>
+		</tr>
+		<?php
+	}
+
+	function ic_category_editor_word_count() {
+		?>
+		<div id="post-status-info">
+			<div id="description-word-count" class="hide-if-no-js" style="padding: 5px 10px;">
+				<?php
+				printf(
+				__( 'Word count: %s' ), '<span class="word-count">0</span>'
+				);
+				?>
+			</div>
+		</div>
+		<?php
+	}
+
+	add_action( 'admin_init', 'ic_category_remove_filters' );
+	add_action( 'edit_terms', 'ic_category_remove_filters' );
+
+	function ic_category_remove_filters( $term_id = null ) {
+		if ( !empty( $term_id ) ) {
+			$term		 = get_term( $term_id );
+			$taxonomy	 = $term->taxonomy;
+		} else if ( isset( $_GET[ 'taxonomy' ] ) && $_GET[ 'taxonomy' ] === 'al_product-cat' ) {
+			$taxonomy = $_GET[ 'taxonomy' ];
+		} else if ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] === 'editedtag' && isset( $_POST[ 'taxonomy' ] ) && $_POST[ 'taxonomy' ] === 'al_product-cat' ) {
+			$taxonomy = $_POST[ 'taxonomy' ];
+		}
+
+		if ( current_user_can( 'edit_product_categories' ) && (isset( $taxonomy ) && $taxonomy === 'al_product-cat') ) {
+
+			/* Remove the filters which disallow HTML in term descriptions */
+			remove_filter( 'pre_term_description', 'wp_filter_kses' );
+			remove_filter( 'term_description', 'wp_kses_data' );
+
+			/* Add filters to disallow unsafe HTML tags */
+			if ( !current_user_can( 'unfiltered_html' ) ) {
+				add_filter( 'pre_term_description', 'wp_kses_post' );
+				add_filter( 'term_description', 'wp_kses_post' );
+			}
+		}
+	}
+
 }

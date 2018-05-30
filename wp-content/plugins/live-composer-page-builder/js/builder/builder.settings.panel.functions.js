@@ -69,8 +69,11 @@ jQuery(document).ready(function($){
 
 	/* Initiate all the slider controls on the module options panel. */
 	jQuery('.dslca-container').on('mouseenter', '.dslca-module-edit-option-slider', function() {
-
-		dslc_module_options_numeric( this );
+		
+		// Fixed: https://github.com/live-composer/live-composer-page-builder/issues/740
+		if ( ! jQuery(this).hasClass( 'dslca-module-edit-option-select' ) ) {
+        	dslc_module_options_numeric( this );
+		}
 	});
 
 	/* Initiate all the slider controls on the row options panel. */
@@ -158,7 +161,7 @@ jQuery(document).ready(function($){
 
 		dslc_module_options_confirm_changes(function(){
 
-			LiveComposer.Builder.UI.initInlineEditors({withRemove:true});
+			// LiveComposer.Builder.UI.initInlineEditors({withRemove:true});
 			LiveComposer.Builder.UI.unloadOptionsDeps();
 			LiveComposer.Builder.Flags.panelOpened = false;
 
@@ -181,7 +184,7 @@ jQuery(document).ready(function($){
 
 		dslc_module_options_cancel_changes(function(){
 
-			LiveComposer.Builder.UI.initInlineEditors({withRemove:true});
+			// LiveComposer.Builder.UI.initInlineEditors({withRemove:true});
 			LiveComposer.Builder.UI.unloadOptionsDeps();
 			LiveComposer.Builder.Flags.panelOpened = false;
 
@@ -199,17 +202,13 @@ jQuery(document).ready(function($){
 (function() {
 
 	var $ = jQuery;
-
 	var self = LiveComposer.Builder;
-
 	LiveComposer.Builder.Helpers.colorpickers = [];
-
+/*
 	LiveComposer.Builder.UI.initInlineEditors = function(params){
-
 		params = params || {};
 
 		if ( params.withRemove == true ) {
-
 			try {
 				LiveComposer.Builder.PreviewAreaWindow.tinyMCE.remove();
 			} catch(err) {
@@ -235,9 +234,9 @@ jQuery(document).ready(function($){
 					{title: 'Header 6', format: 'h6'},
 			  ],
 			toolbar: 'styleselect | bold italic blockquote | removeformat | bullist numlist '
-		}); /* link unlink */
+		});
 	}
-
+*/
 	/* Destroy instanced of sliders, color pickers and other temporary elements */
 	LiveComposer.Builder.UI.clearUtils = function() {
 
@@ -330,10 +329,36 @@ jQuery(document).ready(function($){
 								checkedCheckbox = $(optElem).is(":checked");
 							}
 
+							var section_tab = jQuery('.dslca-module-edit-options-tab-hook.dslca-active').data('id');
+
 							if ( optElem.value == opt_val && checkedCheckbox ) {
 
-								opt_wrap.show();
+								if ( opt_wrap.not( ".dependent" ) ) {
+									opt_wrap.addClass('dependent');
+								}
+
+								if ( opt_wrap.hasClass('dep-hide') ) {
+									opt_wrap.removeClass('dep-hide');
+									opt_wrap.addClass('dep-show');
+								} else {
+									opt_wrap.addClass('dep-show');
+								}
+
+								if ( section_tab == opt_wrap.data('tab') ) {
+									opt_wrap.show();
+								}
 							} else {
+
+								if ( opt_wrap.not( ".dependent" ) ) {
+									opt_wrap.addClass('dependent');
+								}
+
+								if ( opt_wrap.hasClass('dep-show') ) {
+									opt_wrap.removeClass('dep-show');
+									opt_wrap.addClass('dep-hide');
+								} else {
+									opt_wrap.addClass('dep-hide');
+								}
 
 								opt_wrap.hide();
 							}
@@ -556,7 +581,8 @@ function dslc_module_options_hideshow_tabs() {
 		dslcElQuote = true,
 		dslcElAuthorName = true,
 		dslcElAuthorPos = true,
-		dslcElImage = true;
+		dslcElImage = true,
+		dslcElLogo = true;
 
 
 		// Is heading selected?
@@ -689,6 +715,11 @@ function dslc_module_options_hideshow_tabs() {
 		// Is image enabled?
 		if ( ! jQuery('.dslca-module-edit-field[data-id*="elements"][value="image"]').is(':checked') ) {
 			dslcElImage = false;
+		}
+
+		// Is logo enabled?
+		if ( ! jQuery('.dslca-module-edit-field[data-id*="elements"][value="logo"]').is(':checked') ) {
+			dslcElLogo = false;
 		}
 
 
@@ -844,6 +875,12 @@ function dslc_module_options_hideshow_tabs() {
 		else
 			jQuery('.dslca-module-edit-options-tab-hook[data-id="image_styling"]').hide();
 
+		// Show/Hide Quote
+		if ( dslcElLogo )
+			jQuery('.dslca-module-edit-options-tab-hook[data-id="logo_styling"]').show();
+		else
+			jQuery('.dslca-module-edit-options-tab-hook[data-id="logo_styling"]').hide();
+
 	}
 
 	/**
@@ -894,6 +931,33 @@ function dslc_module_options_hideshow_tabs() {
 	}
 
 	jQuery('.dslca-module-edit-option[data-id="css_res_p"], .dslca-module-edit-option[data-id="css_res_t"]').css( 'visibility', 'visible' );
+
+
+	if ( jQuery('.dslca-options-filter-hook').hasClass('dslca-active') ) {
+		var section_tab = jQuery('.dslca-options-filter-hook.dslca-active').data('section');
+
+		if ( jQuery('.dslca-module-edit-option[data-section="' + section_tab + '"]').hasClass('dep-show') ) {
+			jQuery('.dslca-module-edit-option.dep-show').show();
+		}
+
+		if ( jQuery('.dslca-module-edit-option[data-section="' + section_tab + '"]').hasClass('dep-hide') ) {
+			jQuery('.dslca-module-edit-option.dep-hide').hide();
+		}
+	}
+	
+	if ( jQuery('.dslca-module-edit-options-tab-hook').hasClass('dslca-active') ) {
+		var data_tab = jQuery('.dslca-module-edit-options-tab-hook.dslca-active').data('id');
+		
+		if ( jQuery('.dslca-module-edit-option[data-tab="' + data_tab + '"]').hasClass('dependent') ) {
+
+			jQuery('.dslca-module-edit-option.dependent').hide();
+			jQuery('.dslca-module-edit-option[data-tab="' + data_tab + '"].dep-show').show();
+			jQuery('.dslca-module-edit-option[data-tab="' + data_tab + '"].dep-hide').hide();
+		} else {
+			
+			jQuery('.dslca-module-edit-option.dependent').hide();
+		}
+	}
 }
 
 /**

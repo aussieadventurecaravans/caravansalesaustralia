@@ -6,7 +6,7 @@ function qcf_setup ($id) {
     $qcf_apikey = get_option('qcf_akismet');
     
     if( isset( $_POST['Submit']) && check_admin_referer("save_qcf")) {
-        $options = array('alternative','current','nostyling','noui','location');
+        $options = array('alternative','current','nostyling','noui','location','nostore');
         foreach ( $options as $item) {
             $qcf_setup[$item] = stripslashes($_POST[$item]);
             $qcf_setup[$item] =filter_var($qcf_setup[$item],FILTER_SANITIZE_STRING);
@@ -71,13 +71,13 @@ function qcf_setup ($id) {
     
     $new = '<div class="qpupgrade"><a href="?page=quick-contact-form/settings.php&tab=extensions">
     <h3>'.__('Upgrade to Pro','qcf').'</h3>
-    <p>'.__('Upgrading let you create a mailing list, send emails from your dashboard and access all form attachments. All for just $10.','qcf').'</p>
+    <p>'.__('Upgrading let you create a mailing list, send emails from your dashboard and access all form attachments. All for just $20.','qcf').'</p>
     <p>'.__('Click here to find out more','qcf').'</p>
     </a></div>';
     
     $qppkey = get_option('qpp_key');
     qcf_admin_notice(null);
-    $$qcf_setup['location'] = 'checked';
+    ${$qcf_setup['location']} = 'checked';
     $current_user = wp_get_current_user();
     $new_email = $current_user->user_email;
     if ($qcf_setup['alternative'] == '' && $qcf_email[''] == '') $qcf_email[''] = $new_email;
@@ -123,6 +123,8 @@ function qcf_setup ($id) {
     <p><input type="submit" name="Validate" class="qcf-button" value="Activate Akismet Validation" /> <input type="submit" name="Delete" class="qcf-button" value="Deactivate Aksimet Validation" onclick="return window.confirm( \'This will delete the Akismet Key.\nAre you sure you want to do this?\' );"/></p>
     <p><input type="checkbox" style="margin:0; padding: 0; border: none" name="nostyling"' . $qcf_setup['nostyling'] . ' value="checked" /> Remove all form styles</p>
     <p><input type="checkbox" style="margin:0; padding: 0; border: none" name="noui"' . $qcf_setup['noui'] . ' value="checked" /> Remove all jQuery  styles</p>
+    <p><input style="margin:0; padding:0; border: none"type="checkbox" name="nostore" ' . $qcf_setup['nostore'] . ' value="checked"> Do not store messages in the database</p>
+    
     <h2>Styles Location</h2>
     <p><input style="margin:0; padding:0; border:none;" type="radio" name="location" value="php" ' . $php . ' /> Extenal Stylesheet<br />
     <input style="margin:0; padding:0; border:none;" type="radio" name="location" value="head" ' . $head . ' /> Document Head</p>
@@ -155,7 +157,7 @@ function qcf_setup ($id) {
     $content .= '<p><span style="font-weight:bold"><a href="?page=quick-contact-form/settings.php&tab=buildlist">'.__('Mail Lists','qcf').'.</a></span> '.__('Build an email list and send messages.','qcf');
     if (!$qppkey['authorised']) $content .= ' '.__('QCF Pro users only.','qcf');
     $content .= '</p>
-    <p><span style="font-weight:bold"><a href="?page=quick-contact-form/quick-contact-messages.php">Message Centre.</a></span> See all messages. Or click on the <b>Message</b> link in the dashboard menu.</p>
+    <p><span style="font-weight:bold"><a href="?page=quick-contact-form/messages.php">Message Centre.</a></span> See all messages. Or click on the <b>Message</b> link in the dashboard menu.</p>
     <h2>Support</h2>
     <p>If you have any questions visit the <a href="http://quick-plugins.com/quick-contact-form/">plugin support page</a> or email me at <a href="mailto:mail@quick-plugins.com">mail@quick-plugins.com</a>.</p>';
     $content .= qcfdonate_loop();
@@ -178,7 +180,8 @@ function qcf_form_settings($id) {
         'field11',
         'field12',
         'field13',
-        'field14'
+        'field14',
+        'field15'
     );
     qcf_change_form_update();
     
@@ -233,11 +236,12 @@ function qcf_form_settings($id) {
     $qcf_setup = qcf_get_stored_setup();
     $id = $qcf_setup['current'];
     $qcf = qcf_get_stored_options($id);
-    $$qcf['fieldtype'] = 'checked';
-    $$qcf['fieldtypeb'] = 'checked';
-    $$qcf['selectora'] = 'checked';
-    $$qcf['selectorb'] = 'checked';
-    $$qcf['selectorc'] = 'checked';
+    
+    ${$qcf['fieldtype']} = 'checked';
+    ${$qcf['fieldtypeb']} = 'checked';
+    ${$qcf['selectora']} = 'checked';
+    ${$qcf['selectorb']} = 'checked';
+    ${$qcf['selectorc']} = 'checked';
     $content = '<script>
     jQuery(function() {
     var qcf_sort = jQuery( "#qcf_sort" ).sortable({ axis: "y" ,
@@ -342,6 +346,10 @@ function qcf_form_settings($id) {
 <input type="text" style="border:1px solid #415063; width:3em;" name="initial" . value ="' . $qcf['initial'] . '" />&nbsp;Initial value<br>
 <input type="text" style="border:1px solid #415063; width:3em;" name="step" . value ="' . $qcf['step'] . '" />&nbspStep';
             break;
+            case 'field15': 
+            $type = 'Consent'; 
+            $options = '<span class="description">Add a checkbox to permit data storage.</span>'; 
+            break;
         }
         $li_class = ( $checked) ? 'button_active' : 'button_inactive';
         $content .= '<li class="'.$li_class.'" id="' . $name . '">
@@ -350,7 +358,7 @@ function qcf_form_settings($id) {
         <div style="float:left; width:30%;">
         <input type="text" style="border: border:1px solid #415063; padding: 1px; margin:0;" name="label_' . $name . '" value="' . $qcf['label'][$name] . '"/></div>
         <div style="float:left;width:5%">';
-        $exclude = array("field12");
+        $exclude = array("field12","field15");
         if(!in_array($name, $exclude)) $content .='<input type="checkbox" class="button_activate" style="border: none; padding: 0; margin:0 0 0 5px;" name="required_'.$name.'" '.$required.' /> ';
         else $content .='&nbsp;';
         $content .= '</div><div style="float:left;width:45%">'.$options . '</div><div style="clear:left"></div></li>';
@@ -558,15 +566,15 @@ function qcf_styles($id) {
     $id=$qcf_setup['current'];
     $qcf = qcf_get_stored_options($id);
     $style = qcf_get_stored_style($id);
-    $$style['font'] = 'checked';
-    $$style['widthtype'] = 'checked';
-    $$style['submitwidth'] = 'checked';
-    $$style['submitposition'] = 'checked';
-    $$style['border'] = 'checked';
-    $$style['background'] = 'checked';
-    $$style['corners'] = 'checked';
-    $$style['header'] = 'checked';
-    $$style['header-type'] = 'checked';
+    ${$style['font']} = 'checked';
+    ${$style['widthtype']} = 'checked';
+    ${$style['submitwidth']} = 'checked';
+    ${$style['submitposition']} = 'checked';
+    ${$style['border']} = 'checked';
+    ${$style['background']} = 'checked';
+    ${$style['corners']} = 'checked';
+    ${$style['header']} = 'checked';
+    ${$style['header-type']} = 'checked';
     $content = qcf_head_css();
     $content .= '<div class="qcf-settings"><div class="qcf-options">';
     if ($id) $content .='<h2 style="color:#B52C00">Styles for ' . $id . '</h2>';
@@ -759,7 +767,7 @@ function qcf_styles($id) {
     <h2>Custom CSS</h2>
     <p><input type="checkbox" style="margin:0; padding: 0; border: none" name="use_custom"' . $style['use_custom'] . ' value="checked" /> Use Custom CSS</p>
     <p><textarea style="height: 100px" name="styles">' . $style['styles'] . '</textarea></p>
-    <p>To see all the styling use the <a href="'.get_admin_url().'plugin-editor.php?file=quick-contact-form/quick-contact-form.css">CSS editor</a>.</p>
+    <p>To see all the styling use the <a href="'.get_admin_url().'plugin-editor.php?file=quick-contact-form/styles.css">CSS editor</a>.</p>
     <p>The main style wrapper is the <code>.qcf-style</code> id.</p>
     <p>The form borders are: #none, #plain, #rounded, #shadow, #roundshadow.</p>
     <p>Errors and required fields have the classes .error and .required</p>
@@ -799,7 +807,8 @@ function qcf_reply_page($id) {
             'qcf_bcc',
             'sendcopy',
             'copy_message',
-            'bodyhead'
+            'bodyhead',
+            'activecampaign_title'
         );
         foreach ( $options as $item) {
             $reply[$item] = stripslashes($_POST[$item]);
@@ -817,8 +826,8 @@ function qcf_reply_page($id) {
     $qcf_setup = qcf_get_stored_setup();
     $id=$qcf_setup['current'];
     $reply = qcf_get_stored_reply($id);
-    $$reply['subjectoption'] = "checked";
-    $$reply['qcfmail'] = "checked";
+    ${$reply['subjectoption']} = "checked";
+    ${$reply['qcfmail']} = "checked";
     $content = qcf_head_css();
     $content .= '<div class="qcf-settings"><div class="qcf-options">';
     if ($id) $content .='<h2 style="color:#B52C00">Send options for ' . $id . '</h2>';
@@ -904,6 +913,12 @@ function qcf_reply_page($id) {
     <tr>
     <td></td>
     <td><input type="checkbox" name="qcf_reload" ' . $reply['qcf_reload'] . ' value="checked"> Refresh the page <input style="width:2em" type="text" name="qcf_reload_time" value="' . $reply['qcf_reload_time'] . '" /> seconds after the thank-you message.</td>
+    </tr>
+    <tr>
+    <td colspan="2"><h2>Active Campaign Header</h2></td>
+    </tr>
+    <tr>
+    <td colspan="2"><input type="text" name="activecampaign_title" value="' . $reply['activecampaign_title'] . '"/></td>
     </tr>
     </table>
     <p><input type="submit" name="Submit" class="qcf-button" value="Save Changes" /> <input type="submit" name="Reset" class="qcf-button" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the reply settings for '.$id.'?\' );"/></p>';
@@ -1067,7 +1082,7 @@ function qcf_extensions($id) {
         <input type="hidden" name="currency_code" value="USD">
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="quantity" value="1">
-        <input type="hidden" name="amount" value="10">
+        <input type="hidden" name="amount" value="20">
         <input type="hidden" name="notify_url" value = "'.site_url('/?qcf_upgrade_ipn').'">
         <input type="hidden" name="custom" value="'.$qppkey['key'].'">
         </form>
@@ -1103,13 +1118,29 @@ function qcf_extensions($id) {
             'enable',
             'mailchimpoptin',
             'mailchimpkey',
-            'mailchimplistid'
+            'mailchimplistid',
+            'nooptin'
         );
         foreach ( $options as $item) {
             $list[$item] = stripslashes($_POST[$item]);
         }
         update_option( 'qcf_mailinglist', $list );
-        qcf_admin_notice("The mailinglist settings have been updated.");
+        qcf_admin_notice("The Mailchimp settings have been updated.");
+    }
+    
+    if( isset( $_POST['Active']) && check_admin_referer("save_qcf")) {
+        $options = array(
+            'activecampaign_enable',
+            'activecampaign_optin',
+            'activecampaign_url',
+            'activecampaign_api_key',
+            'activecampaign_nooptin'
+        );
+        foreach ( $options as $item) {
+            $list[$item] = stripslashes($_POST[$item]);
+        }
+        update_option( 'qcf_activecampaign', $list );
+        qcf_admin_notice("The Active Campaign settings have been updated.");
     }
     
     if( isset( $_POST['Redirect'])) {
@@ -1140,9 +1171,14 @@ function qcf_extensions($id) {
 		qcf_admin_notice("The settings have been updated.");	
 		}
     
-    if( isset( $_POST['Reset']) && check_admin_referer("save_qcf")) {
+    if( isset( $_POST['Resetmc']) && check_admin_referer("save_qcf")) {
         delete_option('qcf_mailinglist');
         qcf_admin_notice("The mailinglist settings have been reset.");
+    }
+    
+    if( isset( $_POST['Resetac']) && check_admin_referer("save_qcf")) {
+        delete_option('qcf_activecampaign');
+        qcf_admin_notice("The Active Campaign settings have been reset.");
     }
 	
     if( isset( $_POST['Delete']) && check_admin_referer("save_qcf")) {
@@ -1158,23 +1194,38 @@ function qcf_extensions($id) {
     $qcf = qcf_get_stored_options($id);
     $qcf_redirect = qcf_get_stored_redirect($id);
     $emails = qcf_get_stored_emails($id);
-    $$qcf_redirect['whichlist'] = 'checked';
+    ${$qcf_redirect['whichlist']} = 'checked';
     $qppkey = get_option('qpp_key');
 	$list = qcf_get_stored_mailinglist();
+    $ac = qcf_get_stored_activecampaign_mailinglist();
 	$content = qcf_head_css();
     $content .= '<div class="qcf-settings">';
     if ($qppkey['authorised']) {
         $content .='<div class="qcf-options">
+        <h2>Active Campaign</h2>
+        <form method="post" action="">
+        <p><input type="checkbox" style="margin: 0; padding: 0; border: none;" name="activecampaign_enable"' . $ac['activecampaign_enable'] . ' value="checked" /> Enable Active Campaign data collection.</p>
+        <p><b>Note:</b> '.__('This will only work if you are collecting names and email addresses','qcf').'</p>
+        <p>'.__('Opt-in message message:','qcf').' <input type="text" name="activecampaign_optin" value="' . $ac['activecampaign_optin'] . '" /></p>
+        <p>'.__('Active Campaign API Key','qcf').': <input type="text" name="activecampaign_api_key" value="' . $ac['activecampaign_api_key'] . '" /></p>
+        <p>'.__('Active Campaign URL','qcf').': <input type="text" name="activecampaign_url" value="' . $ac['activecampaign_url'] . '" /></p>
+        <p><input type="checkbox" name="activecampaign_nooptin" ' . $ac['activecampaign_nooptin'] . ' value="checked" />Optin not required</p>
+        <p><input type="submit" name="Active" class="qcf-button" value="Save Active Campaign Settings" /> <input type="submit" name="Resetac" class="qcf-button" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the Active Campaign settings?\' );"/></p>';
+        $content .= wp_nonce_field("save_qcf");
+        $content .= '</form>
+        
         <h2>Mailchimp</h2>
         <form method="post" action="">
         <p><input type="checkbox" style="margin: 0; padding: 0; border: none;" name="enable"' . $list['enable'] . ' value="checked" /> Enable Mailchimp data collection.</p>
         <p><b>Note:</b> '.__('This will only work if you are collecting names and email addresses','qcf').'</p>
         <p>'.__('Opt-in message message:','qcf').' <input type="text" name="mailchimpoptin" value="' . $list['mailchimpoptin'] . '" /></p>
-        <p>'.__('Your mailchimp API Key:','qcf').' <input type="text" name="mailchimpkey" value="' . $list['mailchimpkey'] . '" /></p>
-        <p>'.__('The mailchimp list ID:','qcf').' <input type="text" name="mailchimplistid" value="' . $list['mailchimplistid'] . '" /></p>
-        <p><input type="submit" name="Mailchimp" class="qcf-button" value="Save Changes" /> <input type="submit" name="Reset" class="qcf-button" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the Mailchimp settings?\' );"/></p>';
+        <p>'.__('Your Mailchimp API Key:','qcf').' <input type="text" name="mailchimpkey" value="' . $list['mailchimpkey'] . '" /></p>
+        <p>'.__('The Mailchimp list ID:','qcf').' <input type="text" name="mailchimplistid" value="' . $list['mailchimplistid'] . '" /></p>
+        <p><input type="checkbox" name="nooptin" ' . $list['nooptin'] . ' value="checked" />Optin not required</p>
+        <p><input type="submit" name="Mailchimp" class="qcf-button" value="Save Mailchimp Settings" /> <input type="submit" name="Resetmc" class="qcf-button" value="Reset" onclick="return window.confirm( \'Are you sure you want to reset the Mailchimp settings?\' );"/></p>';
         $content .= wp_nonce_field("save_qcf");
         $content .= '</form>
+        
         <hr>
         <h2>Build an email list</h2>
         <p>'.__('Set up your own mailing list and send emails from your dashboard','qcf').'.</p>
@@ -1210,7 +1261,7 @@ function qcf_extensions($id) {
         <h2>Redirection on Submission</h2>';
         $content .= '<p>You can redirect visitors to a specific page depending on their choice from the dropdown or radio fields. Select which list you want to use and Save settings then add the URL of the target pages. If you are using permalinks you only need the postname.</p>
         <form method="post" action="">
-        <p><input type="checkbox" style="margin: 0; padding: 0; border: none;" name="redirectenable"' . $emails['redirectenable'] . ' value="checked" /> Enable selector redirection.</p>
+        <p><input type="checkbox" name="redirectenable"' . $emails['redirectenable'] . ' value="checked" /> Enable selector redirection.</p>
         <p><input type="radio" name="whichlist" value="dropdownlist" '.$dropdownlist.'><label for="dropdownlist">Dropdown ('.$qcf['dropdownlist'].')</label><br>
         <input type="radio" name="whichlist" value="radiolist" '.$radiolist.'><label for="radiolist">Redio ('.$qcf['radiolist'].')</label></p>
         <table>
@@ -1237,7 +1288,7 @@ function qcf_extensions($id) {
         <p>'.__('You can also send email to selected people from the Message Centre','qcf').'</p>
         <h3>'.__('View and access message attachments in the message centre','qcf').'</h3>
         <p><a href="'.plugin_dir_url( __FILE__ ).'images/demo2.jpg"><img style="max-width:400px;" src="'.plugin_dir_url( __FILE__ ).'images/demo2.jpg"></a></p>
-        <h2>'.__('All this for just $10','qcf').'</h2>
+        <h2>'.__('All this for just $20','qcf').'</h2>
         <p>'.__('Click the button below to pay for your upgrade','qcf').'. '.__('Once payment has cleared upgrading is automatic','qcf').'. '.__('But if something does go awry you will get an email with an authorisation key that you can enter below.','qcf').'</p>
         <form method="post" action="">
         <p><input type="submit" name="Upgrade" class="qcf-button" value="'.__('Upgrade to Pro', 'qcf').'" /></p>
@@ -1252,6 +1303,7 @@ function qcf_extensions($id) {
     $content .= '</div>';
 	echo $content;
 }
+
 
 // Build Mailing List
 
@@ -1441,7 +1493,7 @@ function qcf_buildlist_page() {
         $content .= wp_nonce_field("save_qcf");
         $content .= '</form>';
     } else {
-        $content .= '<p>'.__('To build a mailing list','qcf').' <a href="?page=quick-contact-form/settings.php&tab=extensions">'.__('Upgrade to Pro','qcf').'</a>. '.__('It\'s only $10','qcf').'.</p>
+        $content .= '<p>'.__('To build a mailing list','qcf').' <a href="?page=quick-contact-form/settings.php&tab=extensions">'.__('Upgrade to Pro','qcf').'</a>. '.__('It\'s only $20','qcf').'.</p>
         <h2>Not Interested?</h2>
         <p>Would you consider upgrading if I offered Mail Chimp integration? If enough people want this feature I will add it to the Upgrade options</p>
         <p><form method="post" action=""><input type="submit" name="Interest" class="qcf-button" value="Click here to register your interest" />';
@@ -1497,7 +1549,7 @@ function qcf_sendtolist_page() {
     $message = $auto['message'];
     $content .= '<div class="qcf-settings"><div class="qcf-options" style="width:90%;">';
 	$content .='<h2 style="color:#B52C00">Email Everyone</h2>';
-	$content .='<p>Send an email to everyone in your <a href="?page=quick-contact-form/settings.php&tab=buildlist">Mailing List</a> or selected names from the <a href="?page=quick-contact-form/quick-contact-messages.php">Message Center</a>.</p>
+	$content .='<p>Send an email to everyone in your <a href="?page=quick-contact-form/settings.php&tab=buildlist">Mailing List</a> or selected names from the <a href="?page=quick-contact-form/messages.php">Message Center</a>.</p>
     <p style="color:red"><b>Important!</b> Check with your hosting provider for restrictions on the number and frequency of emails you can send.</p>
     <form method="post" action="">
     <p>From Name (<span class="description">Defaults to your <a href="'. get_admin_url().'options-general.php">Site Title</a> if left blank.</span>):<br>
@@ -1609,9 +1661,9 @@ function qcf_smtp_page() {
 		qcf_admin_notice("The SMTP settings have been reset.");
 		}
     $qcfsmtp = qcf_get_stored_smtp ();
-    $$qcfsmtp['mailer'] = 'checked';
-    $$qcfsmtp['smtp_ssl'] = 'checked';
-    $$qcfsmtp['smtp_auth'] = 'checked';
+    ${$qcfsmtp['mailer']} = 'checked';
+    ${$qcfsmtp['smtp_ssl']} = 'checked';
+    ${$qcfsmtp['smtp_auth']} = 'checked';
     $content = qcf_head_css();
     $content .= '<div class="qcf-settings"><div class="qcf-options">';
     $content .= wp_nonce_field('email-options');
@@ -1692,7 +1744,7 @@ function qcf_admin_notice($message) {
         <li>View and access email attachments from the message center</li> 
         <li>Add people to a Mailchimp list</li>
         <li>Send the message to different departments or send visitors to different thank you pages depending on how they filled in the form</li></ul>
-        <p>All for $10. <b><a href="?page=quick-contact-form/settings.php&tab=extensions">Find out more...</a></b></p></div>';
+        <p>All for $20. <b><a href="?page=quick-contact-form/settings.php&tab=extensions">Find out more...</a></b></p></div>';
 		delete_transient( 'qcf-admin-notice' );
 	}
 }
@@ -1831,7 +1883,8 @@ $formvalues = array();
 }
 
 function qcf_admin_pages() {
-    add_menu_page('Messages', 'Messages', 'manage_options','quick-contact-form/quick-contact-messages.php','','dashicons-email-alt');
+    $qcf_setup = qcf_get_stored_setup();
+    if (!$qcf_setup['nostore']) add_menu_page('Messages', 'Messages', 'manage_options','quick-contact-form/messages.php','','dashicons-email-alt');
 }
 function qcf_page_init() {
     add_options_page('Quick Contact', 'Quick Contact', 'manage_options', __FILE__, 'qcf_tabbed_page');

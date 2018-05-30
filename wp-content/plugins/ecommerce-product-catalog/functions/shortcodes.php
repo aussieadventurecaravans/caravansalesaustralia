@@ -59,6 +59,7 @@ function product_cat_shortcode( $atts ) {
 	}
 	//$div		 = '<div class="product-subcategories responsive ' . $args[ 'archive_template' ] . ' ' . product_list_class( $args[ 'archive_template' ], 'category-list' ) . '">';
 	$taxonomy						 = apply_filters( 'show_categories_taxonomy', 'al_product-cat', $args );
+	$args[ 'taxonomy' ]				 = $taxonomy;
 	$cat_shortcode_query[ 'enable' ] = $args[ 'shortcode_query' ];
 	$product_sort					 = intval( $args[ 'sort' ] );
 	$inside							 = '';
@@ -69,7 +70,7 @@ function product_cat_shortcode( $atts ) {
 	if ( $args[ 'parent' ] == '' && empty( $args[ 'include' ] ) ) {
 		//$old_args			 = $args;
 		$args[ 'parent' ]				 = '0';
-		$cats							 = get_terms( $taxonomy, $args );
+		$cats							 = get_terms( $args );
 		$cat_shortcode_query[ 'count' ]	 = count( $cats );
 
 		foreach ( $cats as $cat ) {
@@ -78,7 +79,7 @@ function product_cat_shortcode( $atts ) {
 			$inside	 .= get_sub_product_subcategories( $args, $cat );
 		}
 	} else {
-		$cats							 = get_terms( $taxonomy, $args );
+		$cats							 = get_terms( $args );
 		$cat_shortcode_query[ 'count' ]	 = count( $cats );
 
 		foreach ( $cats as $cat ) {

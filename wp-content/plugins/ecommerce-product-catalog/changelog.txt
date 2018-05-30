@@ -1,5 +1,101 @@
 == Changelog ==
 
+= 2.7.25 - 02/03/2018 =
+
+* Fix - better session handling on some configurations
+
+= 2.7.24 - 02/03/2018 =
+
+* Tweak - template file for shortcode integration container
+
+= 2.7.23 - 23/02/2018 =
+
+* Tweak - shortcode product catalog compatibility with more themes
+
+= 2.7.22 - 13/02/2018 =
+
+* Fix - pagination on main product listing page with shortcode integration
+
+= 2.7.21 - 08/02/2018 =
+
+* Fix - multiple titles on category page on some themes
+
+= 2.7.20 - 06/02/2018 =
+
+* Tweak - startup tutorial added
+
+= 2.7.19 - 30/01/2018 =
+
+* Fix - product page not displaying properly on some configurations
+
+= 2.7.18 - 29/01/2018 =
+
+* Tweak - show admin notices only on catalog admin pages
+* Tweak - better page builders support for eCommerce pages
+
+= 2.7.17 - 23/01/2018 =
+
+* Tweak - shortcode integration improved
+* Fix - price filter fixed
+
+= 2.7.16 - 10/01/2018 =
+
+* Fix - search pagination fixed
+* Fix - shortcode integration improved on category pages
+
+= 2.7.15 - 04/01/2018 =
+
+* Tweak - support for categories import from other post type
+* Tweak - compatibility info modified
+
+= 2.7.14 - 02/01/2018 =
+
+* Tweak - support for multiple product categories import
+* Tweak - ecommerce multilingual support improved
+
+= 2.7.13 - 18/12/2017 =
+
+* Tweak - shortcode theme integration improved
+
+= 2.7.12 - 13/12/2017 =
+
+* Tweak - shortcode theme integration improved
+
+= 2.7.11 - 11/12/2017 =
+
+* Tweak - more unique class name for tooltips to avoid incompatibility with other plugins
+* Tweak - code improvements for even better performance and readability
+
+= 2.7.10 - 06/12/2017 =
+
+* Tweak - code improvements for even better performance and readability
+
+= 2.7.9 - 09/11/2017 =
+
+* Fix - show only subcategories setting with eCommerce shortcode integration
+
+= 2.7.8 - 04/11/2017 =
+
+* Fix - product name on classic grid listing
+
+= 2.7.7 - 03/11/2017 =
+
+* Tweak - new shortcode theme integration method for eCommerce Product Catalog
+* Tweak - multiple code improvements for even better performance and readability
+
+= 2.7.6 - 31/10/2017 =
+
+* Tweak - support for comma decimal separator in price filter
+
+= 2.7.5 - 23/10/2017 =
+
+* Tweak - support for decimal price in eCommerce price filter
+
+= 2.7.4 - 05/07/2017 =
+
+* Tweak - compatibility with WordPress password protected feature
+* Tweak - admin edit links on product page when logged in as admin
+
 = 2.7.3 - 12/06/2017 =
 
 * Tweak - speed optimization for eCommerce Product Catalog CSS and JS files on product display pages

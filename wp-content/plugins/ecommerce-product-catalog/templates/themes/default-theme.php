@@ -57,67 +57,73 @@ function get_default_archive_theme( $post, $archive_template = null ) {
 	$archive_template	 = isset( $archive_template ) ? $archive_template : get_product_listing_template();
 	$return				 = '';
 	if ( $archive_template == 'default' ) {
-		$product_id				 = $post->ID;
-		$archive_price			 = apply_filters( 'archive_price_filter', '', $post );
-		$modern_grid_settings	 = get_modern_grid_settings();
-		$image_id				 = get_post_thumbnail_id( $product_id );
-		$thumbnail_product		 = wp_get_attachment_image_src( $image_id, 'modern-grid-listing' );
-		$product_name			 = wp_strip_all_tags( get_the_title() );
-		if ( $thumbnail_product ) {
-			$url					 = $thumbnail_product[ 0 ];
-			$img_class[ 'alt' ]		 = $product_name;
-			$img_class[ 'class' ]	 = "modern-grid-image";
-			if ( !empty( $thumbnail_product[ 2 ] ) ) {
-				$ratio = $thumbnail_product[ 1 ] / $thumbnail_product[ 2 ];
-				if ( $ratio <= 1.35 && $ratio > 1.20 ) {
-					$img_class[ 'class' ] .= " higher";
-				} else if ( $ratio <= 1.15 ) {
-					$img_class[ 'class' ] .= " higher rect";
-				} else if ( $ratio > 2 ) {
-					$img_class[ 'class' ] .= " wider rect";
-				}
-			}
-			$image = wp_get_attachment_image( $image_id, 'modern-grid-listing', false, $img_class );
-		} else {
-			$url	 = default_product_thumbnail_url();
-			$image	 = '<img class="modern-grid-image" src="' . $url . '" alt="' . $product_name . '">';
+		remove_all_filters( 'ic_listing_image_html_' . $post->ID );
+		add_filter( 'ic_listing_image_html_' . $post->ID, 'ic_set_modern_grid_image_html', 10, 2 );
+		if ( !has_filter( 'product-class', 'ic_modern_grid_size_class' ) ) {
+			add_filter( 'product-class', 'ic_modern_grid_size_class', 10, 2 );
 		}
-		$return	 = '<div class="al_archive product-' . $product_id . ' modern-grid-element ' . design_schemes( 'box', 0 ) . ' ' . product_listing_size_class( $thumbnail_product ) . ' ' . product_class( $product_id ) . '">';
-		$return	 .= '<div class="pseudo"></div>';
-		$return	 .= '<a href="' . get_permalink( $product_id ) . '">' . $image;
-		$return	 .= '<h3 class="product-name ' . design_schemes( 'box', 0 ) . '">' . $product_name . '</h3>';
-		if ( $modern_grid_settings[ 'attributes' ] == 1 && function_exists( 'product_attributes_number' ) ) {
-			$attributes_number = product_attributes_number();
-			if ( $attributes_number > 0 && has_product_any_attributes( $product_id ) ) {
-				$max_listing_attributes	 = apply_filters( 'max_product_listing_attributes', $modern_grid_settings[ 'attributes_num' ] );
-				$return					 .= '<div class="product-attributes"><table class="attributes-table">';
-				$a						 = 0;
-				for ( $i = 1; $i <= $attributes_number; $i++ ) {
-					$attribute_value = get_attribute_value( $i, $product_id );
-					if ( !empty( $attribute_value ) ) {
-						$return .= '<tr><td class="attribute-label-listing">' . get_attribute_label( $i, $product_id ) . '</td><td><span class="attribute-value-listing">' . get_attribute_value( $i, $product_id ) . '</span> <span class="attribute-unit-listing">' . get_attribute_unit( $i, $product_id ) . '</span></td></tr>';
-						$a++;
-					}
-					if ( $a == $max_listing_attributes ) {
-						break;
-					}
-				}
-				$return .= '</table></div>';
-			}
-		}
-		$return .= $archive_price . '</a></div>';
+		ob_start();
+		ic_show_template_file( 'product-listing/modern-grid.php' );
+		$return = ob_get_clean();
 	}
 	return $return;
 }
 
-/**
- * Returns modern grid element for a given product category
- *
- * @param object $product_cat Product category object
- * @param string $archive_template
- * @return string
- */
-function get_default_category_theme( $product_cat, $archive_template ) {
+function ic_modern_grid_size_class( $class, $product_id ) {
+	$image_id = get_post_thumbnail_id( $product_id );
+	if ( !empty( $image_id ) ) {
+		$thumbnail_product	 = wp_get_attachment_image_src( $image_id, 'modern-grid-listing' );
+		$class				 .= product_listing_size_class( $thumbnail_product );
+	}
+	return $class;
+}
+
+function ic_modern_grid_category_size_class( $class, $category_id ) {
+	$image_id = get_product_category_image_id( $category_id );
+	if ( !empty( $image_id ) ) {
+		$thumbnail_product	 = wp_get_attachment_image_src( $image_id, 'modern-grid-listing' );
+		$class				 .= product_listing_size_class( $thumbnail_product );
+	}
+	return $class;
+}
+
+function ic_set_modern_grid_image_html( $image_html, $product_id ) {
+	$sizes				 = ic_get_catalog_image_sizes();
+	$image_id			 = get_post_thumbnail_id( $product_id );
+	$thumbnail_product	 = wp_get_attachment_image_src( $image_id, 'modern-grid-listing' );
+	$product_name		 = wp_strip_all_tags( get_the_title() );
+	if ( $thumbnail_product ) {
+		$url					 = $thumbnail_product[ 0 ];
+		$img_class[ 'alt' ]		 = $product_name;
+		$img_class[ 'class' ]	 = "modern-grid-image";
+		if ( !empty( $thumbnail_product[ 2 ] ) ) {
+			$ratio = $thumbnail_product[ 1 ] / $thumbnail_product[ 2 ];
+			if ( $ratio <= 1.35 && $ratio > 1.20 ) {
+				$img_class[ 'class' ] .= " higher";
+			} else if ( $ratio <= 1.15 && $sizes[ 'modern_grid_image_w' ] >= 600 ) {
+				$img_class[ 'class' ] .= " higher rect";
+			} else if ( $ratio > 2 && $sizes[ 'modern_grid_image_h' ] >= 384 ) {
+				$img_class[ 'class' ] .= " wider rect";
+			}
+		}
+		$image_html = wp_get_attachment_image( $image_id, 'modern-grid-listing', false, $img_class );
+	} else {
+		$url = default_product_thumbnail_url();
+		if ( $sizes[ 'modern_grid_image_h' ] != 384 || $sizes[ 'modern_grid_image_w' ] != 600 && !ic_string_contains( $url, 'no-default-thumbnail' ) ) {
+			$image_id = intval( get_product_image_id( $url ) );
+		}
+		if ( !empty( $image_id ) ) {
+			$img_class[ 'alt' ]		 = $product_name;
+			$img_class[ 'class' ]	 = "modern-grid-image";
+			$image_html				 = wp_get_attachment_image( $image_id, 'modern-grid-listing', false, $img_class );
+		} else {
+			$image_html = '<img class="modern-grid-image" src="' . $url . '" alt="' . $product_name . '">';
+		}
+	}
+	return $image_html;
+}
+
+function ic_set_modern_grid_category_image_html( $product_cat ) {
 	$image_id			 = get_product_category_image_id( $product_cat->term_id );
 	$thumbnail_product	 = wp_get_attachment_image_src( $image_id, 'modern-grid-listing' );
 	if ( $thumbnail_product ) {
@@ -135,14 +141,29 @@ function get_default_category_theme( $product_cat, $archive_template ) {
 		$url	 = default_product_thumbnail_url();
 		$image	 = '<img class="modern-grid-image" src="' . $url . '" alt="' . $product_cat->name . '">';
 	}
-	//$modern_grid_settings	 = get_modern_grid_settings();
-	$return	 = '<div class="al_archive category-' . $product_cat->term_id . ' modern-grid-element ' . design_schemes( 'box', 0 ) . ' ' . product_listing_size_class( $thumbnail_product ) . '">';
-	//$return .= '<a class="pseudo-a" href="' . get_term_link($product_cat) . '"></a>';
-	$return	 .= '<div class="pseudo"></div>';
-	$return	 .= '<a href="' . get_term_link( $product_cat ) . '">' . $image;
-	$return	 .= '<h3 class="product-name ' . design_schemes( 'box', 0 ) . '">' . $product_cat->name . '</h3></a>';
-	$return	 .= '</div>';
-	return $return;
+	$product_cat->listing_image_html = $image;
+	return $product_cat;
+}
+
+/**
+ * Returns modern grid element for a given product category
+ *
+ * @param object $product_cat Product category object
+ * @param string $archive_template
+ * @return string
+ */
+function get_default_category_theme( $product_cat, $archive_template ) {
+	if ( $archive_template == 'default' ) {
+		$product_cat = ic_set_modern_grid_category_image_html( $product_cat );
+		if ( !has_filter( 'product-category-class', 'ic_modern_grid_category_size_class' ) ) {
+			add_filter( 'product-category-class', 'ic_modern_grid_category_size_class', 10, 2 );
+		}
+		ic_save_global( 'ic_current_product_cat', $product_cat );
+		ob_start();
+		ic_show_template_file( 'product-listing/modern-grid-category.php' );
+		$return = ob_get_clean();
+		return $return;
+	}
 }
 
 /**
@@ -178,4 +199,22 @@ function add_modern_lising_class( $class, $where = '', $archive_template = 'defa
 	}
 	ic_delete_global( 'shortcode_per_row' );
 	return $class;
+}
+
+add_filter( 'product_listing_additional_styles', 'ic_cat_modern_grid_additional_styling', 10, 2 );
+
+/**
+ * Adds classic grid inline styling for element width
+ *
+ * @param string $styles
+ * @return string
+ */
+function ic_cat_modern_grid_additional_styling( $styles, $archive_template ) {
+	if ( $archive_template == 'default' ) {
+		$sizes = ic_get_catalog_image_sizes();
+		if ( !empty( $sizes[ 'modern_grid_image_h' ] ) && $sizes[ 'modern_grid_image_h' ] < 384 ) {
+			$styles .= '.modern-grid-element { max-height: ' . $sizes[ 'modern_grid_image_h' ] . 'px; }';
+		}
+	}
+	return $styles;
 }

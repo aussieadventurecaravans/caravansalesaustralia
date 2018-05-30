@@ -67,8 +67,7 @@ add_action( 'general-settings', 'ic_price_settings' );
  *
  */
 function ic_price_settings() {
-	$product_currency			 = get_product_currency_code();
-	$product_currency_settings	 = get_currency_settings();
+	$product_currency_settings = get_currency_settings();
 	?>
 	<h3><?php _e( 'Payment and currency', 'ecommerce-product-catalog' ); ?></h3>
 	<table id="payment_table">
@@ -78,15 +77,7 @@ function ic_price_settings() {
 		<tbody><?php do_action( 'payment_settings_table_start' ) ?>
 			<tr>
 				<td><span title="<?php _e( 'Select a currency from the list. If your currency is not available in the list, please use the Custom Currency Symbol option below.', 'ecommerce-product-catalog' ) ?>" class="dashicons dashicons-editor-help ic_tip"></span><?php _e( 'Your currency', 'ecommerce-product-catalog' ); ?>:</td>
-				<td><select class="ic_chosen" id="product_currency" name="product_currency" style="width:150px">
-						<?php
-						$currencies					 = available_currencies();
-						foreach ( $currencies as $currency ) :
-							?>
-							<option name="product_currency[<?php echo $currency; ?>]"
-									value="<?php echo $currency; ?>"<?php selected( $currency, $product_currency ); ?>><?php echo $currency; ?></option>
-								<?php endforeach; ?>
-					</select></td>
+				<td><?php echo ic_cat_get_currency_switcher() ?></td>
 			</tr>
 			<?php
 			implecode_settings_text( __( 'Custom Currency Symbol', 'ecommerce-product-catalog' ), 'product_currency_settings[custom_symbol]', $product_currency_settings[ 'custom_symbol' ], null, 1, 'small_text_box', __( 'If you choose custom currency symbol, it will override Your Currency setting and let you use any currency.', 'ecommerce-product-catalog' ) );
@@ -102,15 +93,15 @@ function ic_price_settings() {
 		</tbody>
 	</table>
 	<script>jQuery( document ).ready( function () {
-	        jQuery( "input[name=\"product_currency_settings[price_enable]\"]" ).change( function () {
-	            if ( jQuery( this ).val() == 'off' && jQuery( this ).is( ':checked' ) ) {
-	                jQuery( "#payment_table tbody" ).hide( "slow" );
-	            } else {
-	                jQuery( "#payment_table tbody" ).show( "slow" );
-	            }
-	        } );
-	        jQuery( "input[name=\"product_currency_settings[price_enable]\"]" ).trigger( "change" );
-	    } );</script>
+			jQuery( "input[name=\"product_currency_settings[price_enable]\"]" ).change( function () {
+				if ( jQuery( this ).val() == 'off' && jQuery( this ).is( ':checked' ) ) {
+					jQuery( "#payment_table tbody" ).hide( "slow" );
+				} else {
+					jQuery( "#payment_table tbody" ).show( "slow" );
+				}
+			} );
+			jQuery( "input[name=\"product_currency_settings[price_enable]\"]" ).trigger( "change" );
+	        } );</script>
 	<?php
 }
 
@@ -140,6 +131,30 @@ function get_currency_settings() {
 	$product_currency_settings						 = apply_filters( 'product_currency_settings', $product_currency_settings );
 	ic_save_global( 'product_currency_settings', $product_currency_settings );
 	return $product_currency_settings;
+}
+
+function ic_cat_get_currency_switcher() {
+	$product_currency	 = get_product_currency_code();
+	$currency_names		 = ic_cat_get_currencies();
+	ob_start();
+	?>
+	<select class="ic_chosen" id="product_currency" name="product_currency" style="width:200px">
+		<?php
+		$currencies			 = available_currencies();
+		asort( $currencies );
+		foreach ( $currencies as $currency ) {
+			$name = $currency;
+			if ( !empty( $currency_names[ $currency ] ) ) {
+				$name = $currency . ' (' . $currency_names[ $currency ] . '}';
+			}
+			?>
+			<option name="product_currency[<?php echo $currency; ?>]" value="<?php echo $currency; ?>" <?php selected( $currency, $product_currency ); ?>><?php echo $name; ?></option>
+			<?php
+		}
+		?>
+	</select>
+	<?php
+	return ob_get_clean();
 }
 
 /**

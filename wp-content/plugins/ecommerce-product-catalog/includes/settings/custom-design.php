@@ -26,6 +26,7 @@ function design_settings() {
 	register_setting( 'product_design', 'classic_grid_settings' );
 	register_setting( 'product_design', 'classic_list_settings' );
 	register_setting( 'single_design', 'catalog_lightbox' );
+	register_setting( 'single_design', 'catalog_magnifier' );
 	register_setting( 'single_design', 'multi_single_options' );
 	register_setting( 'single_design', 'default_product_thumbnail' );
 	register_setting( 'design_schemes', 'design_schemes' );
@@ -171,8 +172,9 @@ function single_custom_design() {
 }
 
 function ic_product_page_design_settings() {
-	$enable_catalog_lightbox = get_option( 'catalog_lightbox', 1 );
-	$single_options			 = get_product_page_settings();
+	$enable_catalog_lightbox	 = get_option( 'catalog_lightbox', 1 );
+	$enable_catalog_magnifier	 = get_option( 'catalog_magnifier', 1 );
+	$single_options				 = get_product_page_settings();
 	?>
 	<h2><?php _e( 'Design Settings', 'ecommerce-product-catalog' ); ?></h2>
 	<?php do_action( 'page_design_settings_start', $single_options, $enable_catalog_lightbox ); ?>
@@ -184,6 +186,7 @@ function ic_product_page_design_settings() {
 		<?php
 		implecode_settings_checkbox( __( 'Enable image', 'ecommerce-product-catalog' ), 'multi_single_options[enable_product_gallery]', $single_options[ 'enable_product_gallery' ], 1, __( 'The image will be used only on the listing when unchecked.', 'ecommerce-product-catalog' ) );
 		implecode_settings_checkbox( __( 'Enable lightbox gallery', 'ecommerce-product-catalog' ), 'catalog_lightbox', $enable_catalog_lightbox, 1, __( 'The image on single page will not be linked when unchecked.', 'ecommerce-product-catalog' ) );
+		implecode_settings_checkbox( __( 'Enable image magnifier', 'ecommerce-product-catalog' ), 'catalog_magnifier', $enable_catalog_magnifier, 1, __( 'The image on single page will be magnified when pointed with mouse cursor.', 'ecommerce-product-catalog' ) );
 		implecode_settings_checkbox( __( 'Enable image only when inserted', 'ecommerce-product-catalog' ), 'multi_single_options[enable_product_gallery_only_when_exist]', $single_options[ 'enable_product_gallery_only_when_exist' ], 1, __( 'The default image will be used on the listing only when unchecked.', 'ecommerce-product-catalog' ) );
 		do_action( 'ic_product_gallery_settings', $single_options );
 		?>

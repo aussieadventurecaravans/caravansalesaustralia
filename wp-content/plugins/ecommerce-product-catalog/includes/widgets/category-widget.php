@@ -34,6 +34,7 @@ class product_cat_widget extends WP_Widget {
 			$c					 = !empty( $instance[ 'count' ] ) ? '1' : '0';
 			$h					 = !empty( $instance[ 'hierarchical' ] ) ? '1' : '0';
 			$d					 = !empty( $instance[ 'dropdown' ] ) ? '1' : '0';
+			do_action( 'ic_before_widget', 'product_cat_widget' );
 
 			echo $args[ 'before_widget' ];
 			if ( $title ) {
@@ -91,6 +92,7 @@ class product_cat_widget extends WP_Widget {
 			}
 
 			echo $args[ 'after_widget' ];
+			do_action( 'ic_after_widget', 'product_cat_widget' );
 		}
 	}
 

@@ -28,16 +28,9 @@ class ic_catalog_multilingual {
 			add_action( 'ic_ajax_self_submit', array( $this, 'ajax_apply_lang' ) );
 			add_action( 'admin_init', array( $this, 'ajax_apply_lang' ) );
 			add_filter( 'ic_product_ajax_query_vars', array( $this, 'ajax_query_vars' ) );
-			//add_action( 'pll_language_defined', array( $this, 'test' ) );
-			//$this->test( 'eee' );
 //add_filter( 'wpml_get_translated_slug', 'ic_multilingual_listing_slug', 10, 3 );
 			//add_action( 'wp', array( $this, 'overwrite_archive_query' ) );
 		}
-	}
-
-	function test( $lang ) {
-		error_log( $lang );
-		error_log( print_r( $_REQUEST, 1 ) );
 	}
 
 	/**
@@ -92,7 +85,7 @@ class ic_catalog_multilingual {
 	}
 
 	function pll_post_type_link( $link ) {
-		var_dump( $link );
+		//var_dump( $link );
 		return $link;
 	}
 

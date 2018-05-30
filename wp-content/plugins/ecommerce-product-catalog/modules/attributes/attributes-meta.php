@@ -36,12 +36,11 @@ function ic_attributes_metabox( $names ) {
  *
  * @global type $post
  */
-function al_product_attributes() {
-	global $post;
+function al_product_attributes( $post, $args = null ) {
 	echo '<input type="hidden" name="attributesmeta_noncename" id="attributesmeta_noncename" value="' .
 	wp_create_nonce( AL_BASE_PATH . 'attributes_meta' ) . '" />';
 	echo '<div class="al-box info">' . __( 'Only attributes with values set will be shown on product page.', 'ecommerce-product-catalog' ) . ' ' . sprintf( __( 'See <a target="_blank" href="%s">docs</a>.', 'ecommerce-product-catalog' ), 'https://implecode.com/docs/ecommerce-product-catalog/product-attributes/?cam=catalog-add-page-box&key=product-attributes' ) . '</div>';
-	do_action( 'before_product_attributes_edit_single' );
+	do_action( 'before_product_attributes_edit_single', $args );
 	echo '<table class="sort-settings attributes">
 	<thead><tr>
 	<th class="title"><b>Name</b></th>
@@ -53,15 +52,16 @@ function al_product_attributes() {
 	</thead>
 	<tbody><tr style="height: 6px;" class="ic-not-sortable"></tr>';
 	do_action( 'inside_attributes_edit_table' );
-	$attributes_option		 = get_option( 'product_attribute' );
-	$attributes_label_option = get_option( 'product_attribute_label' );
-	$attributes_unit_option	 = get_option( 'product_attribute_unit' );
+	$attributes_option		 = isset( $args[ 'args' ][ 'attribute_values' ] ) ? $args[ 'args' ][ 'attribute_values' ] : get_option( 'product_attribute' );
+	$attributes_label_option = isset( $args[ 'args' ][ 'attribute_labels' ] ) ? $args[ 'args' ][ 'attribute_labels' ] : get_option( 'product_attribute_label' );
+	$attributes_unit_option	 = isset( $args[ 'args' ][ 'attribute_units' ] ) ? $args[ 'args' ][ 'attribute_units' ] : get_option( 'product_attribute_unit' );
 	$attributes_number		 = product_attributes_number();
 	$available_labels		 = get_all_attribute_labels();
 	$label_autocomplete		 = '';
 	if ( !empty( $available_labels ) ) {
 		$label_autocomplete = 'data-ic-autocomplete="' . esc_attr( json_encode( $available_labels ) ) . '"';
 	}
+	$names = isset( $args[ 'args' ][ 'field_names' ] ) ? $args[ 'args' ][ 'field_names' ] : array( 'value' => '_attribute', 'label' => '_attribute-label', 'unit' => '_attribute-unit' );
 	for ( $i = 1; $i <= $attributes_number; $i++ ) {
 		$attributes_option_field		 = get_attribute_value( $i, $post->ID ); //get_post_meta( $post->ID, '_attribute' . $i, true );
 		$attributes_label_option_field	 = get_attribute_label( $i, $post->ID ); //get_post_meta( $post->ID, '_attribute-label' . $i, true );
@@ -88,23 +88,22 @@ function al_product_attributes() {
 				$autocomplete = 'data-ic-autocomplete="' . esc_attr( json_encode( $available_attribute_values ) ) . '"';
 			}
 		}
-
-		$field_value			 = is_array( $attributes_option_field ) ? $attributes_option_field[ 0 ] : $attributes_option_field;
-		$attribute_value_field	 = '<input ' . $autocomplete . ' class="ic_autocomplete attribute-value" type="text" name="_attribute' . $i . '" value="' . esc_html( $field_value ) . '" />';
+		$field_value			 = is_array( $attributes_option_field ) ? reset( $attributes_option_field ) : $attributes_option_field;
+		$attribute_value_field	 = '<input ' . $autocomplete . ' class="ic_autocomplete attribute-value" type="text" name="' . $names[ 'value' ] . $i . '" value="' . esc_html( $field_value ) . '" />';
 		?>
 		<tr>
-			<td class="attributes-label-column"><input <?php echo $label_autocomplete ?> class="ic_autocomplete attribute-label" type="text" name="_attribute-label<?php echo $i ?>" value="<?php echo esc_html( $attributes_label_option_field ) ?>"/></td>
+			<td class="attributes-label-column"><input <?php echo $label_autocomplete ?> class="ic_autocomplete attribute-label" type="text" name="<?php echo $names[ 'label' ] . $i ?>" value="<?php echo esc_html( $attributes_label_option_field ) ?>"/></td>
 			<td class="break-column">:</td>
-			<td class="value-column"><?php echo apply_filters( 'product_attribute_value_edit', $attribute_value_field, $i, $attributes_option_field, $attributes_label_option_field ) ?></td>
+			<td class="value-column"><?php echo apply_filters( 'product_attribute_value_edit', $attribute_value_field, $i, $attributes_option_field, $attributes_label_option_field, $names[ 'value' ] ) ?></td>
 			<td class="unit-column"><input class="attribute-unit admin-number-field" type="text"
-										   name="_attribute-unit<?php echo $i ?>"
+										   name="<?php echo $names[ 'unit' ] . $i ?>"
 										   value="<?php echo esc_html( $attributes_unit_option_field ) ?>"/></td>
 			<td class="dragger"></td>
 		</tr>
 	<?php } ?>
 	</tbody>
 	</table><?php
-	do_action( 'product_attributes_edit_single', $post );
+	do_action( 'product_attributes_edit_single', $post, $args );
 }
 
 add_filter( 'product_meta_save', 'ic_save_product_attributes', 1, 2 );
@@ -122,5 +121,155 @@ function ic_save_product_attributes( $product_meta, $post ) {
 		$product_meta[ '_attribute' . $i ]		 = !empty( $_POST[ '_attribute' . $i ] ) ? apply_filters( 'save_product_attribute_value', $_POST[ '_attribute' . $i ], $i, $post->ID, $product_meta[ '_attribute-label' . $i ] ) : '';
 		$product_meta[ '_attribute-unit' . $i ]	 = !empty( $_POST[ '_attribute-unit' . $i ] ) ? apply_filters( 'save_product_attribute_unit', $_POST[ '_attribute-unit' . $i ], $i, $post->ID, $product_meta[ '_attribute-label' . $i ] ) : '';
 	}
+
+
+	if ( !empty( $_POST[ '_size_length' ] ) ) {
+		$product_meta[ '_size_length' ] = sanitize_text_field( $_POST[ '_size_length' ] );
+	}
+	if ( !empty( $_POST[ '_size_width' ] ) ) {
+		$product_meta[ '_size_width' ] = sanitize_text_field( $_POST[ '_size_width' ] );
+	}
+	if ( !empty( $_POST[ '_size_height' ] ) ) {
+		$product_meta[ '_size_height' ] = sanitize_text_field( $_POST[ '_size_height' ] );
+	}
+	if ( !empty( $_POST[ '_weight' ] ) ) {
+		$product_meta[ '_weight' ] = floatval( $_POST[ '_weight' ] );
+	}
+
 	return $product_meta;
+}
+
+function ic_size_field_names() {
+	$field_names = array( '_size_length' => _x( 'L', 'Length', 'ecommerce-product-catalog' ), '_size_width' => _x( 'W', 'Width', 'ecommerce-product-catalog' ), '_size_height' => _x( 'H', 'Height', 'ecommerce-product-catalog' ) );
+	return $field_names;
+}
+
+add_filter( 'active_product_filters', 'ic_activate_size_filter' );
+
+function ic_activate_size_filter( $filters ) {
+	$fields = ic_size_field_names();
+	if ( !empty( $fields ) ) {
+		$filters = array_merge( $filters, array_keys( $fields ) );
+	}
+	return $filters;
+}
+
+add_filter( 'product_details_box_visible', 'ic_manage_size_weight_box_visibility' );
+
+function ic_manage_size_weight_box_visibility( $visible ) {
+	if ( $visible ) {
+		return $visible;
+	}
+	if ( is_ic_attributes_size_enabled() || is_ic_attributes_weight_enabled() ) {
+		return true;
+	}
+	return false;
+}
+
+function ic_get_product_size( $product_id, $force_value = false, $size = null, $enable_desc = true ) {
+	if ( empty( $size ) ) {
+		$length				 = apply_filters( 'ic_front_size_value', get_post_meta( $product_id, '_size_length', true ) );
+		$width				 = apply_filters( 'ic_front_size_value', get_post_meta( $product_id, '_size_width', true ) );
+		$height				 = apply_filters( 'ic_front_size_value', get_post_meta( $product_id, '_size_height', true ) );
+		$size[ 'length' ]	 = !empty( $length ) ? $length : '';
+		$size[ 'width' ]	 = !empty( $width ) ? $width : '';
+		$size[ 'height' ]	 = !empty( $height ) ? $height : '';
+	}
+	if ( !is_ic_admin() && !$force_value ) {
+		$unit		 = ic_attributes_get_size_unit();
+		$desc		 = '';
+		$text_size	 = '';
+		if ( !empty( $size[ 'length' ] ) ) {
+			$desc		 = _x( 'L', 'Length', 'ecommerce-product-catalog' );
+			$text_size	 = $size[ 'length' ] . ' ' . $unit;
+		}
+		if ( !empty( $size[ 'width' ] ) ) {
+			if ( !empty( $desc ) ) {
+				$desc .= ' x ';
+			}
+			$desc .= _x( 'W', 'Width', 'ecommerce-product-catalog' );
+			if ( !empty( $size ) ) {
+				$text_size .= ' x ';
+			}
+			$text_size .= $size[ 'width' ] . ' ' . $unit;
+		}
+		if ( !empty( $size[ 'height' ] ) ) {
+			if ( !empty( $desc ) ) {
+				$desc .= ' x ';
+			}
+			$desc .= _x( 'H', 'Height', 'ecommerce-product-catalog' );
+			if ( !empty( $size ) ) {
+				$text_size .= ' x ';
+			}
+			$text_size .= $size[ 'height' ] . ' ' . $unit;
+		}
+		if ( !empty( $desc ) ) {
+			$desc = '(' . $desc . ')';
+		}
+		if ( !empty( $text_size ) && $enable_desc ) {
+			$text_size .= ' ' . $desc;
+		}
+		return $text_size;
+	} else {
+		return $size;
+	}
+}
+
+function ic_get_product_weight( $product_id, $force_value = false, $weight = null ) {
+	if ( empty( $weight ) ) {
+		$weight = apply_filters( 'ic_front_weight_value', get_post_meta( $product_id, '_weight', true ), $product_id );
+	}
+	if ( !is_ic_admin() && !$force_value && !empty( $weight ) ) {
+		$unit	 = ic_attributes_get_weight_unit();
+		$weight	 = $weight . ' ' . $unit;
+	}
+	return $weight;
+}
+
+add_action( 'admin_product_details', 'ic_size_metabox', 10, 2 );
+
+/**
+ * Adds attributes meatbox
+ *
+ * @param array $names
+ */
+function ic_size_metabox( $product_details, $product_id, $field_name = null, $size = null ) {
+	if ( is_ic_attributes_size_enabled() ) {
+		if ( $field_name === null || empty( $field_name[ 0 ] ) || empty( $field_name[ 1 ] ) || empty( $field_name[ 2 ] ) ) {
+			$field_name = array( '_size_length', '_size_width', '_size_height' );
+		}
+		if ( $size === null || !isset( $size[ 'length' ] ) || !isset( $size[ 'width' ] ) || !isset( $size[ 'height' ] ) ) {
+			$size = ic_get_product_size( $product_id );
+		}
+		$fields	 = '<input placeholder="' . _x( 'L', 'Length', 'ecommerce-product-catalog' ) . '" style="max-width: 25%;" type="text" name="' . $field_name[ 0 ] . '" value="' . $size[ 'length' ] . '" class="widefat" /> x <input placeholder="' . _x( 'W', 'Width', 'ecommerce-product-catalog' ) . '" style="max-width: 25%;" type="text" name="' . $field_name[ 1 ] . '" value="' . $size[ 'width' ] . '" class="widefat" /> x <input placeholder="' . _x( 'H', 'Height', 'ecommerce-product-catalog' ) . '" style="max-width: 25%;" type="text" name="' . $field_name[ 2 ] . '" value="' . $size[ 'height' ] . '" class="widefat" />';
+		$label	 = __( 'Size', 'ecommerce-product-catalog' );
+		$unit	 = ic_attributes_get_size_unit();
+		if ( !empty( $unit ) ) {
+			$label .= ' (' . $unit . ')';
+		}
+		$product_details .= apply_filters( 'admin_size_table', '<table><tr><td class="label-column">' . $label . ':</td><td class="size-column">' . $fields . '</td></tr></table>', $product_id );
+	}
+	return $product_details;
+}
+
+add_action( 'admin_product_details', 'ic_weight_metabox', 10, 2 );
+
+/**
+ * Adds attributes meatbox
+ *
+ * @param array $names
+ */
+function ic_weight_metabox( $product_details, $product_id, $field_name = '_weight', $weight = null ) {
+	if ( is_ic_attributes_weight_enabled() ) {
+		if ( $weight === null ) {
+			$weight = get_post_meta( $product_id, '_weight', true );
+		}
+		$label	 = __( 'Weight', 'ecommerce-product-catalog' );
+		$unit	 = ic_attributes_get_weight_unit();
+		if ( !empty( $unit ) ) {
+			$label .= ' (' . $unit . ')';
+		}
+		$product_details .= apply_filters( 'admin_weight_table', '<table><tr><td class="label-column">' . $label . ':</td><td class="size-column"><input style="width: 130px" type="text" name="' . $field_name . '" value="' . $weight . '" class="widefat" /></td></tr></table>', $product_id );
+	}
+	return $product_details;
 }

@@ -2,8 +2,8 @@
 /*
 Plugin Name: Quick Contact Form
 Plugin URI: http://quick-plugins.com/quick-contact-form/
-Description: A really, really simple contact form. There is nothing to configure, just add your email address and it's ready to go. But you then have access to a huge range of easy to use features.
-Version: 6.17
+Description: A really, really simple GDRP compliant contact form. There is nothing to configure, just add your email address and it's ready to go. But you then have access to a huge range of easy to use features.
+Version: 6.18
 Author: aerin
 Author URI: http://quick-plugins.com/
 Text Domain: quick-contact-form
@@ -18,9 +18,11 @@ add_action( 'wp_ajax_nopriv_qcf_validate_form', 'qcf_validate_form_callback' );
 	[/ADDED]
 */
 
-require_once( plugin_dir_path( __FILE__ ) . '/quick-contact-options.php');
-require_once( plugin_dir_path( __FILE__ ) . '/quick-contact-akismet.php');
+require_once( plugin_dir_path( __FILE__ ) . 'options.php');
+require_once( plugin_dir_path( __FILE__ ) . 'akismet.php');
 require_once( plugin_dir_path( __FILE__ ) . '/mailchimp/mailchimp.init.php');
+require_once( plugin_dir_path( __FILE__ ) . '/mailchimp/mailchimp.init.php');
+require_once( plugin_dir_path( __FILE__ ) . "/activecampaign/ActiveCampaign.class.php");
 if (is_admin()) require_once( plugin_dir_path( __FILE__ ) . '/settings.php');
 
 add_shortcode('qcf', 'qcf_start');
@@ -55,6 +57,8 @@ function qcf_display_form( $values, $errors, $id ) {
     $style = qcf_get_stored_style($id);
     $qppkey = get_option('qpp_key');
 	$list = qcf_get_stored_mailinglist();
+    $ac = qcf_get_stored_activecampaign_mailinglist();
+	
     $qcf['required']['field12'] = 'checked';
     $hd = ($style['header-type'] ? $style['header-type'] : 'h2');
     $content = '';
@@ -198,6 +202,9 @@ function qcf_display_form( $values, $errors, $id ) {
                 });
                 </script>';
                 break;
+                case 'field15':
+                $content .= '<input type="checkbox" name="qcfname15"  value="checked" ' . $values['qcfname15'] . ' />'.$qcf['label']['field15']."\r\t";
+                break;
             }
         }
     }
@@ -235,8 +242,17 @@ function qcf_display_form( $values, $errors, $id ) {
         $content .= '<input type="file" size="' . $size . '" name="filename'.$attach['qcf_number'].'"/></p>';
 		$content .= '</div></div>';
     }
-    if ($qppkey['authorised'] && $list['enable']) {
+    
+    /* Mailchimp */
+    
+    if ($qppkey['authorised'] && $list['enable'] && !$list['nooptin']) {
         $content .= '<p><input type="checkbox" name="mailchimp" value="checked" '.isset($value['mailchimp']).'>&nbsp;'.$list['mailchimpoptin'].'</p>';
+    }
+    
+    /* Active Campaign */
+    
+    if (($ac['activecampaign_enable'] == 'checked') && !$ac['activecampaign_nooptin']) {
+        $content .= '<p><input type="checkbox" name="activecampaign" value="checked" '.isset($value['activecampaign']).'>&nbsp;'.$ac['activecampaign_optin'].'</p>';
     }
     
     $caption = $qcf['send'];
@@ -451,6 +467,8 @@ function qcf_verify_form(&$values, &$errors,$id) {
 	@Added $ajax argument -- defaults to false
 */
 function qcf_process_form($values,$id) {
+    
+    $qcf_setup = qcf_get_stored_setup();
     $qcf = qcf_get_stored_options($id);
     $reply = qcf_get_stored_reply($id);
     $style = qcf_get_stored_style($id);
@@ -459,6 +477,36 @@ function qcf_process_form($values,$id) {
     $qppkey = get_option('qpp_key');
 	$list = qcf_get_stored_mailinglist();
     $qcfemail = qcf_get_stored_email();
+	$ac_info = qcf_get_stored_activecampaign_mailinglist();
+	$ac_go = false;
+	$ac_d = array();
+	
+	if ($ac_info['activecampaign_enable'] == 'checked') {
+		
+		$proceed = true;
+		/*
+			Check if Opt-In Required
+		*/
+		if (!$ac_info['activecampaign_nooptin']) {
+			/*
+				Make sure its okay to proceed
+			*/
+			$proceed = false;
+			
+			if ($_REQUEST['activecampaign'] == 'checked') $proceed = true;
+		}
+		
+		if ($proceed) {
+			/*
+				Authenticate
+			*/
+			
+			$ac = new ActiveCampaign($ac_info['activecampaign_url'], $ac_info['activecampaign_api_key']);
+			
+			if ((int)$ac->credentials_test()) $ac_go = true;
+		}
+	}
+	
     $qcf_email = ($qcfemail[$id] ? $qcfemail[$id] : get_bloginfo('admin_email'));
     global $_GET;
     if(isset($_GET["email"])) $qcf_email = $_GET["email"];
@@ -481,14 +529,17 @@ function qcf_process_form($values,$id) {
             case 'field1':
             if ($values['qcfname1'] == $qcf['label'][$item]) $values['qcfname1'] ='';
             $content .= '<p><b>' . $qcf['label'][$item] . ': </b>' . strip_tags(stripslashes($values['qcfname1'])) . '</p>';
+			$ac_d['name'] = strip_tags(stripslashes($values['qcfname1']));
             break;
             case 'field2':
             if ($values['qcfname2'] == $qcf['label'][$item]) $values['qcfname2'] ='';
             $content .= '<p><b>' . $qcf['label'][$item] . ': </b>' . strip_tags(stripslashes($values['qcfname2'])) . '</p>';
+			$ac_d['email'] = strip_tags(stripslashes($values['qcfname2']));
             break;
             case 'field3':
             if ($values['qcfname3'] == $qcf['label'][$item]) $values['qcfname3'] ='';
             $content .= '<p><b>' . $qcf['label'][$item] . ': </b>' . strip_tags(stripslashes($values['qcfname3'])) . '</p>';
+			$ac_d['phone'] = strip_tags(stripslashes($values['qcfname3']));
             break;
             case 'field4':
             if ($values['qcfname4'] == $qcf['label'][$item]) $values['qcfname4'] ='';
@@ -652,37 +703,58 @@ function qcf_process_form($values,$id) {
         $phpmailer->Send();
         unset($phpmailer);
     }
-    $qcf_messages = get_option('qcf_messages'.$id);
-    if(!is_array($qcf_messages)) $qcf_messages = array();
-    if ($values['qcfname1'] == $qcf['label']['field1']) $values['qcfname1'] ='';
-    $sentdate = date_i18n('d M Y');
-    $qcf_messages[] = array(
-        'field0'=>$sentdate,
-        'field1' => $values['qcfname1'] ,
-        'field2' => $values['qcfname2'] , 
-        'field3' => $values['qcfname3'],
-        'field4' => $values['qcfname4'], 
-        'field5' => $values['qcfname5'], 
-        'field6' => $values['qcfname6'], 
-        'field7' => $values['qcfname7'],
-        'field8' => $values['qcfname8'], 
-        'field9' => $values['qcfname9'], 
-        'field10' => $values['qcfname10'], 
-        'field11' => $values['qcfname11'], 
-        'field13' => $values['qcfname13'],
-        'field14' => $values['qcfname14'],
-        'attachments' => $att,
-    );
-    update_option('qcf_messages'.$id,$qcf_messages);
+    
+    if (!$qcf_setup['nostore']) {
+        $qcf_messages = get_option('qcf_messages'.$id);
+        if(!is_array($qcf_messages)) $qcf_messages = array();
+        if ($values['qcfname1'] == $qcf['label']['field1']) $values['qcfname1'] ='';
+        $sentdate = date_i18n('d M Y');
+        $qcf_messages[] = array(
+            'field0'=>$sentdate,
+            'field1' => $values['qcfname1'] ,
+            'field2' => $values['qcfname2'] , 
+            'field3' => $values['qcfname3'],
+            'field4' => $values['qcfname4'], 
+            'field5' => $values['qcfname5'], 
+            'field6' => $values['qcfname6'], 
+            'field7' => $values['qcfname7'],
+            'field8' => $values['qcfname8'], 
+            'field9' => $values['qcfname9'], 
+            'field10' => $values['qcfname10'], 
+            'field11' => $values['qcfname11'], 
+            'field13' => $values['qcfname13'],
+            'field14' => $values['qcfname14'],
+            'field15' => $values['qcfname15'],
+            'attachments' => $att,
+        );
+        update_option('qcf_messages'.$id,$qcf_messages);
+    }
     
     if ($auto['enable'] && $values['qcfname2']) {
         qcf_send_confirmation ($values,$content,$id,$qcf_email); 
     }
     
-    if ($list['enable'] && $qppkey['authorised'] && $values['qcfname2']) {
+    if ($list['enable'] && $qppkey['authorised'] && $values['qcfname2'] && ($values['mailchimp'] || $list['nooptin'])) {
 		$name = ((isset($values['qcfname1']))? $values['qcfname1']:'');
         QCF\subscribe($values['qcfname2'],$values['qcfname1']);
     }
+	
+	if ($ac_info['activecampaign_enable'] == 'checked' && $ac_go) {
+		
+		$n = explode(' ',$ac_d['name']);
+		
+		$user = array(
+			'email' => $ac_d['email'],
+			'first_name' => $n[0],
+			'last_name' => $n[count($n) - 1],
+			'phone' => $ac_d['phone'],
+            'field[%PACKAGE_SOLUTION%,0]' => $reply['activecampaign_title']
+		);
+		
+		// We're here, record the user!
+		
+		$ac->api("contact/sync", $user);
+	}
 
     if ($reply['qcf_redirect']) {
         $wheretogo = qcf_get_stored_redirect ($id);
@@ -922,10 +994,10 @@ function qcf_admin_scripts() {
     wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-ui-datepicker');
     wp_enqueue_script("jquery-effects-core");
-    wp_enqueue_script('qcf_script',plugins_url('quick-contact-form.js', __FILE__), array('jquery'), null, true );
-    wp_enqueue_script('qcf_slider', plugins_url('quick-range-slider.js', __FILE__ ), array('jquery'), null, true );
+    wp_enqueue_script('qcf_script',plugins_url('scripts.js', __FILE__), array('jquery'), null, true );
+    wp_enqueue_script('qcf_slider', plugins_url('slider.js', __FILE__ ), array('jquery'), null, true );
     if (!$qcf_form['nostyling']) {
-        wp_enqueue_style ('qcf_style',plugins_url('quick-contact-form.css', __FILE__));
+        wp_enqueue_style ('qcf_style',plugins_url('styles.css', __FILE__));
         if ($qcf_form['location'] == 'php') {
             qcf_create_css_file (null);
             wp_enqueue_style ('qcf_custom_style',plugins_url('quick-contact-form-custom.css', __FILE__));
@@ -1073,7 +1145,7 @@ function qcf_redirect_by_selection ($id,$values) {
 
 // Send to email from selection
 
-function qcf_select_by_email ($id,$option) {
+function qcf_redirect_by_email ($id,$option) {
 	$qcf = qcf_get_stored_options($id);
 	$emails = qcf_get_stored_emails($id);
 	$arr = explode(",",$qcf['dropdownlist']);

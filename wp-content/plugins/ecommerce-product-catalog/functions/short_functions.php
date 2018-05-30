@@ -27,6 +27,20 @@ if ( !function_exists( 'get_product_image' ) ) {
 
 }
 
+if ( !function_exists( 'get_product_listing_image' ) ) {
+
+	/**
+	 * Returns product image HTML
+	 *
+	 * @return type
+	 */
+	function get_product_listing_image( $product_id ) {
+		$product = ic_get_product_object( $product_id );
+		return $product->listing_image_html();
+	}
+
+}
+
 if ( !function_exists( 'get_product_image_url' ) ) {
 
 	function get_product_image_url( $product_id ) {

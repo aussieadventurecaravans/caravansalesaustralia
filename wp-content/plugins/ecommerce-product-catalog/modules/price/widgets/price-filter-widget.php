@@ -29,7 +29,7 @@ class product_price_filter extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		if ( get_integration_type() != 'simple' ) {
-			if ( (!empty( $instance[ 'shortcode_support' ] ) && has_show_products_shortcode()) || (!is_ic_shortcode_query() && (is_ic_taxonomy_page() || is_ic_product_listing() || is_ic_product_search()) ) ) {
+			if ( ic_if_show_filter_widget( $instance ) ) {
 
 				$title = apply_filters( 'widget_title', empty( $instance[ 'title' ] ) ? '' : $instance[ 'title' ], $instance, $this->id_base );
 

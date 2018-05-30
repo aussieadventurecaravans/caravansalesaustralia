@@ -4,7 +4,7 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * The template to display product page
+ * The template to display product page when the [show_product_catalog] shortcode does not exist on your main product listing page
  *
  * Copy it to your theme implecode folder to edit the output: wp-content/themes/your-theme-folder-name/implecode/product-page.php
  *
@@ -30,7 +30,7 @@ $single_names		 = get_single_names();
 $single_options		 = get_product_page_settings();
 ?>
 
-<article id="product-<?php the_ID(); ?>" <?php post_class( 'al_product responsive type-page product-' . $product_id . ' ' . $single_options[ 'template' ] . ' ' . apply_filters( 'product-class', '', $product_id ) ); ?> itemscope itemtype="http://schema.org/Product">
+<article id="product_page" <?php post_class( 'al_product responsive type-page product-' . $product_id . ' ' . $single_options[ 'template' ] . ' ' . apply_filters( 'product-class', '', $product_id ) ); ?> itemscope itemtype="http://schema.org/Product">
 	<?php
 	do_action( 'before_product_entry', $product, $single_names );
 	?>

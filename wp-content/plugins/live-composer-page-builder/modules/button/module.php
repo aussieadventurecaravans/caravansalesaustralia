@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class DSLC_Button extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
 
 	function __construct() {
 
@@ -345,7 +345,7 @@ class DSLC_Button extends DSLC_Module {
 				'label' => __( 'Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_padding_vertical',
 				'onlypositive' => true, // Value can't be negative.
-				'max' => 600,
+				'max' => 50,
 				'std' => '12',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -359,6 +359,7 @@ class DSLC_Button extends DSLC_Module {
 				'id' => 'css_padding_horizontal',
 				'onlypositive' => true, // Value can't be negative.
 				'std' => '12',
+				'max' => 50,
 				'type' => 'slider',
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-button a',
@@ -437,6 +438,7 @@ class DSLC_Button extends DSLC_Module {
 				'label' => __( 'Font Size', 'live-composer-page-builder' ),
 				'id' => 'css_button_font_size',
 				'onlypositive' => true, // Value can't be negative.
+				'max' => 50,
 				'std' => '11',
 				'type' => 'slider',
 				'refresh_on_change' => false,
@@ -529,6 +531,35 @@ class DSLC_Button extends DSLC_Module {
 				'tab' => __( 'Typography', 'live-composer-page-builder' ),
 			),
 			array(
+				'label' => __( 'Text Transform', 'live-composer-page-builder' ),
+				'id' => 'css_button_text_transform',
+				'std' => 'none',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => __( 'None', 'live-composer-page-builder' ),
+						'value' => 'none',
+					),
+					array(
+						'label' => __( 'Capitalize', 'live-composer-page-builder' ),
+						'value' => 'capitalize',
+					),
+					array(
+						'label' => __( 'Uppercase', 'live-composer-page-builder' ),
+						'value' => 'uppercase',
+					),
+					array(
+						'label' => __( 'Lowercase', 'live-composer-page-builder' ),
+						'value' => 'lowercase',
+					),
+				),
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-button a',
+				'affect_on_change_rule' => 'text-transform',
+				'section' => 'styling',
+				'tab' => __( 'Typography', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'Letter Spacing', 'live-composer-page-builder' ),
 				'id' => 'css_button_letter_spacing',
 				'max' => 30,
@@ -566,7 +597,7 @@ class DSLC_Button extends DSLC_Module {
 				'section' => 'styling',
 				'tab' => __( 'Icon', 'live-composer-page-builder' ),
 				'dependent_controls' => array(
-					'enabled' => 'icon_pos, button_icon_id, css_icon_color, css_icon_color_hover, css_icon_margin, css_icon_margin_left',
+					'enabled' => 'icon_pos, button_icon_id, css_icon_color, css_icon_color_hover, css_icon_margin, css_icon_margin_left, show_icon, button_inline_svg, css_button_icon_size_svg',
 				),
 			),
 			array(
@@ -588,6 +619,25 @@ class DSLC_Button extends DSLC_Module {
 				'tab' => __( 'Icon', 'live-composer-page-builder' ),
 			),
 			array(
+				'label' => __( 'Show Icon', 'live-composer-page-builder' ),
+				'id' => 'show_icon',
+				'std' => 'font',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => __( 'Font', 'live-composer-page-builder' ),
+						'value' => 'font',
+					),
+					array(
+						'label' => __( 'SVG', 'live-composer-page-builder' ),
+						'value' => 'svg',
+					),
+				),
+				'help' => __( 'Select type of icon.', 'live-composer-page-builder' ),
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'Icon', 'live-composer-page-builder' ),
 				'id' => 'button_icon_id',
 				'std' => 'link',
@@ -596,24 +646,45 @@ class DSLC_Button extends DSLC_Module {
 				'tab' => __( 'Icon', 'live-composer-page-builder' ),
 			),
 			array(
+				'label' => __( 'Inline SVG', 'live-composer-page-builder' ),
+				'id' => 'button_inline_svg',
+				'std' => '',
+				'type' => 'textarea',
+				'section' => 'styling',
+				'help' => __( 'Paste your SVG code.', 'live-composer-page-builder' ),
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Size ( SVG )', 'live-composer-page-builder' ),
+				'id' => 'css_button_icon_size_svg',
+				'std' => '11',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-button a svg',
+				'affect_on_change_rule' => 'width, height',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+				'ext' => 'px',
+			),
+			array(
 				'label' => __( 'Color', 'live-composer-page-builder' ),
 				'id' => 'css_icon_color',
-				'std' => '',
+				'std' => '#ffffff',
 				'type' => 'color',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-button a .dslc-icon',
-				'affect_on_change_rule' => 'color',
+				'affect_on_change_el' => '.dslc-button a .dslc-icon, .dslc-button a svg',
+				'affect_on_change_rule' => 'color, fill',
 				'section' => 'styling',
 				'tab' => __( 'Icon', 'live-composer-page-builder' ),
 			),
 			array(
 				'label' => __( 'Color - Hover', 'live-composer-page-builder' ),
 				'id' => 'css_icon_color_hover',
-				'std' => '',
+				'std' => '#ffffff',
 				'type' => 'color',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-button a:hover .dslc-icon',
-				'affect_on_change_rule' => 'color',
+				'affect_on_change_el' => '.dslc-button a:hover .dslc-icon, .dslc-button:hover a svg',
+				'affect_on_change_rule' => 'color, fill',
 				'section' => 'styling',
 				'tab' => __( 'Icon', 'live-composer-page-builder' ),
 			),
@@ -623,7 +694,7 @@ class DSLC_Button extends DSLC_Module {
 				'std' => '5',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-button a .dslc-icon',
+				'affect_on_change_el' => '.dslc-button a .dslc-icon, .dslc-button a svg',
 				'affect_on_change_rule' => 'margin-right',
 				'section' => 'styling',
 				'ext' => 'px',
@@ -635,7 +706,7 @@ class DSLC_Button extends DSLC_Module {
 				'std' => '0',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-button a .dslc-icon',
+				'affect_on_change_el' => '.dslc-button a .dslc-icon, .dslc-button a svg',
 				'affect_on_change_rule' => 'margin-left',
 				'section' => 'styling',
 				'ext' => 'px',
@@ -874,6 +945,17 @@ class DSLC_Button extends DSLC_Module {
 				'ext' => 'px',
 				'tab' => __( 'Wrapper', 'live-composer-page-builder' ),
 			),
+			array(
+				'label' => __( 'Box Shadow', 'live-composer-page-builder' ),
+				'id' => 'css_wrapper_box_shadow',
+				'std' => '',
+				'type' => 'box_shadow',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-button',
+				'affect_on_change_rule' => 'box-shadow',
+				'section' => 'styling',
+				'tab' => __( 'Wrapper', 'live-composer-page-builder' ),
+			),
 
 			/**
 			 * Responsive Tablet
@@ -950,12 +1032,24 @@ class DSLC_Button extends DSLC_Module {
 				'ext' => 'px',
 			),
 			array(
+				'label' => __( 'Icon Size ( SVG )', 'live-composer-page-builder' ),
+				'id' => 'css_res_t_button_icon_size_svg',
+				'std' => '11',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-button a svg',
+				'affect_on_change_rule' => 'width, height',
+				'section' => 'responsive',
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				'ext' => 'px',
+			),
+			array(
 				'label' => __( 'Icon - Margin Right', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_icon_margin',
 				'std' => '5',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-button a .dslc-icon',
+				'affect_on_change_el' => '.dslc-button a .dslc-icon, .dslc-button a svg',
 				'affect_on_change_rule' => 'margin-right',
 				'section' => 'responsive',
 				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
@@ -1048,12 +1142,24 @@ class DSLC_Button extends DSLC_Module {
 				'ext' => 'px',
 			),
 			array(
+				'label' => __( 'Icon Size ( SVG )', 'live-composer-page-builder' ),
+				'id' => 'css_res_p_button_icon_size_svg',
+				'std' => '11',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-button a svg',
+				'affect_on_change_rule' => 'width, height',
+				'section' => 'responsive',
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				'ext' => 'px',
+			),
+			array(
 				'label' => __( 'Icon - Margin Right', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_icon_margin',
 				'std' => '5',
 				'type' => 'slider',
 				'refresh_on_change' => false,
-				'affect_on_change_el' => '.dslc-button a .dslc-icon',
+				'affect_on_change_el' => '.dslc-button a .dslc-icon, .dslc-button a svg',
 				'affect_on_change_rule' => 'margin-right',
 				'section' => 'responsive',
 				'tab' => __( 'Phone', 'live-composer-page-builder' ),
@@ -1113,7 +1219,11 @@ class DSLC_Button extends DSLC_Module {
 					<a href="<?php echo $options['button_url']; ?>" <?php echo $anchor_append;
 					if ( $options['link_nofollow'] ) { echo 'rel="nofollow"';} ?> class="dslc-lightbox-image <?php echo trim( esc_attr( $classes ) ); ?>">
 						<?php if ( $options['button_state'] == 'enabled' && $options['icon_pos'] == 'left' ) : ?>
-							<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>
+							<?php if ( 'svg' == $options['show_icon'] ) : ?>
+								<?php echo stripslashes( $options['button_inline_svg'] ); ?>
+							<?php else : ?>
+								<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>	
+							<?php endif; ?>
 						<?php endif; ?>
 						<?php if ( $dslc_is_admin ) : ?>
 							<span class="dslca-editable-content" data-id="button_text"  data-type="simple" contenteditable="true"><?php echo stripslashes( $options['button_text'] ); ?></span>
@@ -1121,14 +1231,22 @@ class DSLC_Button extends DSLC_Module {
 							<?php echo stripslashes( $options['button_text'] ); ?>
 						<?php endif; ?>
 						<?php if ( $options['button_state'] == 'enabled' && $options['icon_pos'] == 'right' ) : ?>
-							<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>
+							<?php if ( 'svg' == $options['show_icon'] ) : ?>
+								<?php echo stripslashes( $options['button_inline_svg'] ); ?>
+							<?php else : ?>
+								<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>	
+							<?php endif; ?>
 						<?php endif; ?>
 					</a>
 				<?php else : ?>
 					<a href="<?php echo $options['button_url']; ?>" target="<?php echo $options['button_target']; ?>" <?php echo $anchor_append;
 					if ( $options['link_nofollow'] ) { echo 'rel="nofollow"';} ?> class="<?php echo trim( esc_attr( $classes ) ); ?>">
 						<?php if ( $options['button_state'] == 'enabled' && $options['icon_pos'] == 'left' ) : ?>
-							<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>
+							<?php if ( 'svg' == $options['show_icon'] ) : ?>
+								<?php echo stripslashes( $options['button_inline_svg'] ); ?>
+							<?php else : ?>
+								<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>	
+							<?php endif; ?>
 						<?php endif; ?>
 						<?php if ( $dslc_is_admin ) : ?>
 							<span class="dslca-editable-content" data-id="button_text"  data-type="simple" contenteditable="true"><?php echo stripslashes( $options['button_text'] ); ?></span>
@@ -1136,7 +1254,11 @@ class DSLC_Button extends DSLC_Module {
 							<?php echo stripslashes( $options['button_text'] ); ?>
 						<?php endif; ?>
 						<?php if ( $options['button_state'] == 'enabled' && $options['icon_pos'] == 'right' ) : ?>
-							<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>
+							<?php if ( 'svg' == $options['show_icon'] ) : ?>
+								<?php echo stripslashes( $options['button_inline_svg'] ); ?>
+							<?php else : ?>
+								<span class="dslc-icon dslc-icon-<?php echo $options['button_icon_id']; ?>"></span>	
+							<?php endif; ?>
 						<?php endif; ?>
 					</a>
 				<?php endif; ?>

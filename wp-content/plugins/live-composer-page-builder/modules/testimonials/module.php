@@ -12,10 +12,10 @@ if ( dslc_is_module_active( 'DSLC_Testimonials' ) ) {
 
 class DSLC_Testimonials extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
 
 	function __construct() {
 
@@ -254,6 +254,14 @@ class DSLC_Testimonials extends DSLC_Module {
 				'std' => 'quote avatar name position',
 				'type' => 'checkbox',
 				'choices' => array(
+					array(
+						'label' => __( 'Icon', 'live-composer-page-builder' ),
+						'value' => 'icon',
+					),
+					array(
+						'label' => __( 'Logo', 'live-composer-page-builder' ),
+						'value' => 'logo',
+					),
 					array(
 						'label' => __( 'Quote', 'live-composer-page-builder' ),
 						'value' => 'quote',
@@ -633,6 +641,470 @@ class DSLC_Testimonials extends DSLC_Module {
 			),
 
 			/**
+			 * Logo
+			 */
+
+			array(
+				'label' => __( 'Align', 'live-composer-page-builder' ),
+				'id' => 'css_logo_align',
+				'std' => 'left',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-logo',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'BG Color', 'live-composer-page-builder' ),
+				'id' => 'css_logo_bg_color',
+				'std' => '',
+				'type' => 'color',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-logo',
+				'affect_on_change_rule' => 'background-color',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Border', 'live-composer-page-builder' ),
+				'id' => 'css_logo_border_group',
+				'type' => 'group',
+				'action' => 'open',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			),
+				array(
+					'label' => __( 'Border Color', 'live-composer-page-builder' ),
+					'id' => 'css_logo_border_color',
+					'std' => '',
+					'type' => 'color',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'border-color',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+				 ),
+				 array(
+					'label' => __( 'Border Width', 'live-composer-page-builder' ),
+					'id' => 'css_logo_border_width',
+					'onlypositive' => true, // Value can't be negative.
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'border-width',
+					'section' => 'styling',
+					'ext' => 'px',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+				 ),
+				 array(
+					'label' => __( 'Borders', 'live-composer-page-builder' ),
+					'id' => 'css_logo_border_trbl',
+					'std' => 'top right bottom left',
+					'type' => 'checkbox',
+					'choices' => array(
+						array(
+							'label' => __( 'Top', 'live-composer-page-builder' ),
+							'value' => 'top',
+						),
+						array(
+							'label' => __( 'Right', 'live-composer-page-builder' ),
+							'value' => 'right',
+						),
+						array(
+							'label' => __( 'Bottom', 'live-composer-page-builder' ),
+							'value' => 'bottom',
+						),
+						array(
+							'label' => __( 'Left', 'live-composer-page-builder' ),
+							'value' => 'left',
+						),
+					  ),
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'border-style',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+				 ),
+				 array(
+					'label' => __( 'Border Radius', 'live-composer-page-builder' ),
+					'id' => 'css_logo_border_radius',
+					'onlypositive' => true, // Value can't be negative.
+					'std' => '',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'border-radius',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				 ),
+			 array(
+				'label' => __( 'Border', 'live-composer-page-builder' ),
+				'id' => 'css_logo_border_group',
+				'type' => 'group',
+				'action' => 'close',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			 ),
+			 array(
+				'label' => __( 'Border Radius ( Image )', 'live-composer-page-builder' ),
+				'id' => 'css_logo_border_radius_image',
+				'onlypositive' => true, // Value can't be negative.
+				'std' => '',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-logo img',
+				'affect_on_change_rule' => 'border-radius',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+				'ext' => 'px',
+			 ),
+			 array(
+				'label' => __( 'Size', 'live-composer-page-builder' ),
+				'id' => 'css_logo_size',
+				'std' => '',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-logo img',
+				'affect_on_change_rule' => 'width',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+				'min' => 1,
+				'max' => 100,
+				'ext' => 'px',
+			 ),
+			 array(
+				'label' => __( 'Padding', 'live-composer-page-builder' ),
+				'id' => 'css_logo_padding_group',
+				'type' => 'group',
+				'action' => 'open',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			 ),
+				array(
+					'label' => __( 'Top', 'live-composer-page-builder' ),
+					'id' => 'css_logo_padding_top',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'padding-top',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+				array(
+					'label' => __( 'Right', 'live-composer-page-builder' ),
+					'id' => 'css_logo_padding_right',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'padding-right',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+				array(
+					'label' => __( 'Bottom', 'live-composer-page-builder' ),
+					'id' => 'css_logo_padding_bottom',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'padding-bottom',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+				array(
+					'label' => __( 'Left', 'live-composer-page-builder' ),
+					'id' => 'css_logo_padding_left',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'padding-left',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+			array(
+				'id' => 'css_logo_padding_group',
+				'type' => 'group',
+				'action' => 'close',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Margin', 'live-composer-page-builder' ),
+				'id' => 'css_logo_margin_group',
+				'type' => 'group',
+				'action' => 'open',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			 ),
+				array(
+					'label' => __( 'Top', 'live-composer-page-builder' ),
+					'id' => 'css_logo_margin_top',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'margin-top',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+				array(
+					'label' => __( 'Right', 'live-composer-page-builder' ),
+					'id' => 'css_logo_margin_right',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'margin-right',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+				array(
+					'label' => __( 'Bottom', 'live-composer-page-builder' ),
+					'id' => 'css_logo_margin_bottom',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'margin-bottom',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+				array(
+					'label' => __( 'Left', 'live-composer-page-builder' ),
+					'id' => 'css_logo_margin_left',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-logo',
+					'affect_on_change_rule' => 'margin-left',
+					'section' => 'styling',
+					'tab' => __( 'Logo', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+			array(
+				'id' => 'css_logo_margin_group',
+				'type' => 'group',
+				'action' => 'close',
+				'section' => 'styling',
+				'tab' => __( 'Logo', 'live-composer-page-builder' ),
+			),
+
+			/**
+			 * Icon
+			 */
+
+			array(
+				'label' => __( 'Icon', 'live-composer-page-builder' ),
+				'id' => 'icon_id',
+				'std' => 'quote-right',
+				'type' => 'icon',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Align', 'live-composer-page-builder' ),
+				'id' => 'css_icon_align',
+				'std' => 'left',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-icon',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Color', 'live-composer-page-builder' ),
+				'id' => 'css_icon_color',
+				'std' => '#000',
+				'type' => 'color',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-icon',
+				'affect_on_change_rule' => 'color',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Size', 'live-composer-page-builder' ),
+				'id' => 'css_icon_size',
+				'std' => '31',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-icon',
+				'affect_on_change_rule' => 'font-size',
+				'section' => 'styling',
+				'ext' => 'px',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'BG Color', 'live-composer-page-builder' ),
+				'id' => 'css_icon_bg_color',
+				'std' => '',
+				'type' => 'color',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-icon',
+				'affect_on_change_rule' => 'background-color',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Border', 'live-composer-page-builder' ),
+				'id' => 'css_icon_border_group',
+				'type' => 'group',
+				'action' => 'open',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+				array(
+					'label' => __( 'Border Color', 'live-composer-page-builder' ),
+					'id' => 'css_icon_border_color',
+					'std' => '',
+					'type' => 'color',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'border-color',
+					'section' => 'styling',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Border Width', 'live-composer-page-builder' ),
+					'id' => 'css_icon_border_width',
+					'onlypositive' => true, // Value can't be negative.
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'border-width',
+					'section' => 'styling',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+				array(
+					'label' => __( 'Borders', 'live-composer-page-builder' ),
+					'id' => 'css_icon_border_trbl',
+					'std' => 'top right bottom left',
+					'type' => 'checkbox',
+					'choices' => array(
+						array(
+							'label' => __( 'Top', 'live-composer-page-builder' ),
+							'value' => 'top',
+						),
+						array(
+							'label' => __( 'Right', 'live-composer-page-builder' ),
+							'value' => 'right',
+						),
+						array(
+							'label' => __( 'Bottom', 'live-composer-page-builder' ),
+							'value' => 'bottom',
+						),
+						array(
+							'label' => __( 'Left', 'live-composer-page-builder' ),
+							'value' => 'left',
+						),
+					),
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'border-style',
+					'section' => 'styling',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Border Radius', 'live-composer-page-builder' ),
+					'id' => 'css_icon_border_radius',
+					'onlypositive' => true, // Value can't be negative.
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'border-radius',
+					'section' => 'styling',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+					'ext' => 'px',
+				),
+			array(
+				'id' => 'css_icon_border_group',
+				'type' => 'group',
+				'action' => 'close',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Margin', 'live-composer-page-builder' ),
+				'id' => 'css_icon_margin_group',
+				'type' => 'group',
+				'action' => 'open',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+				array(
+					'label' => __( 'Top', 'live-composer-page-builder' ),
+					'id' => 'css_icon_margin_top',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-top',
+					'section' => 'styling',
+					'ext' => 'px',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Right', 'live-composer-page-builder' ),
+					'id' => 'css_icon_margin_right',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-right',
+					'section' => 'styling',
+					'ext' => 'px',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Bottom', 'live-composer-page-builder' ),
+					'id' => 'css_icon_margin_bottom',
+					'std' => '20',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-bottom',
+					'section' => 'styling',
+					'ext' => 'px',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Left', 'live-composer-page-builder' ),
+					'id' => 'css_icon_margin_left',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-left',
+					'section' => 'styling',
+					'ext' => 'px',
+					'tab' => __( 'Icon', 'live-composer-page-builder' ),
+				),
+			array(
+				'id' => 'css_icon_margin_group',
+				'type' => 'group',
+				'action' => 'close',
+				'section' => 'styling',
+				'tab' => __( 'Icon', 'live-composer-page-builder' ),
+			),
+
+			/**
 			 * Quote
 			 */
 
@@ -789,6 +1261,27 @@ class DSLC_Testimonials extends DSLC_Module {
 				'ext' => 'px',
 			),
 			array(
+				'label' => __( 'Font Style', 'live-composer-page-builder' ),
+				'id' => 'css_quote_font_style',
+				'std' => 'normal',
+				'type' => 'select',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-quote',
+				'affect_on_change_rule' => 'font-style',
+				'section' => 'styling',
+				'tab' => __( 'Quote', 'live-composer-page-builder' ),
+				'choices' => array(
+					array(
+						'label' => __( 'Normal', 'live-composer-page-builder' ),
+						'value' => 'normal',
+					),
+					array(
+						'label' => __( 'Italic', 'live-composer-page-builder' ),
+						'value' => 'italic',
+					),
+				),
+			),
+			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_quote_margin',
 				'std' => '18',
@@ -932,6 +1425,17 @@ class DSLC_Testimonials extends DSLC_Module {
 			 */
 
 			array(
+				'label' => __( 'Align', 'live-composer-page-builder' ),
+				'id' => 'css_avatar_align',
+				'std' => 'left',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-author-avatar',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'styling',
+				'tab' => __( 'Avatar', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'BG Color', 'live-composer-page-builder' ),
 				'id' => 'css_avatar_bg_color',
 				'std' => '',
@@ -1009,6 +1513,24 @@ class DSLC_Testimonials extends DSLC_Module {
 				'ext' => 'px',
 			),
 			array(
+				'label' => __( 'Position', 'live-composer-page-builder' ),
+				'id' => 'avatar_position',
+				'std' => 'aside',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => __( 'Above', 'live-composer-page-builder' ),
+						'value' => 'above',
+					),
+					array(
+						'label' => __( 'Aside', 'live-composer-page-builder' ),
+						'value' => 'aside',
+					),
+				),
+				'section' => 'styling',
+				'tab' => __( 'Avatar', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'Margin Right', 'live-composer-page-builder' ),
 				'id' => 'css_avatar_margin_right',
 				'std' => '20',
@@ -1051,6 +1573,17 @@ class DSLC_Testimonials extends DSLC_Module {
 			 * Title
 			 */
 
+			array(
+				'label' => __( 'Text Align', 'live-composer-page-builder' ),
+				'id' => 'css_name_text_align',
+				'std' => 'left',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-author-name',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'styling',
+				'tab' => __( 'Name', 'live-composer-page-builder' ),
+			),
 			array(
 				'label' => __( 'Color', 'live-composer-page-builder' ),
 				'id' => 'css_name_color',
@@ -1137,6 +1670,35 @@ class DSLC_Testimonials extends DSLC_Module {
 				'tab' => __( 'Name', 'live-composer-page-builder' ),
 			),
 			array(
+				'label' => __( 'Text Transform', 'live-composer-page-builder' ),
+				'id' => 'css_name_text_transform',
+				'std' => 'none',
+				'type' => 'select',
+				'choices' => array(
+					array(
+						'label' => __( 'None', 'live-composer-page-builder' ),
+						'value' => 'none',
+					),
+					array(
+						'label' => __( 'Capitalize', 'live-composer-page-builder' ),
+						'value' => 'capitalize',
+					),
+					array(
+						'label' => __( 'Uppercase', 'live-composer-page-builder' ),
+						'value' => 'uppercase',
+					),
+					array(
+						'label' => __( 'Lowercase', 'live-composer-page-builder' ),
+						'value' => 'lowercase',
+					),
+				),
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-author-name',
+				'affect_on_change_rule' => 'text-transform',
+				'section' => 'styling',
+				'tab' => __( 'Name', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_name_margin_bottom',
 				'std' => '8',
@@ -1165,6 +1727,17 @@ class DSLC_Testimonials extends DSLC_Module {
 			 * Position
 			 */
 
+			array(
+				'label' => __( 'Text Align', 'live-composer-page-builder' ),
+				'id' => 'css_position_text_align',
+				'std' => 'left',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-author-position',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'styling',
+				'tab' => __( 'Position', 'live-composer-page-builder' ),
+			),
 			array(
 				'label' => __( 'Color', 'live-composer-page-builder' ),
 				'id' => 'css_position_color',
@@ -1263,6 +1836,27 @@ class DSLC_Testimonials extends DSLC_Module {
 				'increment' => '0.05',
 				'max' => 3,
 			),
+			array(
+				'label' => __( 'Font Style', 'live-composer-page-builder' ),
+				'id' => 'css_position_font_style',
+				'std' => 'normal',
+				'type' => 'select',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-testimonial-author-position',
+				'affect_on_change_rule' => 'font-style',
+				'section' => 'styling',
+				'tab' => __( 'Position', 'live-composer-page-builder' ),
+				'choices' => array(
+					array(
+						'label' => __( 'Normal', 'live-composer-page-builder' ),
+						'value' => 'normal',
+					),
+					array(
+						'label' => __( 'Italic', 'live-composer-page-builder' ),
+						'value' => 'italic',
+					),
+				),
+			),
 
 			/**
 			 * Responsive Tablet
@@ -1338,6 +1932,221 @@ class DSLC_Testimonials extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
 				'ext' => 'px',
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			array(
+			   'label' => __( 'Logo - Size', 'live-composer-page-builder' ),
+			   'id' => 'css_res_t_logo_size',
+			   'std' => '',
+			   'type' => 'slider',
+			   'refresh_on_change' => false,
+			   'affect_on_change_el' => '.dslc-testimonial-logo img',
+			   'affect_on_change_rule' => 'width',
+			   'section' => 'responsive',
+			   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			   'min' => 1,
+			   'max' => 100,
+			   'ext' => 'px',
+			),
+			array(
+			   'label' => __( 'Logo - Padding', 'live-composer-page-builder' ),
+			   'id' => 'css_res_t_logo_padding_group',
+			   'type' => 'group',
+			   'action' => 'open',
+			   'section' => 'responsive',
+			   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			   array(
+				   'label' => __( 'Top', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_padding_top',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-top',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Right', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_padding_right',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-right',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Bottom', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_padding_bottom',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-bottom',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Left', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_padding_left',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-left',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			array(
+			   'id' => 'css_res_t_logo_padding_group',
+			   'type' => 'group',
+			   'action' => 'close',
+			   'section' => 'responsive',
+			   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			array(
+			   'label' => __( 'Logo - Margin', 'live-composer-page-builder' ),
+			   'id' => 'css_res_t_logo_margin_group',
+			   'type' => 'group',
+			   'action' => 'open',
+			   'section' => 'responsive',
+			   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			   array(
+				   'label' => __( 'Top', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_margin_top',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-top',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Right', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_margin_right',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-right',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Bottom', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_margin_bottom',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-bottom',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Left', 'live-composer-page-builder' ),
+				   'id' => 'css_res_t_logo_margin_left',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-left',
+				   'section' => 'responsive',
+				   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			array(
+			   'id' => 'css_res_t_logo_margin_group',
+			   'type' => 'group',
+			   'action' => 'close',
+			   'section' => 'responsive',
+			   'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Icon - Size', 'live-composer-page-builder' ),
+				'id' => 'css_res_t_icon_size',
+				'std' => '31',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-icon',
+				'affect_on_change_rule' => 'font-size',
+				'section' => 'responsive',
+				'ext' => 'px',
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Icon - Margin', 'live-composer-page-builder' ),
+				'id' => 'css_res_t_icon_margin_group',
+				'type' => 'group',
+				'action' => 'open',
+				'section' => 'responsive',
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+				array(
+					'label' => __( 'Top', 'live-composer-page-builder' ),
+					'id' => 'css_res_t_icon_margin_top',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-top',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Right', 'live-composer-page-builder' ),
+					'id' => 'css_res_t_icon_margin_right',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-right',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Bottom', 'live-composer-page-builder' ),
+					'id' => 'css_res_t_icon_margin_bottom',
+					'std' => '20',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-bottom',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Left', 'live-composer-page-builder' ),
+					'id' => 'css_res_t_icon_margin_left',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-left',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+				),
+			array(
+				'id' => 'css_res_t_icon_margin_group',
+				'type' => 'group',
+				'action' => 'close',
+				'section' => 'responsive',
 				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
@@ -1617,6 +2426,221 @@ class DSLC_Testimonials extends DSLC_Module {
 				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
 				'ext' => 'px',
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			array(
+			   'label' => __( 'Logo - Size', 'live-composer-page-builder' ),
+			   'id' => 'css_res_p_logo_size',
+			   'std' => '',
+			   'type' => 'slider',
+			   'refresh_on_change' => false,
+			   'affect_on_change_el' => '.dslc-testimonial-logo img',
+			   'affect_on_change_rule' => 'width',
+			   'section' => 'responsive',
+			   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			   'min' => 1,
+			   'max' => 100,
+			   'ext' => 'px',
+			),
+			array(
+			   'label' => __( 'Logo - Padding', 'live-composer-page-builder' ),
+			   'id' => 'css_res_p_logo_padding_group',
+			   'type' => 'group',
+			   'action' => 'open',
+			   'section' => 'responsive',
+			   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			   array(
+				   'label' => __( 'Top', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_padding_top',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-top',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Right', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_padding_right',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-right',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Bottom', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_padding_bottom',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-bottom',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Left', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_padding_left',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'padding-left',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			array(
+			   'id' => 'css_res_p_logo_padding_group',
+			   'type' => 'group',
+			   'action' => 'close',
+			   'section' => 'responsive',
+			   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			array(
+			   'label' => __( 'Logo - Margin', 'live-composer-page-builder' ),
+			   'id' => 'css_res_p_logo_margin_group',
+			   'type' => 'group',
+			   'action' => 'open',
+			   'section' => 'responsive',
+			   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			   array(
+				   'label' => __( 'Top', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_margin_top',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-top',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Right', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_margin_right',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-right',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Bottom', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_margin_bottom',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-bottom',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			   array(
+				   'label' => __( 'Left', 'live-composer-page-builder' ),
+				   'id' => 'css_res_p_logo_margin_left',
+				   'std' => '0',
+				   'type' => 'slider',
+				   'refresh_on_change' => false,
+				   'affect_on_change_el' => '.dslc-testimonial-logo',
+				   'affect_on_change_rule' => 'margin-left',
+				   'section' => 'responsive',
+				   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				   'ext' => 'px',
+			   ),
+			array(
+			   'id' => 'css_res_p_logo_margin_group',
+			   'type' => 'group',
+			   'action' => 'close',
+			   'section' => 'responsive',
+			   'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Icon - Size', 'live-composer-page-builder' ),
+				'id' => 'css_res_p_icon_size',
+				'std' => '31',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-icon',
+				'affect_on_change_rule' => 'font-size',
+				'section' => 'responsive',
+				'ext' => 'px',
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Icon - Margin', 'live-composer-page-builder' ),
+				'id' => 'css_res_p_icon_margin_group',
+				'type' => 'group',
+				'action' => 'open',
+				'section' => 'responsive',
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+				array(
+					'label' => __( 'Top', 'live-composer-page-builder' ),
+					'id' => 'css_res_p_icon_margin_top',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-top',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Right', 'live-composer-page-builder' ),
+					'id' => 'css_res_p_icon_margin_right',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-right',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Bottom', 'live-composer-page-builder' ),
+					'id' => 'css_res_p_icon_margin_bottom',
+					'std' => '20',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-bottom',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				),
+				array(
+					'label' => __( 'Left', 'live-composer-page-builder' ),
+					'id' => 'css_res_p_icon_margin_left',
+					'std' => '0',
+					'type' => 'slider',
+					'refresh_on_change' => false,
+					'affect_on_change_el' => '.dslc-testimonial-icon',
+					'affect_on_change_rule' => 'margin-left',
+					'section' => 'responsive',
+					'ext' => 'px',
+					'tab' => __( 'Phone', 'live-composer-page-builder' ),
+				),
+			array(
+				'id' => 'css_res_p_icon_margin_group',
+				'type' => 'group',
+				'action' => 'close',
+				'section' => 'responsive',
 				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
@@ -2033,6 +3057,10 @@ function dslc_module_testimonials_output( $atts, $content = null ) {
 		$show_header = true;
 	}
 
+	if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) {
+		$container_class .= 'dslc-carousel-arrow-aside ';
+	}
+
 		/**
 		 * Carousel Items
 		 */
@@ -2128,15 +3156,14 @@ function dslc_module_testimonials_output( $atts, $content = null ) {
 
 		<!-- Carousel -->
 
-		<?php if ( $show_carousel_arrows ) : ?>
-							<span class="dslc-carousel-nav fr">
-								<span class="dslc-carousel-nav-inner">
-									<a href="#" class="dslc-carousel-nav-prev"><span class="dslc-icon-chevron-left"></span></a>
-									<a href="#" class="dslc-carousel-nav-next"><span class="dslc-icon-chevron-right"></span></a>
-								</span>
-							</span><!-- .carousel-nav -->
-						<?php endif; ?>
-
+		<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'above' ) ) : ?>
+				<span class="dslc-carousel-nav fr">
+					<span class="dslc-carousel-nav-inner">
+						<a href="#" class="dslc-carousel-nav-prev"><span class="dslc-icon-chevron-left"></span></a>
+						<a href="#" class="dslc-carousel-nav-next"><span class="dslc-icon-chevron-right"></span></a>
+					</span>
+				</span><!-- .carousel-nav -->
+			<?php endif; ?>
 			</div><!-- .dslc-module-heading -->
 				<?php
 
@@ -2148,9 +3175,13 @@ function dslc_module_testimonials_output( $atts, $content = null ) {
 
 	if ( $dslc_query->have_posts() ) :
 
-		?><div class="<?php echo $container_class; ?>"><?php
-
-	?><div class="dslc-posts-inner"><?php
+		?><div class="<?php echo $container_class; ?>">
+			
+			<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) : ?>
+				<a href="#" class="dslc-carousel-nav-prev position-aside"><span class="dslc-icon-chevron-left"></span></a>
+			<?php endif; ?>
+			
+	<div class="dslc-posts-inner"><?php
 
 if ( $options['type'] == 'carousel' ) :
 
@@ -2187,7 +3218,7 @@ while ( $dslc_query->have_posts() ) : $dslc_query->the_post();
 
 	<?php ob_start(); ?>
 
-<div class="dslc-testimonial-author dslc-testimonial-author-pos-<?php echo str_replace( ' ', '-', $options['author_pos'] ); ?> dslc-clearfix">
+<div class="dslc-testimonial-author dslc-testimonial-author-pos-<?php echo str_replace( ' ', '-', $options['author_pos'] ); ?> dslc-testimonial-avatar-<?php echo $options['avatar_position']; ?> dslc-clearfix">
 
 	<?php if ( $post_elements == 'all' || in_array( 'avatar', $post_elements ) ) : ?>
 
@@ -2232,13 +3263,38 @@ while ( $dslc_query->have_posts() ) : $dslc_query->the_post();
 
 		<?php if ( $options['author_pos'] == 'inside top' ) { echo $author_output;} ?>
 
+		<?php if ( $post_elements == 'all' || in_array( 'icon', $post_elements ) ) : ?>
+
+			<div class="dslc-testimonial-icon">
+				<span class="dslc-icon dslc-icon-<?php echo $options['icon_id']; ?>"></span>
+			</div><!-- .dslc-testimonial-icon -->
+
+		<?php endif; ?>
+
+		<?php if ( $post_elements == 'all' || in_array( 'logo', $post_elements ) ) : ?>
+
+			<?php
+				$dslc_testimonial_logo = get_post_meta( get_the_ID(), 'dslc_testimonial_logo', true );
+
+				if ( ! empty( $dslc_testimonial_logo ) ) {
+					$dslc_testimonial_image_src = wp_get_attachment_image_src( $dslc_testimonial_logo, 'full' );
+					?>
+						<div class="dslc-testimonial-logo">
+							<img src="<?php echo $dslc_testimonial_image_src[0]; ?>">
+						</div>
+					<?php
+				}
+			?>
+
+		<?php endif; ?>
+
 		<?php if ( $post_elements == 'all' || in_array( 'quote', $post_elements ) ) : ?>
 
-											<div class="dslc-testimonial-quote">
-												<?php echo get_the_content(); ?>
-											</div><!-- .dslc-testimonial-quote -->
+			<div class="dslc-testimonial-quote">
+				<?php echo get_the_content(); ?>
+			</div><!-- .dslc-testimonial-quote -->
 
-										<?php endif; ?>
+		<?php endif; ?>
 
 		<?php if ( $options['author_pos'] == 'inside bottom' ) { echo $author_output;} ?>
 
@@ -2268,6 +3324,10 @@ if ( $options['type'] == 'carousel' ) :
 		?>
 
 	</div><!-- .dslc-posts-inner -->
+
+	<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) : ?>
+		<a href="#" class="dslc-carousel-nav-next position-aside"><span class="dslc-icon-chevron-right"></span></a>
+	<?php endif; ?>
 
 		</div><!-- .dslc-testimonials -->
 

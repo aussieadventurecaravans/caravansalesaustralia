@@ -39,9 +39,25 @@ function has_product_any_attributes( $product_id ) {
 		for ( $i = 1; $i <= $attributes_number; $i++ ) {
 			$at_val = get_post_meta( $product_id, "_attribute" . $i, true );
 			if ( !empty( $at_val ) ) {
-				return apply_filters( 'ic_has_product_any_attributes', true );
+				return apply_filters( 'ic_has_product_any_attributes', true, $product_id );
 			}
 		}
 	}
-	return apply_filters( 'ic_has_product_any_attributes', false );
+	return apply_filters( 'ic_has_product_any_attributes', false, $product_id );
+}
+
+function is_ic_attributes_size_enabled() {
+	$settings = ic_attributes_standard_settings();
+	if ( !empty( $settings[ 'size_unit' ] ) && $settings[ 'size_unit' ] == 'disable' ) {
+		return false;
+	}
+	return true;
+}
+
+function is_ic_attributes_weight_enabled() {
+	$settings = ic_attributes_standard_settings();
+	if ( !empty( $settings[ 'weight_unit' ] ) && $settings[ 'weight_unit' ] == 'disable' ) {
+		return false;
+	}
+	return true;
 }

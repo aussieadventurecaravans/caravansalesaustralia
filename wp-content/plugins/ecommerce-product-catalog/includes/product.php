@@ -40,6 +40,14 @@ class ic_product {
 		return apply_filters( 'ic_product_name', $name, $this->ID );
 	}
 
+	function archive_price_html() {
+		if ( empty( $this->post ) ) {
+			return '';
+		}
+		$archive_price = apply_filters( 'archive_price_filter', '', $this->post );
+		return $archive_price;
+	}
+
 	/**
 	 * Returns product description
 	 *
@@ -56,7 +64,10 @@ class ic_product {
 	 * @return string
 	 */
 	function short_description() {
-		$product_desc = $this->post->post_excerpt;
+		$product_desc = '';
+		if ( !empty( $this->post->post_excerpt ) ) {
+			$product_desc = $this->post->post_excerpt;
+		}
 		return apply_filters( 'get_product_short_description', $product_desc, $this->ID );
 	}
 
@@ -72,8 +83,13 @@ class ic_product {
 		}
 		do_action( 'ic_before_get_image_html', $this->ID );
 		if ( has_post_thumbnail( $this->ID ) ) {
-			$image_size		 = apply_filters( 'product_image_size', 'product-page-image' );
-			$product_image	 = get_the_post_thumbnail( $this->ID, $image_size, 'itemprop=image' );
+			$image_size	 = apply_filters( 'product_image_size', 'product-page-image' );
+			$attr		 = 'itemprop=image';
+			if ( is_ic_magnifier_enabled() && is_ic_product_page() ) {
+				$attr	 .= '&class=attachment-product-page-image size-product-page-image ic_magnifier';
+				$attr	 .= '&data-zoom-image=' . $this->image_url();
+			}
+			$product_image = get_the_post_thumbnail( $this->ID, $image_size, $attr );
 		} else if ( $show_default ) {
 			$single_options = get_product_page_settings();
 			if ( $single_options[ 'enable_product_gallery_only_when_exist' ] != 1 ) {
@@ -85,8 +101,27 @@ class ic_product {
 		return $product_image;
 	}
 
+	function listing_image_html() {
+		$image_html = ic_get_global( 'ic_listing_image_html_' . $this->ID );
+		if ( !empty( $image_html ) ) {
+			return $image_html;
+		} else {
+			$image_html = apply_filters( 'ic_listing_image_html_' . $this->ID, '', $this->ID );
+		}
+		if ( empty( $image_html ) ) {
+			$image_html = $this->image_html();
+		}
+		ic_save_global( 'ic_listing_image_html_' . $this->ID, $image_html );
+		return $image_html;
+	}
+
 	function image_url() {
-		$img_url = wp_get_attachment_image_src( $this->image_id(), 'large' );
+		if ( is_ic_magnifier_enabled() ) {
+			$size = 'full';
+		} else {
+			$size = 'large';
+		}
+		$img_url = wp_get_attachment_image_src( $this->image_id(), $size );
 		if ( !$img_url ) {
 			$img_url[ 0 ] = default_product_thumbnail_url();
 		}
@@ -98,5 +133,3 @@ class ic_product {
 	}
 
 }
-
-$ic_register_product = new ic_register_product;

@@ -19,10 +19,12 @@ add_action( 'admin_product_details', 'ic_sku_metabox', 10, 2 );
  *
  * @param array $names
  */
-function ic_sku_metabox( $product_details, $product_id ) {
+function ic_sku_metabox( $product_details, $product_id, $field_name = '_sku', $sku = null ) {
 	if ( is_ic_sku_enabled() ) {
-		$sku = get_post_meta( $product_id, '_sku', true );
-		$product_details .= apply_filters( 'admin_sku_table', '<table><tr><td class="label-column">' . __( 'SKU', 'ecommerce-product-catalog' ) . ':</td><td class="sku-column"><input type="text" name="_sku" value="' . $sku . '" class="widefat" /></td></tr></table>', $product_id );
+		if ( $sku === null ) {
+			$sku = get_product_sku( $product_id );
+		}
+		$product_details .= apply_filters( 'admin_sku_table', '<table><tr><td class="label-column">' . __( 'SKU', 'ecommerce-product-catalog' ) . ':</td><td class="sku-column"><input type="text" name="' . $field_name . '" value="' . $sku . '" class="widefat" /></td></tr></table>', $product_id );
 	}
 	return $product_details;
 }

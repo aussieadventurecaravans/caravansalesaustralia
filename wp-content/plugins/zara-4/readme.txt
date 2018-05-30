@@ -4,7 +4,7 @@ Tags: Compress Image, Image Optimizer, Image Compression, Optimize Images, Small
 Requires at least: 3.0.1
 Tested up to: 4.9.2
 Donate link: https://zara4.com
-Stable tag: 1.2.15.1
+Stable tag: 1.2.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -102,6 +102,9 @@ Any feedback or suggestions for improvement / feature requests are always welcom
 
 
 == Changelog ==
+
+= 1.2.16 =
+* Update asset loading to use plugin version rather than WordPress version. Acts a cache-buster between versions.
 
 = 1.2.15.1 =
 * Update WordPress compatibility to 4.9.2

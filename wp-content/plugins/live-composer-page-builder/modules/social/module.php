@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class DSLC_Social extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
 
 	function __construct() {
 
@@ -657,6 +657,17 @@ class DSLC_Social extends DSLC_Module {
 				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
+				'label' => __( 'Align', 'live-composer-page-builder' ),
+				'id' => 'css_res_t_text_align',
+				'std' => 'left',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => 'ul.dslc-social',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'responsive',
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_margin_bottom',
 				'std' => '0',
@@ -729,6 +740,17 @@ class DSLC_Social extends DSLC_Module {
 				'tab' => __( 'Phone', 'live-composer-page-builder' ),
 			),
 			array(
+				'label' => __( 'Align', 'live-composer-page-builder' ),
+				'id' => 'css_res_p_text_align',
+				'std' => 'left',
+				'type' => 'text_align',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => 'ul.dslc-social',
+				'affect_on_change_rule' => 'text-align',
+				'section' => 'responsive',
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'Margin Bottom', 'live-composer-page-builder' ),
 				'id' => 'css_res_p_margin_bottom',
 				'std' => '0',
@@ -786,7 +808,7 @@ class DSLC_Social extends DSLC_Module {
 		$dslc_options = array_merge( $dslc_options, $this->presets_options() );
 
 		// Cache calculated array in WP Object Cache.
-		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options ,'dslc_modules' );
+		wp_cache_add( 'dslc_options_' . $this->module_id, $dslc_options, 'dslc_modules' );
 
 		return apply_filters( 'dslc_module_options', $dslc_options, $this->module_id );
 

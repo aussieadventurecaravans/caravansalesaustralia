@@ -28,27 +28,6 @@ function example_grid_archive_theme() {
 	<?php
 }
 
-/*
-  function grid_archive_theme( $post ) {
-  ?>
-  <div class="archive-listing classic-grid">
-  <a href="<?php the_permalink(); ?>">
-  <div style="background-image:url('<?php
-  if ( wp_get_attachment_url( get_post_thumbnail_id( $post->ID ) ) ) {
-  $url = wp_get_attachment_url( get_post_thumbnail_id( $post->ID ) );
-  } else {
-  $url = default_product_thumbnail_url();
-  }
-  echo $url;
-  ?>');" class="classic-grid-element"></div>
-  <div class="product-name"><?php the_title(); ?></div>
-  <?php do_action( 'archive_price', $post ); ?>
-  </a>
-  </div>
-  <?php
-  }
- */
-
 /**
  * Returns classic grid element for a given product
  *
@@ -60,48 +39,14 @@ function get_grid_archive_theme( $post, $archive_template = null ) {
 	$archive_template	 = isset( $archive_template ) ? $archive_template : get_product_listing_template();
 	$return				 = '';
 	if ( $archive_template == 'grid' ) {
-		$product_id			 = $post->ID;
-		$image_id			 = get_post_thumbnail_id( $product_id );
-		$thumbnail_product	 = wp_get_attachment_image_src( $image_id, 'classic-grid-listing' );
-		$product_name		 = get_product_name( $product_id );
-		if ( $thumbnail_product ) {
-			$img_class[ 'alt' ]		 = $product_name;
-			$img_class[ 'class' ]	 = 'classic-grid-image';
-			$image					 = wp_get_attachment_image( $image_id, 'classic-grid-listing', false, $img_class );
-		} else {
-			$url	 = default_product_thumbnail_url();
-			$image	 = '<img src="' . $url . '" class="classic-grid-image default-image" alt="' . $product_name . '" >';
+		remove_all_filters( 'ic_listing_image_html_' . $post->ID );
+		add_filter( 'ic_listing_image_html_' . $post->ID, 'ic_set_classic_grid_image_html', 10, 2 );
+		if ( !has_filter( 'product-class', 'ic_classic_grid_add_row_class' ) ) {
+			add_filter( 'product-class', 'ic_classic_grid_add_row_class' );
 		}
-		$archive_price			 = apply_filters( 'archive_price_filter', '', $post );
-		$classic_grid_settings	 = get_classic_grid_settings();
-		$row_class				 = get_row_class( $classic_grid_settings );
-		$return					 = '<div class="archive-listing product-' . $product_id . ' classic-grid ' . $row_class . ' ' . product_class( $product_id ) . '">';
-		$return					 .= '<a href="' . get_permalink() . '">';
-		//$return .= '<div style="background-image:url(\'' . $url . '\');" class="classic-grid-element"></div>';
-		$return					 .= '<div class="classic-grid-image-wrapper"><div class="pseudo"></div><div class="image">' . $image . '</div></div>';
-		$return					 .= '<h3 class="product-name">' . $product_name . '</h3>' . $archive_price;
-		if ( $classic_grid_settings[ 'attributes' ] == 1 && function_exists( 'product_attributes_number' ) ) {
-			$attributes_number = product_attributes_number();
-			if ( $attributes_number > 0 && has_product_any_attributes( $product_id ) ) {
-				$max_listing_attributes	 = apply_filters( 'max_product_listing_attributes', $classic_grid_settings[ 'attributes_num' ] );
-				$return					 .= '<div class="product-attributes">';
-				$a						 = 0;
-				for ( $i = 1; $i <= $attributes_number; $i++ ) {
-					$attribute_value = get_attribute_value( $i, $product_id );
-					if ( !empty( $attribute_value ) ) {
-						$return .= '<div><span class="attribute-label-listing">' . get_attribute_label( $i, $product_id ) . ':</span> <span class="attribute-value-listing">' . get_attribute_value( $i, $product_id ) . '</span> <span class="attribute-unit-listing">' . get_attribute_unit( $i, $product_id ) . '</span></div>';
-						$a++;
-					}
-					if ( $a == $max_listing_attributes ) {
-						break;
-					}
-				}
-				$return .= '</div>';
-			}
-		}
-		$return	 .= '</a>';
-		$return	 .= apply_filters( 'classic_grid_product_listing_element', '', $product_id );
-		$return	 .= '</div>';
+		ob_start();
+		ic_show_template_file( 'product-listing/classic-grid.php' );
+		$return = ob_get_clean();
 	}
 	return $return;
 }
@@ -115,42 +60,59 @@ function get_grid_archive_theme( $post, $archive_template = null ) {
  */
 function get_grid_category_theme( $product_cat, $archive_template ) {
 	if ( $archive_template == 'grid' ) {
-		$image_id		 = get_product_category_image_id( $product_cat->term_id );
-		$category_image	 = wp_get_attachment_image_src( $image_id, 'classic-grid-listing' );
-		if ( $category_image ) {
-			$img_class[ 'alt' ]		 = $product_cat->name;
-			$img_class[ 'class' ]	 = 'classic-grid-image';
-			$image					 = wp_get_attachment_image( $image_id, 'classic-grid-listing', false, $img_class );
-		} else {
-			$url	 = default_product_thumbnail_url();
-			$image	 = '<img src="' . $url . '" class="classic-grid-image default-image" alt="' . $product_cat->name . '" >';
+		$product_cat = ic_set_classic_grid_category_image_html( $product_cat );
+		ic_save_global( 'ic_current_product_cat', $product_cat );
+		if ( !has_filter( 'product-category-class', 'ic_classic_grid_add_row_class' ) ) {
+			add_filter( 'product-category-class', 'ic_classic_grid_add_row_class' );
 		}
-		$classic_grid_settings	 = get_classic_grid_settings();
-		$row_class				 = get_row_class( $classic_grid_settings );
-		$return					 = '<div class="archive-listing category-' . $product_cat->term_id . ' classic-grid ' . $row_class . ' ' . product_category_class( $product_cat->term_id ) . '">';
-		$return					 .= '<a href="' . get_term_link( $product_cat ) . '">';
-		//$return .= '<div style="background-image:url(\'' . $url . '\');" class="classic-grid-element"></div>';
-		$return					 .= '<div class="classic-grid-image-wrapper"><div class="pseudo"></div><div class="image">' . $image . '</div></div>';
-		$return					 .= '<h3 class="product-name">' . $product_cat->name . '</h3></a></div>';
+		ob_start();
+		ic_show_template_file( 'product-listing/classic-grid-category.php' );
+		$return = ob_get_clean();
 		return $return;
 	}
 }
 
+function ic_classic_grid_add_row_class( $class ) {
+	$classic_grid_settings	 = get_classic_grid_settings();
+	$row_class				 = get_row_class( $classic_grid_settings );
+	if ( !empty( $row_class ) ) {
+		$class .= ' ' . $row_class;
+	}
+	return $class;
+}
+
+function ic_set_classic_grid_image_html( $image_html, $product_id ) {
+	$image_id			 = get_post_thumbnail_id( $product_id );
+	$thumbnail_product	 = wp_get_attachment_image_src( $image_id, 'classic-grid-listing' );
+	$product_name		 = get_product_name( $product_id );
+	if ( $thumbnail_product ) {
+		$img_class[ 'alt' ]		 = $product_name;
+		$img_class[ 'class' ]	 = 'classic-grid-image';
+		$image_html				 = wp_get_attachment_image( $image_id, 'classic-grid-listing', false, $img_class );
+	} else {
+		$url		 = default_product_thumbnail_url();
+		$image_html	 = '<img src="' . $url . '" class="classic-grid-image default-image" alt="' . $product_name . '" >';
+	}
+	return $image_html;
+}
+
+function ic_set_classic_grid_category_image_html( $product_cat ) {
+	$image_id		 = get_product_category_image_id( $product_cat->term_id );
+	$category_image	 = wp_get_attachment_image_src( $image_id, 'classic-grid-listing' );
+	if ( $category_image ) {
+		$img_class[ 'alt' ]		 = $product_cat->name;
+		$img_class[ 'class' ]	 = 'classic-grid-image';
+		$image					 = wp_get_attachment_image( $image_id, 'classic-grid-listing', false, $img_class );
+	} else {
+		$url	 = default_product_thumbnail_url();
+		$image	 = '<img src="' . $url . '" class="classic-grid-image default-image" alt="' . $product_cat->name . '" >';
+	}
+	$product_cat->listing_image_html = $image;
+	return $product_cat;
+}
+
 /**
  * Returns classic grid settings
- *
- * @return array
- *
-  function get_classic_grid_settings() {
-  $default_classic_grid_settings			 = array(
-  'entries'	 => 3,
-  'attributes' => 0
-  );
-  $classic_grid_settings					 = get_option( 'classic_grid_settings', $default_classic_grid_settings );
-  $classic_grid_settings[ 'entries' ]		 = isset( $classic_grid_settings[ 'entries' ] ) ? $classic_grid_settings[ 'entries' ] : $default_classic_grid_settings[ 'entries' ];
-  $classic_grid_settings[ 'attributes' ]	 = isset( $classic_grid_settings[ 'attributes' ] ) ? $classic_grid_settings[ 'attributes' ] : $default_classic_grid_settings[ 'attributes' ];
-  return $classic_grid_settings;
-  }
  *
  * @return array
  */

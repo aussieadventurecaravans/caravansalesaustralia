@@ -624,7 +624,8 @@ function dslc_hf_get_headerfooter( $post_id = false, $hf_type = 'header' ) {
 				$cached_html = substr_replace( $cached_html, $editing_parametters, strrpos( $cached_html, 'data-hf' ), 0 );
 			}
 
-			return do_shortcode( $cached_html );
+			// We need double do_shortcode as our module shortcodes can contain encoded 3-rd party shortcodes.
+			return do_shortcode( do_shortcode( $cached_html ) );
 		}
 	}
 
@@ -664,7 +665,8 @@ function dslc_hf_get_headerfooter( $post_id = false, $hf_type = 'header' ) {
 			$cache->set_cache( $rendered_code, $cache_id );
 		}
 		// Add the code to the variable holder.
-		return do_shortcode( $rendered_code );
+		// We need double do_shortcode as our module shortcodes can contain encoded 3-rd party shortcodes.
+		return do_shortcode( do_shortcode( $rendered_code ) );
 
 	} else {
 
@@ -698,3 +700,17 @@ function dslc_hf_get_footer( $post_id = false ) {
 	// Compilation time 1.16 sec. before caching / 0.04 sec after caching.
 	return dslc_hf_get_headerfooter( $post_id, 'footer' );
 }
+
+/**
+ * Redirect non-admins from the header/footer posts to the home pages.
+ *
+ * @since 1.3.10
+ * @return void
+ */
+function dslc_redirect_from_hf_posts() {
+	if ( is_singular( 'dslc_hf' ) && ( ! is_user_logged_in() || ! current_user_can( DS_LIVE_COMPOSER_CAPABILITY )) ) {
+		wp_safe_redirect( get_home_url() );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'dslc_redirect_from_hf_posts' );

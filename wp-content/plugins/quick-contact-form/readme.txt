@@ -3,14 +3,14 @@
 Contributors: 
 Tags: contact form
 Requires at least: 4.0
-Tested up to: 4.8
+Tested up to: 4.9
 Stable tag: trunk
 
 A simple plug and play contact form with a huge range of options and styles.
 
 == Description ==
 
-A really, really simple drag and drop contact form. There is nothing to configure, all you have to do is set up your email address and add the shortcode to your pages.
+A really, really simple GDPR compliant drag and drop contact form. There is nothing to configure, all you have to do is set up your email address and add the shortcode to your pages.
 
 = Features =
 
@@ -21,6 +21,7 @@ A really, really simple drag and drop contact form. There is nothing to configur
 *	Multiple form support
 *   Akismet spam filtering
 *   Fully editable autoresponder
+*   GDPR compliant
 
 = Upgrade to Pro =
 
@@ -80,6 +81,11 @@ I did, and so have you.  Maybe there will be more, who knows.
 No but I've inherited 2 ancient, deaf and grumpy Persians.
 
 == Changelog ==
+
+= 6.18 =
+*   Data storage consent option
+*   No data retention option
+*   Active Campaign option
 
 = 6.17 =
 *   PHP7 bug fix

@@ -32,6 +32,7 @@ function attributes_settings() {
 	register_setting( 'product_attributes', 'product_attribute' );
 	register_setting( 'product_attributes', 'product_attribute_label' );
 	register_setting( 'product_attributes', 'product_attribute_unit' );
+	register_setting( 'product_attributes', 'ic_standard_attributes' );
 }
 
 add_action( 'product-settings-list', 'attributes_settings' );
@@ -87,27 +88,13 @@ function attributes_settings_content() {
 									$attribute		 = get_option( 'product_attribute' );
 									$attribute_label = get_option( 'product_attribute_label' );
 									$attribute_unit	 = get_option( 'product_attribute_unit' );
-									for ( $i = 1; $i <= product_attributes_number(); $i++ ) {
-										$attribute_label[ $i ]	 = isset( $attribute_label[ $i ] ) ? $attribute_label[ $i ] : '';
-										$attribute[ $i ]		 = isset( $attribute[ $i ] ) ? $attribute[ $i ] : '';
-										$attribute_unit[ $i ]	 = isset( $attribute_unit[ $i ] ) ? $attribute_unit[ $i ] : '';
-										?>
-										<tr>
-											<td class="lp-column lp'.$i.'"><?php echo $i ?>.</td>
-											<td class="product-attribute-label-column"><input class="product-attribute-label" type="text" name="product_attribute_label[<?php echo $i ?>]" value="<?php echo esc_html( $attribute_label[ $i ] ) ?>" /></td><td class="lp-column">:</td>
-											<td><input class="product-attribute" type="text" name="product_attribute[<?php echo $i ?>]" value="<?php echo esc_html( $attribute[ $i ] ) ?>" /></td>
-											<td><input id="admin-number-field" class="product-attribute-unit" type="text" name="product_attribute_unit[<?php echo $i ?>]" value="<?php echo esc_html( $attribute_unit[ $i ] ) ?>" /></td>
-											<?php do_action( 'product_attributes_settings_table_td', $i ); ?>
-											<td class="dragger"></td>
-										</tr> <?php }
-										?>
+									ic_attributes_settings_rows( $attribute, $attribute_label, $attribute_unit );
+									?>
 								</tbody>
 							</table>
 						</div>
-						<?php do_action( 'attributes-settings' ); ?>
-						<p class="submit">
-							<input type="submit" class="button-primary" value="<?php _e( 'Save changes', 'ecommerce-product-catalog' ); ?>" />
-						</p><?php
+						<?php
+						do_action( 'attributes-settings' );
 					} else {
 						?>
 						<table>
@@ -116,8 +103,21 @@ function attributes_settings_content() {
 									<div class="al-box warning"><?php _e( 'Attributes disabled. To enable set minimum 1 attribute.', 'ecommerce-product-catalog' ); ?></div>
 								</td>
 							</tr>
-						</table><?php }
+						</table>
+						<?php
+					}
 					?>
+					<h3><?php _e( 'Standard Attributes', 'ecommerce-product-catalog' ); ?></h3>
+					<table>
+						<?php
+						$standard_settings = ic_attributes_standard_settings();
+						implecode_settings_dropdown( __( 'Size Unit', 'ecommerce-product-catalog' ), 'ic_standard_attributes[size_unit]', $standard_settings[ 'size_unit' ], ic_available_size_units() );
+						implecode_settings_dropdown( __( 'Weight Unit', 'ecommerce-product-catalog' ), 'ic_standard_attributes[weight_unit]', $standard_settings[ 'weight_unit' ], ic_available_weight_units() );
+						?>
+					</table>
+					<p class="submit">
+						<input type="submit" class="button-primary" value="<?php _e( 'Save changes', 'ecommerce-product-catalog' ); ?>" />
+					</p>
 				</form>
 			</div>
 			<div class="helpers"><div class="wrapper"><?php
@@ -127,6 +127,31 @@ function attributes_settings_content() {
 				</div></div>
 		<?php } do_action( 'product-attributes' ); ?>
 	</div><?php
+}
+
+function ic_attributes_settings_rows( $attribute, $attribute_label, $attribute_unit, $names = null, $max_num = null ) {
+	if ( $max_num === null ) {
+		$max_num = product_attributes_number();
+	}
+	if ( $names === null ) {
+		$names[ 'label' ]	 = 'product_attribute_label';
+		$names[ 'value' ]	 = 'product_attribute';
+		$names[ 'unit' ]	 = 'product_attribute_unit';
+	}
+	for ( $i = 1; $i <= $max_num; $i++ ) {
+		$attribute_label[ $i ]	 = isset( $attribute_label[ $i ] ) ? $attribute_label[ $i ] : '';
+		$attribute[ $i ]		 = isset( $attribute[ $i ] ) ? $attribute[ $i ] : '';
+		$attribute_unit[ $i ]	 = isset( $attribute_unit[ $i ] ) ? $attribute_unit[ $i ] : '';
+		?>
+		<tr>
+			<td class="lp-column lp<?php echo $i ?>"><?php echo $i ?>.</td>
+			<td class="product-attribute-label-column"><input class="product-attribute-label" type="text" name="<?php echo $names[ 'label' ] ?>[<?php echo $i ?>]" value="<?php echo esc_html( $attribute_label[ $i ] ) ?>" /></td><td class="lp-column">:</td>
+			<td><input class="product-attribute" type="text" name="<?php echo $names[ 'value' ] ?>[<?php echo $i ?>]" value="<?php echo esc_html( $attribute[ $i ] ) ?>" /></td>
+			<td><input id="admin-number-field" class="product-attribute-unit" type="text" name="<?php echo $names[ 'unit' ] ?>[<?php echo $i ?>]" value="<?php echo esc_html( $attribute_unit[ $i ] ) ?>" /></td>
+			<?php do_action( 'product_attributes_settings_table_td', $i, $names, $attribute_label[ $i ], $attribute[ $i ], $attribute_unit[ $i ] ); ?>
+			<td class="dragger"></td>
+		</tr> <?php
+	}
 }
 
 add_action( 'general_settings', 'attributes_settings_content' );
@@ -152,7 +177,7 @@ function product_attributes_number() {
  * @return string
  */
 function get_default_product_attribute_label( $i = null ) {
-	$attribute_label = get_option( 'product_attribute_label' );
+	$attribute_label = apply_filters( 'ic_product_attribute_label_option', get_option( 'product_attribute_label' ) );
 	if ( $i == null ) {
 		return $attribute_label;
 	}
@@ -197,4 +222,45 @@ add_action( 'classic_grid_additional_settings', 'ic_listing_attributes_settings'
 function ic_listing_attributes_settings( $listing_settings, $listing_name ) {
 	?>
 	<input title="<?php _e( 'Use this only with short attributes labels and values e.g. Color: Red', 'ecommerce-product-catalog' ) ?>" type="checkbox" name="<?php echo $listing_name ?>_settings[attributes]" value="1"<?php checked( 1, isset( $listing_settings[ 'attributes' ] ) ? $listing_settings[ 'attributes' ] : ''  ); ?>> <?php _e( 'Show Attributes', 'ecommerce-product-catalog' ); ?><br><?php
+}
+
+function ic_attributes_standard_settings() {
+	$settings					 = get_option( 'ic_standard_attributes' );
+	$settings[ 'weight_unit' ]	 = !empty( $settings[ 'weight_unit' ] ) ? $settings[ 'weight_unit' ] : 'kg';
+	$settings[ 'size_unit' ]	 = !empty( $settings[ 'size_unit' ] ) ? $settings[ 'size_unit' ] : 'cm';
+	return $settings;
+}
+
+function ic_available_weight_units() {
+	$units = array( 'disable' => __( 'Disable Weight', 'ecommerce-product-catalog' ), 'kg' => 'kg', 'g' => 'g', 'lbs' => 'lbs', 'oz' => 'oz' );
+	return $units;
+}
+
+function ic_available_size_units() {
+	$units = array( 'disable' => __( 'Disable Size', 'ecommerce-product-catalog' ), 'm' => 'm', 'cm' => 'cm', 'mm' => 'mm', 'in' => 'in', 'yd' => 'yd' );
+	return $units;
+}
+
+function ic_attributes_get_size_unit() {
+	$settings = ic_attributes_standard_settings();
+	if ( !empty( $settings[ 'size_unit' ] ) && $settings[ 'size_unit' ] !== 'disable' ) {
+		return apply_filters( 'ic_size_display_unit', $settings[ 'size_unit' ] );
+	}
+	return '';
+}
+
+function ic_attributes_get_weight_unit() {
+	$settings = ic_attributes_standard_settings();
+	if ( !empty( $settings[ 'weight_unit' ] ) && $settings[ 'weight_unit' ] !== 'disable' ) {
+		return apply_filters( 'ic_weight_display_unit', $settings[ 'weight_unit' ] );
+	}
+	return '';
+}
+
+add_filter( 'ic_default_single_names', 'ic_attributes_standard_labels' );
+
+function ic_attributes_standard_labels( $single_names ) {
+	$single_names[ 'product_size' ]		 = __( 'Size', 'ecommerce-product-catalog' ) . ':';
+	$single_names[ 'product_weight' ]	 = __( 'Weight', 'ecommerce-product-catalog' ) . ':';
+	return $single_names;
 }

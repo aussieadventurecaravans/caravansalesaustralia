@@ -206,9 +206,9 @@ if ( !function_exists( 'echo_ic_setting' ) ) {
 			}
 		}
 		$content = '<div class="custom-uploader">';
-		$content .= '<input type="hidden" id="upload_type" value="' . $upload_image_id . '" />';
-		$content .= '<input type="hidden" id="default" value="' . $default_image . '" />';
-		$content .= '<input type="hidden" name="' . $option_name . '" id="uploaded_image" value="' . $option_value . '" />';
+		$content .= '<input type="hidden" class="upload_type" id="upload_type" value="' . $upload_image_id . '" />';
+		$content .= '<input type="hidden" class="default" id="default" value="' . $default_image . '" />';
+		$content .= '<input type="hidden" name="' . $option_name . '" class="uploaded_image" id="uploaded_image" value="' . $option_value . '" />';
 //if ($image_src != '') {
 		$class	 = '';
 		if ( $option_value == null ) {
@@ -231,7 +231,22 @@ if ( !function_exists( 'echo_ic_setting' ) ) {
 		if ( $option_value != null ) {
 			$style = 'style="display: none"';
 		}
-		$content .= '<a ' . $style . ' href="#" class="button add_catalog_media" option_name="' . $option_name . '" name="' . $option_name . '_button" id="button_' . $option_name . '"><span class="wp-media-buttons-icon"></span> ' . $button_value . '</a>';
+		if ( ic_string_contains( $option_name, '[]' ) ) {
+			$normal_name = str_replace( '[]', '', $option_name );
+			$link_name	 = $normal_name . '_button[]';
+			global $ic_image_upload_count;
+			if ( empty( $ic_image_upload_count ) ) {
+				$ic_image_upload_count = 0;
+			} else {
+				$ic_image_upload_count++;
+			}
+			$link_id	 = 'button_' . $normal_name . '_' . $ic_image_upload_count;
+			$option_name = str_replace( '[]', '[' . $ic_image_upload_count . ']', $option_name );
+		} else {
+			$link_name	 = $option_name . '_button';
+			$link_id	 = 'button_' . $option_name;
+		}
+		$content .= '<a ' . $style . ' href="#" class="button add_catalog_media" option_name="' . $option_name . '" name="' . $link_name . '" id="' . $link_id . '"><span class="wp-media-buttons-icon"></span> ' . $button_value . '</a>';
 		$content .= '</div>';
 		return echo_ic_setting( $content, $echo );
 	}

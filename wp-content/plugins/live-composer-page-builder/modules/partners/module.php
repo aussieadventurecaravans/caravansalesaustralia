@@ -12,10 +12,10 @@ if ( dslc_is_module_active( 'DSLC_Partners' ) ) {
 
 class DSLC_Partners extends DSLC_Module {
 
-	var $module_id;
-	var $module_title;
-	var $module_icon;
-	var $module_category;
+	public $module_id;
+	public $module_title;
+	public $module_icon;
+	public $module_category;
 
 	function __construct() {
 
@@ -1235,6 +1235,20 @@ class DSLC_Partners extends DSLC_Module {
 				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
 			),
 			array(
+				'label' => __( 'Thumbnail - Padding Horizontal', 'live-composer-page-builder' ),
+				'id' => 'css_res_t_thumbnail_padding_horizontal',
+				'onlypositive' => true, // Value can't be negative.
+				'max' => 600,
+				'std' => '0',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-partner-thumb',
+				'affect_on_change_rule' => 'padding-left,padding-right',
+				'section' => 'responsive',
+				'ext' => 'px',
+				'tab' => __( 'Tablet', 'live-composer-page-builder' ),
+			),
+			array(
 				'label' => __( 'Main - Padding Vertical', 'live-composer-page-builder' ),
 				'id' => 'css_res_t_main_padding_vertical',
 				'onlypositive' => true, // Value can't be negative.
@@ -1385,6 +1399,20 @@ class DSLC_Partners extends DSLC_Module {
 				'refresh_on_change' => false,
 				'affect_on_change_el' => '.dslc-partner-thumb',
 				'affect_on_change_rule' => 'padding-top,padding-bottom',
+				'section' => 'responsive',
+				'ext' => 'px',
+				'tab' => __( 'Phone', 'live-composer-page-builder' ),
+			),
+			array(
+				'label' => __( 'Thumbnail - Padding Horizontal', 'live-composer-page-builder' ),
+				'id' => 'css_res_p_thumbnail_padding_horizontal',
+				'onlypositive' => true, // Value can't be negative.
+				'max' => 600,
+				'std' => '0',
+				'type' => 'slider',
+				'refresh_on_change' => false,
+				'affect_on_change_el' => '.dslc-partner-thumb',
+				'affect_on_change_rule' => 'padding-left,padding-right',
 				'section' => 'responsive',
 				'ext' => 'px',
 				'tab' => __( 'Phone', 'live-composer-page-builder' ),
@@ -1695,6 +1723,10 @@ function dslc_module_partners_output( $atts, $content = null ) {
 	if ( $show_heading || $show_filters || $show_carousel_arrows ) {
 		$show_header = true;
 	}
+	
+	if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) {
+		$container_class .= 'dslc-carousel-arrow-aside ';
+	}
 
 	/**
 	 * Carousel Items
@@ -1791,7 +1823,7 @@ function dslc_module_partners_output( $atts, $content = null ) {
 
 			<!-- Carousel -->
 
-			<?php if ( $show_carousel_arrows ) : ?>
+			<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'above' ) ) : ?>
 						<span class="dslc-carousel-nav fr">
 							<span class="dslc-carousel-nav-inner">
 								<a href="#" class="dslc-carousel-nav-prev"><span class="dslc-icon-chevron-left"></span></a>
@@ -1811,9 +1843,13 @@ function dslc_module_partners_output( $atts, $content = null ) {
 
 	if ( $dslc_query->have_posts() ) :
 
-		?><div class="<?php echo $container_class; ?>"><?php
+		?><div class="<?php echo $container_class; ?>">
+			
+			<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) : ?>
+				<a href="#" class="dslc-carousel-nav-prev position-aside"><span class="dslc-icon-chevron-left"></span></a>
+			<?php endif; ?>
 
-		?><div class="dslc-posts-inner"><?php
+		<div class="dslc-posts-inner"><?php
 
 if ( $options['type'] == 'carousel' ) :
 
@@ -1849,8 +1885,8 @@ while ( $dslc_query->have_posts() ) : $dslc_query->the_post();
 	}
 
 				/**
-						 * Link or not
-						 */
+				 * Link or not
+				 */
 
 				$link_to_single = true;
 
@@ -2062,6 +2098,10 @@ if ( $options['type'] == 'carousel' ) :
 			?>
 
 			</div><!-- .dslc-posts-inner -->
+			
+			<?php if ( $show_carousel_arrows && ( $options['arrows_position'] == 'aside' ) ) : ?>
+				<a href="#" class="dslc-carousel-nav-next position-aside"><span class="dslc-icon-chevron-right"></span></a>
+			<?php endif; ?>
 
 			</div><!-- .dslc-partners -->
 

@@ -22,5 +22,7 @@ require_once($dirname . '/attributes-meta.php');
 require_once($dirname . '/attributes-functions.php');
 require_once($dirname . '/product-attributes.php');
 require_once($dirname . '/attributes-shortcodes.php');
+require_once($dirname . '/attribute-filters.php');
+require_once($dirname . '/comparison.php');
 
 

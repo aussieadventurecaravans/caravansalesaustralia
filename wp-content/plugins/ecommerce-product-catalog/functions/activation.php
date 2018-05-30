@@ -17,8 +17,13 @@ if ( !defined( 'ABSPATH' ) ) {
 function epc_activation_function() {
 	$activation = get_option( 'IC_EPC_install', 0 );
 	if ( !empty( $activation ) && current_user_can( 'activate_plugins' ) ) {
+		update_option( 'IC_EPC_activation_message', 1 );
+		delete_option( 'ic_cat_wizard_woo_choice' );
+		delete_option( 'ic_hidden_notices' );
+		delete_option( 'ic_epc_tracking_notice' );
+		delete_option( 'ic_cat_recommended_extensions' );
 		add_product_caps();
-		create_products_page( 'private' );
+		create_products_page();
 		create_sample_product();
 		ic_catalog_notices::review_notice_hide();
 		save_default_multiple_settings();
@@ -40,7 +45,7 @@ function save_default_multiple_settings() {
 
 function create_products_page( $status = 'publish' ) {
 	if ( current_user_can( 'publish_pages' ) ) {
-		$content		 = '[show_product_catalog]';
+		$content		 = apply_filters( 'ic_catalog_default_listing_content', '[show_product_catalog]' );
 		/*
 		  if ( is_advanced_mode_forced() ) {
 		  $content = '';
@@ -66,8 +71,10 @@ function create_products_page( $status = 'publish' ) {
 		$listing_id = get_product_listing_id();
 		if ( empty( $listing_id ) || $listing_id == 'noid' ) {
 			$listing_id = wp_insert_post( $product_page );
-			update_option( 'product_archive_page_id', $listing_id );
-			update_option( 'product_archive', $listing_id );
+			if ( !is_wp_error( $listing_id ) ) {
+				update_option( 'product_archive_page_id', $listing_id );
+				update_option( 'product_archive', $listing_id );
+			}
 		}
 		return $listing_id;
 	}
@@ -177,7 +184,7 @@ function sample_product_button( $p = null, $text = null, $button_type = 'button-
 add_action( 'admin_init', 'ecommerce_product_catalog_upgrade' );
 
 function ecommerce_product_catalog_upgrade() {
-	if ( is_admin() ) {
+	if ( is_admin() && function_exists( 'get_plugin_data' ) ) {
 		$plugin_data			 = get_plugin_data( AL_PLUGIN_MAIN_FILE );
 		$plugin_version			 = $plugin_data[ "Version" ];
 		$database_plugin_version = get_option( 'ecommerce_product_catalog_ver', $plugin_version );
@@ -245,6 +252,9 @@ function ecommerce_product_catalog_upgrade() {
 			}
 			if ( version_compare( $first_version, '2.6.0' ) < 0 && version_compare( $database_plugin_version, '2.6.0' ) < 0 ) {
 				ic_add_catalog_manager_role();
+			}
+			if ( version_compare( $first_version, '2.7.18' ) < 0 && version_compare( $database_plugin_version, '2.7.18' ) < 0 ) {
+				permalink_options_update();
 			}
 			//flush_rewrite_rules();
 		}

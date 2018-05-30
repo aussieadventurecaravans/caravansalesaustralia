@@ -39,7 +39,7 @@ class IC_EPC_Tracking {
 		add_action( 'pre_update_option_ic_epc_allow_tracking', array( $this, 'check_for_settings_optin' ) );
 		add_action( 'ic_epc_opt_into_tracking', array( $this, 'check_for_optin' ) );
 		add_action( 'ic_epc_opt_out_of_tracking', array( $this, 'check_for_optout' ) );
-		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+		add_action( 'admin_notices', array( $this, 'admin_notice' ), -2 );
 		add_action( 'ic_system_tools', array( $this, 'settings_optin' ) );
 		add_filter( 'ic_epc_links', array( $this, 'confirm_deactivation' ) );
 		add_action( 'wp_ajax_ic_submit_deactivation_reason', array( $this, 'submit_deactivation_reason' ) );
@@ -130,7 +130,7 @@ class IC_EPC_Tracking {
 	}
 
 	/**
-	 * Send the data to the EDD server
+	 * Send the data to the impleCode server
 	 *
 	 * @access private
 	 * @return void

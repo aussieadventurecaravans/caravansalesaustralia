@@ -4,7 +4,7 @@
  * Plugin URI: https://zara4.com
  * Description: Compress your images.
  * Author: Zara 4
- * Version: 1.2.15
+ * Version: 1.2.16
  * Author URI: https://zara4.com
  * License GPL2
  */
@@ -15,11 +15,11 @@ if( ! class_exists( 'Zara4_WordPressPlugin' ) ) {
 	 * Class Zara4_WordPressPlugin
 	 *
 	 * @author	support@zara4.com
-	 * @version 1.2.15
+	 * @version 1.2.16
 	 * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html GNU General Public License, version 2
 	 */
 	if( ! defined( 'ZARA4_DEV' ) ) { define( 'ZARA4_DEV', isset( $_SERVER['ZARA4_DEV'] ) && $_SERVER['ZARA4_DEV'] ); }
-  if( ! defined( 'ZARA4_VERSION' ) ) { define( 'ZARA4_VERSION', '1.2.15' ); }
+  if( ! defined( 'ZARA4_VERSION' ) ) { define( 'ZARA4_VERSION', '1.2.16' ); }
   if( ! defined( 'ZARA4_PLUGIN_BASE_URL' ) ) { define( 'ZARA4_PLUGIN_BASE_URL', plugins_url( '', __FILE__) ); }
 	class Zara4_WordPressPlugin {
 

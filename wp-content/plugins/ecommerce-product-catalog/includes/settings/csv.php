@@ -66,7 +66,7 @@ function simple_upload_csv_products_file() {
 		$uploaded_file_type	 = $arr_file_type[ 'ext' ];
 		$allowed_file_type	 = 'csv';
 		if ( $uploaded_file_type == $allowed_file_type ) {
-			$wp_uploads_dir	 = wp_upload_dir();
+			$wp_uploads_dir	 = wp_upload_dir( null, false );
 			$filepath		 = $wp_uploads_dir[ 'basedir' ] . '/simple-products.csv';
 			if ( move_uploaded_file( $_FILES[ 'product_csv' ][ 'tmp_name' ], $filepath ) ) {
 				simple_import_product_from_csv();
@@ -149,7 +149,7 @@ function simple_import_product_from_csv() {
 }
 
 function simple_prepare_csv_file( $type = 'w' ) {
-	$csv_temp	 = wp_upload_dir();
+	$csv_temp	 = wp_upload_dir( null, false );
 	ini_set( 'auto_detect_line_endings', true );
 	$fp			 = fopen( $csv_temp[ 'basedir' ] . '/simple-products.csv', $type ) or die( implecode_warning( sprintf( __( 'Permission error. Please check WordPress uploads %sfolder permissions%s.', 'ecommerce-product-catalog' ), '<a href="https://codex.wordpress.org/Changing_File_Permissions">', '</a>' ), 0 ) );
 	return $fp;
@@ -207,7 +207,7 @@ function sample_import_file_url() {
 		fputcsv( $fp, $field, $sep, '"' );
 	}
 	simple_close_csv_file( $fp );
-	$csv_temp = wp_upload_dir();
+	$csv_temp = wp_upload_dir( null, false );
 	return $csv_temp[ 'baseurl' ] . '/simple-products.csv';
 }
 
@@ -271,7 +271,7 @@ function simple_export_to_csv() {
 		fputcsv( $fp, $field, $sep, '"' );
 	}
 	simple_close_csv_file( $fp );
-	$csv_temp = wp_upload_dir();
+	$csv_temp = wp_upload_dir( null, false );
 	return $csv_temp[ 'baseurl' ] . '/simple-products.csv';
 }
 
@@ -304,11 +304,21 @@ if ( !function_exists( 'get_product_image_id' ) ) {
 		if ( '' == $attachment_url ) {
 			return;
 		}
-		$upload_dir_paths = wp_upload_dir();
+		$cache					 = ic_get_global( 'ic_cat_db_image_id_from_url' );
+		$oryginal_attachment_url = $attachment_url;
+		if ( empty( $cache ) ) {
+			$cache = array();
+		} else if ( !empty( $cache[ $oryginal_attachment_url ] ) ) {
+			return intval( $cache[ $oryginal_attachment_url ] );
+		}
+		$upload_dir_paths = wp_upload_dir( null, false );
 		if ( false !== strpos( $attachment_url, $upload_dir_paths[ 'baseurl' ] ) ) {
 			$attachment_url	 = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
 			$attachment_url	 = str_replace( $upload_dir_paths[ 'baseurl' ] . '/', '', $attachment_url );
-			$attachment_id	 = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
+			$attachment_id	 = intval( $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) ) );
+
+			$cache[ $oryginal_attachment_url ] = $attachment_id;
+			ic_save_global( 'ic_cat_db_image_id_from_url', $cache );
 		}
 		return $attachment_id;
 	}

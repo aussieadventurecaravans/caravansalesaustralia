@@ -239,7 +239,7 @@ function dslc_ajax_display_module_options( $atts ) {
 		$module_instance = new $module_id();
 
 		// Get the module options.
-		$module_controls = $module_instance->options();
+		$module_controls = apply_filters( 'dslc_filter_module_controls', $module_instance->options() );
 
 		// New object for options panel.
 		$module_options_panel = new LC_Module_Options_Panel();
@@ -350,11 +350,14 @@ function dslc_ajax_save_composer( $atts ) {
 		header( 'Content-Type: application/json' );
 		echo $response_json;
 
-		// Refresh cache.
+		// Refresh cache ( WP Super Cache ).
 		if ( function_exists( 'wp_cache_post_change' ) ) {
 			$GLOBALS['super_cache_enabled'] = 1;
 			wp_cache_post_change( $post_id );
 		}
+
+		// Delete cache ( Live Composer ).
+		delete_transient( 'lc_cache' );
 
 		// Delete draft code.
 		delete_post_meta( $post_id, 'dslc_code_draft' );

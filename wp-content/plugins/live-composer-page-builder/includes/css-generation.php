@@ -245,6 +245,7 @@ function dslc_custom_css( $dslc_code = '' ) {
 						if ( ! empty( $google_fonts ) ) {
 							$fonts_to_output = array_merge( $fonts_to_output, $google_fonts );
 						}
+
 						$cache->set_cache( $google_fonts, $cache_id, 'fonts' );
 						$dslc_googlefonts_array = array(); // Reset temporary fonts storage.
 					}
@@ -549,6 +550,10 @@ function dslc_generate_module_css( $module_structure, $module_settings, $restart
 		$module_settings = dslc_code_migration( $module_settings );
 	}
 
+	// Allow third-party developers to change any module setting before CSS generation.
+	$module_settings = apply_filters( 'dslc_module_settings_before_cssgen', $module_settings );
+	$module_structure = apply_filters( 'dslc_module_structure_before_cssgen', $module_structure );
+
 	$css_output = '';
 	global $dslc_googlefonts_array;
 	$regular_fonts = array( 'Georgia', 'Times', 'Arial', 'Lucida Sans Unicode', 'Tahoma', 'Trebuchet MS', 'Verdana', 'Helvetica' );
@@ -574,7 +579,8 @@ function dslc_generate_module_css( $module_structure, $module_settings, $restart
 		$dslc_css_style = '';
 	}
 
-	// Go through array of options.
+	// Go through array of options to compose array of css rules.
+	// Transform module options into css rulles.
 	foreach ( $module_structure as $option_arr ) {
 
 		$option_id = $option_arr['id'];
@@ -837,7 +843,8 @@ function dslc_generate_module_css( $module_structure, $module_settings, $restart
 			// Remove border-style property if width isn't set or is set to 0px.
 			// This rule fixes bugs with extra borders on text/shortcode elements.
 			if ( isset( $css_declaration_borders['border-style'] ) && 'none' !== $css_declaration_borders['border-style'] ) {
-				if ( empty( $css_declaration_borders['border-width'] ) || '0px' === $css_declaration_borders['border-width'] ) {
+				
+				if ( ( empty( $css_declaration_borders['border-width'] ) || '0px' === $css_declaration_borders['border-width'] ) && ! isset( $css_declaration_borders['border-bottom-width'] ) ) {
 					unset( $css_declaration_borders['border-style'] );
 				}
 			}

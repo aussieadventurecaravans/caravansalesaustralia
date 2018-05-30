@@ -48,7 +48,7 @@ function dslc_st_template_switch() {
 			include( $return_template );
 
 			// Bye bye
-        	exit();
+			exit();
 
 		}
 
@@ -95,7 +95,8 @@ function dslc_st_template_switch() {
 		}
 	}
 
-} add_action( 'template_redirect', 'dslc_st_template_switch' );
+} add_action( 'template_redirect', 'dslc_st_template_switch', 9999 );
+// ↑ 9999 - Yoast uses 999, we need to overbeat it. See https://github.com/live-composer/live-composer-page-builder/issues/847
 
 /**
  * Add columns to the Templates Listing table.
@@ -444,14 +445,14 @@ function dslc_tp_remove_template_from_meta( $template_to_remove, $post_id_to_kee
 	// Set those old defaults to regular templates.
 	if ( $templates ) {
 		foreach ( $templates as $template ) {
-			if ( $template->ID !== $post_id_to_keep  ) {
+			if ( $template->ID !== $post_id_to_keep ) {
 				// Get current value of 'dslc_template_for' custom field.
 				$dslc_template_for = get_post_meta( $template->ID, 'dslc_template_for' );
 				delete_post_meta( $template->ID, 'dslc_template_for' );
 
 				// Remove value from the array.
 				if ( ( $key = array_search( $template_to_remove, $dslc_template_for ) ) !== false ) {
-				    unset( $dslc_template_for[ $key ] );
+					unset( $dslc_template_for[ $key ] );
 				}
 
 				// Put back updated value for 'dslc_template_for' custom field.

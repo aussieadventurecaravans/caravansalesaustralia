@@ -4,7 +4,7 @@
  * Plugin URI: https://www.livecomposerplugin.com
  * Description: Front-end page builder for WordPress with drag and drop editing. Build PRO responsive websites and landing pages. Visually customize any page element.
  * Author: Live Composer Team
- * Version: 1.3.9
+ * Version: 1.3.15
  * Author URI: https://livecomposerplugin.com
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -41,7 +41,7 @@ if ( ! defined( 'DS_LIVE_COMPOSER_VER' ) && version_compare( PHP_VERSION, '5.3.0
 	 * Constants
 	 */
 
-	define( 'DS_LIVE_COMPOSER_VER', '1.3.9' );
+	define( 'DS_LIVE_COMPOSER_VER', '1.3.15' );
 
 	define( 'DS_LIVE_COMPOSER_SHORTNAME', __( 'Live Composer', 'live-composer-page-builder' ) );
 	define( 'DS_LIVE_COMPOSER_BASENAME', plugin_basename( __FILE__ ) );
@@ -192,6 +192,16 @@ function dslc_disable_old_plugin() {
 	}
 }
 register_activation_hook( __FILE__, 'dslc_disable_old_plugin' );
+
+function dslc_deactivate_plugin() {
+	// Deactivate WooCommerce Integration Plugin.
+	if ( defined( 'LCWOO_INTEGRATION_PLUGIN_VER' ) && version_compare( LCWOO_INTEGRATION_PLUGIN_VER, '1.2.5', '<=' ) ) {
+		$plugins_page_url = admin_url('plugins.php');
+		wp_die( 'Please, deactivate <a href="' . esc_attr( $plugins_page_url ) . '">WooCommerce integration for Live Composer</a> plugin first. <br />Sorry for this inconvenience.' );
+	}
+
+}
+register_deactivation_hook( __FILE__, 'dslc_deactivate_plugin' );
 
 /**
  * Function redirects to the 'Welcome Screen' on plugin activation.

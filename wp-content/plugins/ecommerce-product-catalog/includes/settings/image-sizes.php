@@ -20,6 +20,7 @@ function ic_add_wp_screens_settings() {
 
 function ic_catalog_image_sizes_settings() {
 	$images = ic_get_catalog_image_sizes();
+	implecode_info( sprintf( __( 'Please use the %s plugin to apply the size changes to existing images.', 'ecommerce-product-catalog' ), '<a href="' . admin_url( 'plugin-install.php?s=Regenerate+Thumbnails&tab=search&type=term' ) . '">Regenerate Thumbnails</a>' ) );
 	?>
 	<table class="form-table">
 		<tbody>

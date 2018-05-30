@@ -45,6 +45,10 @@ class ic_catalog_template {
 		if ( !is_ic_shortcode_integration() ) {
 			add_action( 'after_setup_theme', array( $this, 'initialize_product_adder_template' ), 99 );
 		}
+		$theme = get_option( 'template' );
+		if ( $theme === 'twentyseventeen' ) {
+			require_once(AL_BASE_PATH . '/templates/templates-twenty-functions.php');
+		}
 	}
 
 	/**
@@ -78,10 +82,10 @@ class ic_catalog_template {
 				$this->template = 'generic_content';
 			}
 		} else if ( is_integraton_file_active( true ) && ic_is_woo_template_available() ) {
-			$this->template = '';
+			$this->template = 'auto';
 			add_action( 'wp', array( __CLASS__, 'woo_functions' ) );
 		} else if ( ic_is_woo_template_available() ) {
-			$this->template = 'product-woo-adder.php';
+			$this->template = 'product-adder.php';
 			add_action( 'wp', array( __CLASS__, 'woo_functions' ) );
 		} else if ( get_integration_type() == 'simple' ) {
 			$this->template = 'page';
@@ -91,12 +95,12 @@ class ic_catalog_template {
 			$this->template = 'product-adder.php';
 		}
 		if ( !empty( $this->template ) ) {
-			add_filter( 'template_include', array( $this, 'template_path' ) );
+			add_filter( 'template_include', array( $this, 'template_path' ), 99 );
 		}
 	}
 
 	static function woo_functions() {
-		if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && !is_admin() ) {
+		if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			require_once(AL_BASE_PATH . '/templates/templates-woo-functions.php');
 		}
 	}

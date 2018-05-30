@@ -22,23 +22,44 @@ class ic_register_product {
 		add_action( 'edit_form_after_title', array( $this, 'ic_remove_default_desc_editor' ) );
 		add_action( 'edit_form_after_editor', array( $this, 'ic_restore_default_desc_editor' ) );
 		add_action( 'admin_menu', array( $this, 'ic_remove_unnecessary_metaboxes' ) );
+		add_action( 'admin_head', array( $this, 'ic_remove_unnecessary_metaboxes' ), 999 );
 		add_action( 'do_meta_boxes', array( $this, 'change_image_box' ) );
 		add_filter( 'post_updated_messages', array( $this, 'set_product_messages' ) );
+
+		add_filter( 'generate_rewrite_rules', array( $this, 'rewrite_rules' ) );
+
+		add_filter( 'gutenberg_can_edit_post_type', array( $this, 'ret_false' ), 10, 2 );
+
 		require_once(AL_BASE_PATH . '/includes/product-categories.php');
+	}
+
+	function ret_false( $can_edit, $post_type ) {
+		if ( ic_string_contains( $post_type, 'al_product' ) ) {
+			return false;
+		}
+		return $can_edit;
 	}
 
 	/**
 	 * Registers product related front-end scripts
 	 */
-	function frontend_scripts() {
-		if ( !is_admin() ) {
-			if ( is_lightbox_enabled() && is_ic_product_gallery_enabled() ) {
-				wp_register_script( 'colorbox', AL_PLUGIN_BASE_PATH . 'js/colorbox/jquery.colorbox-min.js', array( 'jquery' ) );
-				wp_register_style( 'colorbox', AL_PLUGIN_BASE_PATH . 'js/colorbox/colorbox.css' );
-				wp_register_script( 'al_product_scripts', AL_PLUGIN_BASE_PATH . 'js/product.min.js' . ic_filemtime( AL_BASE_PATH . '/js/product.min.js' ), array( 'jquery', 'colorbox' ) );
-			} else {
-				wp_register_script( 'al_product_scripts', AL_PLUGIN_BASE_PATH . 'js/product.min.js' . ic_filemtime( AL_BASE_PATH . '/js/product.min.js' ), array( 'jquery' ) );
+	function
+
+	frontend_scripts() {
+		if ( !is_admin() || is_ic_ajax() ) {
+			$dependence = array( 'jquery' );
+			if ( is_ic_product_page() ) {
+				if ( is_ic_magnifier_enabled() || is_customize_preview() ) {
+					wp_register_script( 'ic_magnifier', AL_PLUGIN_BASE_PATH . 'js/magnifier/magnifier.js' );
+					$dependence[] = 'ic_magnifier';
+				}
+				if ( is_customize_preview() || (is_lightbox_enabled() && is_ic_product_gallery_enabled()) ) {
+					wp_register_script( 'colorbox', AL_PLUGIN_BASE_PATH . 'js/colorbox/jquery.colorbox-min.js', array( 'jquery' ) );
+					wp_register_style( 'colorbox', AL_PLUGIN_BASE_PATH . 'js/colorbox/colorbox.css' );
+					$dependence[] = 'colorbox';
+				}
 			}
+			wp_register_script( 'al_product_scripts', AL_PLUGIN_BASE_PATH . 'js/product.min.js' . ic_filemtime( AL_BASE_PATH . '/js/product.min.js' ), $dependence );
 		}
 	}
 
@@ -49,8 +70,8 @@ class ic_register_product {
 	function ic_create_product() {
 		global $wp_version;
 		$slug = get_product_slug();
-		//$listing_status	 = ic_get_product_listing_status();
-		if ( is_ic_product_listing_enabled() && (get_integration_type() != 'simple' || is_ic_shortcode_integration()) ) {
+//$listing_status	 = ic_get_product_listing_status();
+		if ( is_ic_product_listing_enabled() && (get_integration_type() != 'simple' && !is_ic_shortcode_integration()) ) {
 			$product_listing_t = $slug;
 		} else {
 			$product_listing_t = false;
@@ -71,7 +92,8 @@ class ic_register_product {
 				'not_found'				 => sprintf( __( 'No %s found', 'ecommerce-product-catalog' ), $names[ 'plural' ] ),
 				'not_found_in_trash'	 => sprintf( __( 'No %s found in trash', 'ecommerce-product-catalog' ), $names[ 'plural' ] ),
 				'set_featured_image'	 => sprintf( __( 'Set main %s image', 'ecommerce-product-catalog' ), $names[ 'plural' ] ),
-				'remove_featured_image'	 => sprintf( __( 'Remove main %s image', 'ecommerce-product-catalog' ), $names[ 'plural' ] )
+				'remove_featured_image'	 => sprintf( __( 'Remove main %s image', 'ecommerce-product-catalog' ), $names[ 'plural' ] ),
+				'featured_image'		 => sprintf( __( '%s Image', 'ecommerce-product-catalog' ), ic_ucfirst( $names[ 'singular' ] ) ),
 			);
 		} else {
 			$labels = array(
@@ -86,7 +108,8 @@ class ic_register_product {
 				'not_found'				 => __( 'Nothing found', 'ecommerce-product-catalog' ),
 				'not_found_in_trash'	 => __( 'Nothing found in trash', 'ecommerce-product-catalog' ),
 				'set_featured_image'	 => __( 'Set main image', 'ecommerce-product-catalog' ),
-				'remove_featured_image'	 => __( 'Remove main image', 'ecommerce-product-catalog' )
+				'remove_featured_image'	 => __( 'Remove main image', 'ecommerce-product-catalog' ),
+				'featured_image'		 => __( 'Image', 'ecommerce-product-catalog' )
 			);
 		}
 		if ( $wp_version < 3.8 ) {
@@ -283,10 +306,22 @@ class ic_register_product {
 				}
 				if ( isset( $value ) && !isset( $current_value ) ) {
 					add_post_meta( $post->ID, $key, $value, true );
+					if ( is_array( $value ) ) {
+						foreach ( $value as $val ) {
+							add_post_meta( $post->ID, $key . '_filterable', $val, false );
+						}
+					}
 				} else if ( isset( $value ) && $value !== $current_value ) {
 					update_post_meta( $post->ID, $key, $value );
+					if ( is_array( $value ) ) {
+						delete_post_meta( $post->ID, $key . '_filterable' );
+						foreach ( $value as $val ) {
+							add_post_meta( $post->ID, $key . '_filterable', $val, false );
+						}
+					}
 				} else if ( !isset( $value ) && $current_value ) {
 					delete_post_meta( $post->ID, $key );
+					delete_post_meta( $post->ID, $key . '_filterable' );
 				}
 			}
 			do_action( 'product_edit_save', $post );
@@ -322,7 +357,7 @@ class ic_register_product {
 		if ( is_plural_form_active() ) {
 			$label = sprintf( __( '%s Image', 'ecommerce-product-catalog' ), ic_ucfirst( $names[ 'singular' ] ) );
 		} else {
-			$label = sprintf( __( 'Image', 'ecommerce-product-catalog' ), ic_ucfirst( $names[ 'singular' ] ) );
+			$label = __( 'Image', 'ecommerce-product-catalog' );
 		}
 		add_meta_box( 'postimagediv', $label, 'post_thumbnail_meta_box', 'al_product', apply_filters( 'product_image_box_column', 'side' ), apply_filters( 'product_image_box_priority', 'high' ) );
 	}
@@ -376,6 +411,28 @@ class ic_register_product {
 			);
 		}
 		return $messages;
+	}
+
+	/**
+	 * Rewrite to support pagination on shortcode archive
+	 *
+	 * @param type $wp_rewrite
+	 */
+	function rewrite_rules( $wp_rewrite ) {
+		if ( is_ic_shortcode_integration() ) {
+			$slug		 = get_product_slug();
+			$listing_id	 = intval( get_product_listing_id() );
+			if ( !empty( $slug ) && !empty( $listing_id ) ) {
+				$rule			 = $slug . '/page/?([0-9]{1,})/?$';
+				$rewrite		 = 'index.php?page_id=' . $listing_id . '&paged=$matches[1]';
+				$rules[ $rule ]	 = $rewrite;
+			}
+		}
+
+		if ( !empty( $rules ) ) {
+			$wp_rewrite->rules = $rules + $wp_rewrite->rules;
+		}
+		return apply_filters( 'ic_cat_urls_rewrite', $wp_rewrite );
 	}
 
 }

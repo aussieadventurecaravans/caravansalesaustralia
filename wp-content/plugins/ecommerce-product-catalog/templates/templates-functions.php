@@ -84,6 +84,7 @@ function ic_is_woo_template_available() {
 		ob_start();
 		ic_use_woo_before_templates();
 		$wrapper = ob_get_clean();
+
 		if ( !empty( $wrapper ) ) {
 			return true;
 		} else {
@@ -95,6 +96,7 @@ function ic_is_woo_template_available() {
 
 function ic_try_woo_template_file() {
 	if ( !is_integration_mode_selected() ) {
+
 		$path = '';
 		if ( is_readable( get_stylesheet_directory() . '/woocommerce.php' ) ) {
 			$path = get_stylesheet_directory() . '/woocommerce.php';
@@ -276,7 +278,7 @@ function show_products_outside_loop( $atts ) {
 		}
 		$query_param[ 'paged' ] = $paged;
 	}
-	$query_param	 = apply_filters( 'shortcode_query', $query_param, $args );
+	$query_param	 = apply_filters( 'shortcode_query', $query_param, $args, $post_type, $products_limit );
 	remove_all_filters( 'pre_get_posts' );
 	$shortcode_query = new WP_Query( $query_param );
 	$inside			 = '';
@@ -288,9 +290,11 @@ function show_products_outside_loop( $atts ) {
 	$products_listed = false;
 	while ( $shortcode_query->have_posts() ) : $shortcode_query->the_post();
 		global $post;
+		ic_save_global( 'product_id', $post->ID );
 		$i++;
 		$inside			 .= get_catalog_template( $archive_template, $post, $i, $design_scheme );
 		$products_listed = true;
+		ic_delete_global( 'product_id' );
 	endwhile;
 	$pagination = '';
 	if ( !empty( $args[ 'pagination' ] ) ) {
@@ -591,7 +595,7 @@ function get_product_listing_template() {
   return echo_ic_setting( $return, $echo );
   }
  */
-add_filter( 'the_title', 'override_product_page_title', 11, 2 );
+//add_filter( 'the_title', 'override_product_page_title', 11, 2 );
 
 /**
  * Replaces auto products listing, product category pages and product search title with appropriate entries
@@ -601,19 +605,22 @@ add_filter( 'the_title', 'override_product_page_title', 11, 2 );
  * @return string
  */
 function override_product_page_title( $page_title, $id = null ) {
-	if ( !is_admin() && is_ic_catalog_page() && !is_ic_product_page() && !in_the_ic_loop() && !is_filter_bar() && !is_ic_shortcode_query() && (empty( $id ) || (get_quasi_post_type( get_post_type( $id ) ) == 'al_product')) ) {
-		$query		 = null;
-		$listing_id	 = get_product_listing_id();
+	$listing_id = get_product_listing_id();
+	if ( !is_admin() && is_ic_catalog_page() && !is_ic_product_page() && !in_the_ic_loop() && !is_filter_bar() && (empty( $id ) || (get_quasi_post_type( get_post_type( $id ) ) == 'al_product')) || $listing_id == $id ) {
+		$query = null;
 		if ( $listing_id === 'noid' ) {
 			return $page_title;
 		}
 		if ( is_ic_shortcode_integration() ) {
-			$query = ic_get_global( 'pre_shortcode_query' );
+			global $wp_query;
+			$this_query = ic_get_global( 'pre_shortcode_query' );
+			if ( $this_query ) {
+				$wp_query = $this_query;
+			}
 		} else {
 			return $page_title;
 		}
-
-		if ( is_ic_taxonomy_page( $query ) && (empty( $id ) || !is_ic_product( $id )) ) {
+		if ( is_ic_taxonomy_page( $query ) && (empty( $id ) || !is_ic_product( $id )) && $listing_id != $id ) {
 			$page_title = get_product_tax_title( $page_title );
 		} else if ( is_ic_product_search( $query ) ) {
 			$page_title = ic_get_search_page_title();
@@ -622,6 +629,35 @@ function override_product_page_title( $page_title, $id = null ) {
 		}
 	}
 	return $page_title;
+}
+
+add_action( 'ic_catalog_wp', 'ic_catalog_set_post_title' );
+
+function ic_catalog_set_post_title() {
+	if ( is_ic_product_listing() ) {
+		$page_title = get_product_listing_title();
+	} else if ( is_ic_taxonomy_page() ) {
+		$page_title = get_product_tax_title();
+	}
+	if ( !empty( $page_title ) ) {
+		global $post;
+		if ( !empty( $post->ID ) ) {
+			ic_save_global( 'pre_title_post_' . $post->ID, $post->post_title );
+			$post->post_title = $page_title;
+		}
+	}
+}
+
+add_action( 'before_product_list', 'ic_catalog_reset_post_title' );
+
+function ic_catalog_reset_post_title() {
+	global $post;
+	if ( !empty( $post->ID ) ) {
+		$pre_title = ic_get_global( 'pre_title_post_' . $post->ID );
+		if ( !empty( $pre_title ) ) {
+			$post->post_title = $pre_title;
+		}
+	}
 }
 
 function ic_get_search_page_title() {
@@ -633,7 +669,8 @@ function get_product_listing_title() {
 	$archive_names	 = get_archive_names();
 	$def_page_id	 = get_product_listing_id();
 	$page_id		 = apply_filters( 'before_archive_post_id', $def_page_id );
-	$page			 = empty( $page_id ) ? '' : get_post( $page_id );
+
+	$page = empty( $page_id ) ? '' : get_post( $page_id );
 	if ( $page == '' ) {
 		$archive_multiple_settings = get_multiple_settings();
 		if ( $archive_multiple_settings[ 'product_listing_cats' ] == 'off' ) {
@@ -642,14 +679,14 @@ function get_product_listing_title() {
 			$page_title = $archive_names[ 'all_main_categories' ];
 		}
 	} else {
-		remove_filter( 'the_title', 'override_product_page_title', 11, 2 );
+		//remove_filter( 'the_title', 'override_product_page_title', 11, 2 );
 		$page_title = apply_filters( 'the_title', $page->post_title, $page_id );
-		add_filter( 'the_title', 'override_product_page_title', 11, 2 );
+		//add_filter( 'the_title', 'override_product_page_title', 11, 2 );
 	}
 	return apply_filters( 'ic_product_listing_title', $page_title, $page );
 }
 
-function get_product_tax_title( $page_title ) {
+function get_product_tax_title( $page_title = null ) {
 	$archive_names	 = get_archive_names();
 	$the_tax		 = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
 	if ( isset( $the_tax->name ) ) {
@@ -969,7 +1006,7 @@ function get_related_products( $products_limit = null, $markup = false ) {
 		$products_limit = apply_filters( 'related_products_count', get_current_per_row() );
 	}
 	$current_product_id	 = ic_get_product_id();
-	$taxonomy			 = get_current_screen_tax();
+	$taxonomy			 = apply_filters( 'ic_cat_related_products_tax', get_current_screen_tax() );
 	$post_type			 = get_current_screen_post_type();
 	$terms				 = get_the_terms( $current_product_id, $taxonomy );
 	if ( is_array( $terms ) && !empty( $taxonomy ) && !empty( $post_type ) ) {
@@ -1001,6 +1038,7 @@ function get_related_products( $products_limit = null, $markup = false ) {
 				if ( $i >= $products_limit ) {
 					break;
 				}
+				ic_delete_global( 'product_id' );
 			endwhile;
 			wp_reset_postdata();
 			reset_row_class();
@@ -1010,7 +1048,7 @@ function get_related_products( $products_limit = null, $markup = false ) {
 		}
 		$div = '';
 		if ( !empty( $products ) ) {
-			$products = implode( ',', $products );
+			$products = apply_filters( 'ic_cat_related_products', implode( ',', $products ), $products_limit );
 			ic_save_global( 'current_related_products', $products );
 			if ( $markup ) {
 				ob_start();
@@ -1046,6 +1084,12 @@ add_action( 'product_category_page_start', 'ic_add_product_category_description'
  *
  */
 function ic_add_product_category_description() {
+	add_filter( 'ic_product_cat_desc', 'wptexturize' );
+	add_filter( 'ic_product_cat_desc', 'convert_smilies' );
+	add_filter( 'ic_product_cat_desc', 'convert_chars' );
+	add_filter( 'ic_product_cat_desc', 'wpautop' );
+	add_filter( 'ic_product_cat_desc', 'shortcode_unautop' );
+	add_filter( 'ic_product_cat_desc', 'do_shortcode', 11 );
 	ic_show_template_file( 'product-listing/category-description.php' );
 }
 
@@ -1121,14 +1165,7 @@ add_action( 'product_listing_entry_inside', 'ic_product_listing_products', 20, 2
 function ic_product_listing_products( $archive_template, $multiple_settings ) {
 	global $post, $ic_is_home;
 	if ( is_home_archive() || (!more_products() && is_custom_product_listing_page()) ) {
-		if ( get_query_var( 'paged' ) ) {
-			$paged = get_query_var( 'paged' );
-		} elseif ( get_query_var( 'page' ) ) {
-			$paged = get_query_var( 'page' );
-		} else {
-			$paged = 1;
-		}
-		$args		 = apply_filters( 'home_product_listing_query', array( 'post_type' => 'al_product', 'posts_per_page' => $multiple_settings[ 'archive_products_limit' ], 'paged' => $paged ) );
+		$args		 = ic_home_listing_query_args();
 		query_posts( $args );
 		$ic_is_home	 = 1;
 	}
@@ -1136,18 +1173,35 @@ function ic_product_listing_products( $archive_template, $multiple_settings ) {
 		do_action( 'before_product_list', $archive_template, $multiple_settings );
 		$product_list = '';
 		while ( have_posts() ) : the_post();
+			ic_save_global( 'product_id', $post->ID );
 			$product_list .= get_catalog_template( $archive_template, $post );
+			ic_delete_global( 'product_id' );
 		endwhile;
 		$product_list = apply_filters( 'product_list_ready', $product_list, $archive_template, 'auto_listing' );
 		echo '<div class="product-list responsive ' . $archive_template . ' ' . product_list_class( $archive_template ) . '" ' . product_list_attr() . '>' . $product_list . '</div>';
 		add_action( 'product_listing_end', 'ic_product_clear_span', 99 );
 	} else if ( (!is_product_filters_active() && is_search()) && !more_products() ) {
-		echo '<div class="product-list"><p>' . __( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'ecommerce-product-catalog' ) . '</p></div>';
+		$notfound_text = __( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'ecommerce-product-catalog' );
+		echo '<div class="product-list"><p>' . apply_filters( 'ic_catalog_not_found_message', $notfound_text ) . '</p></div>';
 		product_search_form();
 	} else if ( is_product_filters_active() && !more_products() ) {
 		show_product_sort_bar();
-		echo '<div class="product-list"><p>' . sprintf( __( 'Sorry, but nothing matched your search terms. Please try again with some different options or %sreset filters%s.', 'ecommerce-product-catalog' ), '<a href="' . get_filters_bar_reset_url() . '">', '</a>' ) . '</p></div>';
+		$notfound_filters_text = sprintf( __( 'Sorry, but nothing matched your search terms. Please try again with some different options or %sreset filters%s.', 'ecommerce-product-catalog' ), '<a href="' . get_filters_bar_reset_url() . '">', '</a>' );
+		echo '<div class="product-list"><p>' . apply_filters( 'ic_catalog_not_found_filters_message', $notfound_filters_text ) . '</p></div>';
 	}
+}
+
+function ic_home_listing_query_args() {
+	$multiple_settings = get_multiple_settings();
+	if ( get_query_var( 'paged' ) ) {
+		$paged = get_query_var( 'paged' );
+	} elseif ( get_query_var( 'page' ) ) {
+		$paged = get_query_var( 'page' );
+	} else {
+		$paged = 1;
+	}
+	$args = apply_filters( 'home_product_listing_query', array( 'post_type' => 'al_product', 'posts_per_page' => $multiple_settings[ 'archive_products_limit' ], 'paged' => $paged ) );
+	return $args;
 }
 
 function ic_product_clear_span() {
