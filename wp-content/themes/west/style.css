@@ -2269,7 +2269,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	text-align: left;
 }
 
-.home.page  .custom-banner-section .view-range-button {
+.home.page .custom-banner-section .view-range-button {
 	text-align: inherit;
 	margin-bottom: 20px;
 	background-repeat: repeat;
@@ -2292,8 +2292,9 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 
 .home.page .custom-banner-section .view-range-button a:hover
 {
-	background-color: rgba(230,120,23,0.78);
+	background-color: rgb(251, 147, 55);
 	color: #ffffff;
+	text-decoration: none;
 }
 
 @media (max-width:768px)
