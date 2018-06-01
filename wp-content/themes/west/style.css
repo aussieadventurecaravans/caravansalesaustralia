@@ -2392,10 +2392,11 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 
 .filter-title
 {
-	font-weight: 400;
+	font-weight: 600;
 	font-family: "Open Sans";
-	font-size: 24px;
+	font-size: 23px;
 	text-transform: uppercase;
+	margin-top: 0;
 }
 form#filter .form-check
 {
