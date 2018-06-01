@@ -27,7 +27,7 @@ $orc_field = get_field( "orc_field" );
 							<h3 class="price"><?php if(!empty($post_price)) { echo '$'. $post_price; }
                                   if(!empty($orc_field)) { echo ' '.$orc_field; }
 							 ?></h3>
-							 
+
 							 <div class="post-thumbnail-block pull-right">
 								<?php if ( has_post_thumbnail() && ( get_theme_mod( 'post_feat_image' ) != 1 ) ) : ?>
 									<div class="single-thumb">
@@ -38,7 +38,7 @@ $orc_field = get_field( "orc_field" );
 
 							<div class="availability-block">
 								<h3>Available at</h3>
-								<?php 
+								<?php
 								     $arts = wp_get_post_terms(get_the_ID(),'locations', array("fields" => "all"));
 								?>
 								<div class="row">
@@ -52,17 +52,11 @@ $orc_field = get_field( "orc_field" );
 									<?php } ?>
 								</div>
 							</div>
-
-							<?php if (get_theme_mod('hide_meta_single') != 1 ) : ?>
-							<!-- <div class="entry-meta"> -->
-								<?php //west_posted_on(); ?>
-							<!-- </div> --><!-- .entry-meta -->
-							<?php endif; ?>
 						</header><!-- .entry-header -->
 
 						<div class="singlePost-content">
 							<?php if(get_the_content()): echo get_the_content(); endif; ?>
-							<?php 
+							<?php
 								if(get_field('intro_text')):
 									echo '<div class="text top">' . get_field('intro_text') . '</div>';
 								endif;
@@ -84,8 +78,9 @@ $orc_field = get_field( "orc_field" );
 												</div>
 											</div>
 										</div>
-									<? $i++;
+									<?php $i++;
 									endwhile;
+
 									echo '</div>';
 								endif;
 
@@ -100,11 +95,11 @@ $orc_field = get_field( "orc_field" );
 							?>
 						</div>
 					</div>
-					
+
                 </div>
 
                 <div class="clearfix"></div>
-                
+
                 <div class="single-post-content-wrap">
 					<div class="entry-content">
 						<?php the_content(); ?>
@@ -112,7 +107,7 @@ $orc_field = get_field( "orc_field" );
 					</div><!-- .entry-content -->
 				</div>
 
-				<?php if (get_theme_mod('hide_meta_single') != 1 ) : ?>
+				<?php if (get_theme_mod('hide_meta_single') != 1 ): ?>
 				<footer class="entry-footer">
 					<?php west_entry_footer(); ?>
 				</footer><!-- .entry-footer -->
@@ -127,7 +122,7 @@ $orc_field = get_field( "orc_field" );
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
-<?php if ( get_theme_mod('fullwidth_single', 0) != 1 ) : ?>
+<?php if ( get_theme_mod('fullwidth_single', 0) != 1 ): ?>
 	<?php //get_sidebar(); ?>
 <?php endif; ?>
 <?php get_footer(); ?>
@@ -139,11 +134,10 @@ $orc_field = get_field( "orc_field" );
 <?php
  $artr = wp_get_post_terms(get_the_ID(),'locations', array("fields" => "all"));
  foreach ($artr as $strs) {
- 	
+
   $enquire_popup = get_field('enquire_popup', 'locations_' . $strs->term_id);
   echo '<div style="display:none;" class="'.$strs->name.'-s">'.do_shortcode($enquire_popup).'</div>';
 }
 
 ?>
 </div>
-

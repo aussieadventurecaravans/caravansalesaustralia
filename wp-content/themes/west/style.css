@@ -2356,5 +2356,82 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 .home.page .custom-banner-mobile-section .banner-content h2 {
 	margin: 15px auto;
 }
+.product-list .item-img img
+{
+	width: 300px;
+	height: 200px;
+}
+.product-list .item-img img:hover
+{
+	opacity: 0.9;
+}
+.product-list .item-details .details
+{
+	margin:20px auto;
+	color: rgb(230, 120, 23);
+}
+.product-list .item-details .details a
+{
+	text-decoration: none;
+}
+.product-list .item-details .details a h4
+{
+	color: #2B2D3A;
+}
+.product-list .item-details .details a h4:hover
+{
+	opacity: .9;
 
+}
+.product-list .item-details .details a .price
+{
+	color: #55c040;
+	font-size: 20px;
+	margin: 10px auto;
+}
 
+.filter-title
+{
+	font-weight: 400;
+	font-family: "Open Sans";
+	font-size: 24px;
+	text-transform: uppercase;
+}
+form#filter .form-check
+{
+	width: 100%;
+	background: #3a3a3a;
+	height: 100%;
+}
+form#filter .form-check .filter-heading
+{
+	font-weight: 400;
+	font-family: "Open Sans";
+	font-size: 20px;
+	margin: 0;
+	background-color: #e67719;
+	width: 100%;
+	line-height: 29px;
+	color: #fff;
+	padding: 0 10px;
+}
+form#filter .form-check .location-filter
+{
+	margin: 10px 8px;
+}
+form#filter .form-check .location-filter .form-check-label
+{
+	font-weight: 400;
+	margin: auto 8px;
+	vertical-align: middle;
+}
+
+form#filter button.filter-button
+{
+	font-size: 13px;
+	padding: 6px 25px;
+	border: 0;
+	font-weight: 500;
+	color: #fff;
+	width: 100%;
+}

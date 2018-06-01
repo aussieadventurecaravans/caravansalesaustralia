@@ -538,4 +538,103 @@ function css_js_versioning() {
     add_filter( 'style_loader_src', 'set_custom_ver_css_js', 9999 ); 	// css files versioning
     add_filter( 'script_loader_src', 'set_custom_ver_css_js', 9999 ); // js files versioning
 }
+/**  ENDING FUNCTION  **/
 
+
+/**
+ * set up the location function filter
+ *
+ * at category page using ajax
+ *
+ * then display caravans refined by location
+ *
+ */
+
+function misha_filter_function(){
+    // for taxonomies / categories
+    if( isset( $_POST['categoryfilter'] ) )
+        //show all posts at per page
+        $args = array('posts_per_page' => -1);
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'locations',
+                'field' => 'id',
+                'terms' => $_POST['categoryfilter']
+            )
+        );
+
+    $query = new WP_Query( $args );
+
+    if( $query->have_posts() ) :
+        $count = 0;
+        while( $query->have_posts() ):
+            $query->the_post();
+        ?>
+
+            <?php if($count ==  0): ?>
+                <div class="row">
+            <?php endif; ?>
+            <?php
+            $post_price = get_field( "post_price" );
+
+            if(!empty($post_price)): ?>
+
+                <?php if($count <  3): ?>
+                    <?php $product_img = get_the_post_thumbnail_url(get_post(),'west-large-thumb'); ?>
+                    <div class="product-list col-sm-4">
+                        <div class="item-img">
+                            <?php if($product_img): ?>
+                                <a href="<?php the_permalink(); ?>" >
+                                    <img src="<?php echo $product_img ?>" class="product-img"/>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        <div class="item-details">
+                            <div class="details">
+                                <a href="<?php the_permalink(); ?>" >
+                                    <h4 class="item-title"><?php the_title(); ?></h4>
+                                    <?php
+                                    $post_price = get_field( "post_price" );
+                                    $orc_field = get_field( "orc_field" );
+                                    ?>
+                                    <h3 class="price"><?php if(!empty($post_price)) { echo '$'. $post_price; }
+                                        if(!empty($orc_field))
+                                        {
+                                            echo $orc_field;
+                                        }
+                                        ?>
+                                    </h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php  $count++; $open_element = true ;?>
+                <?php endif; ?>
+
+                <?php if($count ==  3): ?>
+                    </div>
+                    <?php  $count= 0; $open_element = false; ?>
+                <?php endif; ?>
+
+            <?php endif; ?>
+
+        <?php endwhile; ?>
+
+        <?php if($open_element ==  true): ?>
+
+            </div>
+
+        <?php endif; ?>
+
+    <?php
+        wp_reset_postdata();
+    else :
+        echo 'No caravans found, please try again';
+    endif;
+
+    die();
+}
+
+add_action('wp_ajax_myfilter', 'misha_filter_function');
+add_action('wp_ajax_nopriv_myfilter', 'misha_filter_function');
+/**  ENDING FUNCTION  **/
