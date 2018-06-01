@@ -2204,24 +2204,41 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 }
 .home.page .custom-banner-section
 {
-	background-image: url("/wp-content/themes/west/images/CaravanPerthSale5.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	padding-bottom: 15%;
-	padding-top: 10%;
-	padding-left: 4%;
-	padding-right: 4%;
-	border: 0px solid transparent;
 	position: relative;
-	margin-left: 0%;
-	margin-right: 0%;
-	margin-bottom: 0px;
+	margin: 0;
+}
+@media screen and (max-width:768px)
+{
+	.home.page .custom-banner-section
+	{
+		background-size: contain;
+		min-height: 168px;
+		width: 100%;
+	}
+}
+
+.home.page .custom-banner-section .banner-image-section-wrapper
+{
+	position: relative;
 }
 .home.page .custom-banner-section .banner-section-wrapper
 {
-	width: 1170px;
-	max-width: 100%;
+	width: 100%;
 	margin: 0 auto;
+	z-index: 1;
+	position: absolute;
+	padding: 13% 7%;
+}
+@media screen and (max-width:1117px) {
+	.home.page .custom-banner-section .banner-section-wrapper
+	{
+		padding:7%;
+	}
+}
+@media screen and (max-width:768px) {
+	.home.page .custom-banner-section .banner-section-wrapper {
+			display:none;
+	}
 }
 .home.page .custom-banner-section .banner-section-wrapper:before,
 .home.page .custom-banner-section .banner-section-wrapper :after
@@ -2238,14 +2255,13 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	float: left;
 	min-height: 1px;
 }
-
 .home.page .custom-banner-section .banner-section-wrapper .banner-section-area .banner-section-module
 {
 	display: block;
 	float: left;
 	width: 100%;
 	margin-right: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-family: "Helvetica Neue", sans-serif;
 }
 .home.page .custom-banner-section .banner-content h1 {
 	color: rgb(255, 255, 255);
@@ -2268,7 +2284,6 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	padding-bottom: 15px;
 	text-align: left;
 }
-
 .home.page .custom-banner-section .view-range-button {
 	text-align: inherit;
 	margin-bottom: 20px;
@@ -2297,12 +2312,49 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	text-decoration: none;
 }
 
-@media (max-width:768px)
-{
-	.home.page .custom-banner-section
+
+.home.page .custom-banner-mobile-section {
+	display:none;
+	padding:5%;
+}
+
+@media screen and (max-width:768px) {
+	.home.page .custom-banner-mobile-section
 	{
-		padding-bottom: 50px;
-		padding-top: 50px;
+		display:block;
+		text-align: center;
 	}
 }
+
+.home.page .custom-banner-mobile-section .banner-section-module
+{
+	text-align: center;
+}
+
+.home.page .custom-banner-mobile-section .banner-section-module .view-range-button a
+{
+	background-color: rgb(230, 120, 23);
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 30px;
+	padding-right: 30px;
+	display: inline-block;
+	color: #ffffff;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+}
+.home.page .custom-banner-mobile-section .view-range-button a:hover
+{
+	background-color: rgb(251, 147, 55);
+	color: #ffffff;
+	text-decoration: none;
+}
+.home.page .custom-banner-mobile-section .banner-content h1 {
+	margin:0;
+}
+.home.page .custom-banner-mobile-section .banner-content h2 {
+	margin: 15px auto;
+}
+
 
