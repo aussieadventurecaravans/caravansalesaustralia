@@ -24,16 +24,23 @@ get_header(); ?>
                                 endforeach;
                             endif;
                             if( $terms = get_terms( 'category', 'orderby=name' ) ) : // to make it simple I use default categories
-                                echo '<h3 class="filter-heading">Brands</h3>';
+                                echo '<h3 class="filter-heading">Types</h3>';
                                 foreach ( $terms as $term ) :
-                                    if($term->name != 'Uncategorized'):
+                                    if(in_array( $term->name ,array('New Caravans','Used Caravans'))):
+                                        echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="typefilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                            .'</p>';
+                                    endif;
+                                endforeach;
+                                echo '<h3 class="filter-heading">brands</h3>';
+                                foreach ( $terms as $term ) :
+                                    if(in_array( $term->name ,array('Kokoda','Dreamseeker'))):
                                         echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="brandfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
                                             .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
                                             .'</p>';
                                     endif;
                                 endforeach;
                             endif;
-
                         echo '</div>';
                     ?>
                     <button class="filter-button">Filter</button>
