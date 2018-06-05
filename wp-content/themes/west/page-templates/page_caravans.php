@@ -12,17 +12,29 @@ get_header(); ?>
                 <h2 class="filter-title">Refine By: </h2>
                 <form action="<?php echo site_url() ?>/wp-admin/admin-ajax.php" method="POST" id="filter">
                     <?php
-                    if( $terms = get_terms( 'locations', 'orderby=name' ) ) : // to make it simple I use default categories
+
 
                         echo ' <div class="form-check">';
-                        echo '<h3 class="filter-heading">Location</h3>';
-                        foreach ( $terms as $term ) :
-                            echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="categoryfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
-                                    .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
-                                    .'</p>';
-                        endforeach;
+                            if( $terms = get_terms( 'locations', 'orderby=name' ) ) : // to make it simple I use default categories
+                            echo '<h3 class="filter-heading">Location</h3>';
+                                foreach ( $terms as $term ) :
+                                    echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="locationfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                            .'</p>';
+                                endforeach;
+                            endif;
+                            if( $terms = get_terms( 'category', 'orderby=name' ) ) : // to make it simple I use default categories
+                                echo '<h3 class="filter-heading">Brands</h3>';
+                                foreach ( $terms as $term ) :
+                                    if($term->name != 'Uncategorized'):
+                                        echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="brandfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                            .'</p>';
+                                    endif;
+                                endforeach;
+                            endif;
+
                         echo '</div>';
-                    endif;
                     ?>
                     <button class="filter-button">Filter</button>
                     <input type="hidden" name="action" value="myfilter">

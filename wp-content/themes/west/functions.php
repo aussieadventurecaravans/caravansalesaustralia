@@ -552,14 +552,20 @@ function css_js_versioning() {
 
 function misha_filter_function(){
     // for taxonomies / categories
-    if( isset( $_POST['categoryfilter'] ) )
+    if( isset( $_POST['locationfilter'] ) ||  isset( $_POST['brandfilter'] ) )
         //show all posts at per page
         $args = array('posts_per_page' => -1);
         $args['tax_query'] = array(
+                'relation' => 'OR',
             array(
                 'taxonomy' => 'locations',
                 'field' => 'id',
-                'terms' => $_POST['categoryfilter']
+                'terms' => $_POST['locationfilter']
+            ),
+            array(
+                'taxonomy' => 'category',
+                'field' => 'id',
+                'terms' => $_POST['brandfilter']
             )
         );
 

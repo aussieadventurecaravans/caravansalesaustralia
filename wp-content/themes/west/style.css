@@ -2401,14 +2401,14 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 form#filter .form-check
 {
 	width: 100%;
-	background: #3a3a3a;
+	background: #fff;
 	height: 100%;
 }
 form#filter .form-check .filter-heading
 {
 	font-weight: 400;
 	font-family: "Open Sans";
-	font-size: 20px;
+	font-size: 16px;
 	margin: 0;
 	background-color: #e67719;
 	width: 100%;
