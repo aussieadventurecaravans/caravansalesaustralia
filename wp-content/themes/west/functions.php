@@ -552,7 +552,7 @@ function css_js_versioning() {
 
 function misha_filter_function(){
     // for taxonomies / categories
-    if( isset( $_POST['locationfilter'] ) ||  isset( $_POST['brandfilter'] ) )
+    if( isset( $_POST['locationfilter'] ) ||  isset( $_POST['brandfilter'] ) ):
         //show all posts at per page
         $args = array('posts_per_page' => -1);
         $args['tax_query'] = array(
@@ -568,6 +568,17 @@ function misha_filter_function(){
                 'terms' => $_POST['brandfilter']
             )
         );
+    else :
+        //do nothing and display all caravans
+        $args = array(
+            'post_type' => 'post',
+            'orderby' => 'date',
+            'order' => 'DESC',
+            'nopaging' => true,
+            'post_status'      => 'publish',
+            'posts_per_page' => -1
+        );
+    endif;
 
     $query = new WP_Query( $args );
 
@@ -632,13 +643,10 @@ function misha_filter_function(){
 
         <?php endif; ?>
 
-    <?php
-        wp_reset_postdata();
-    else :
-        echo 'No caravans found, please try again';
-    endif;
+    <?php endif; ?>
 
-    die();
+    <?php  wp_reset_postdata();
+
 }
 
 add_action('wp_ajax_myfilter', 'misha_filter_function');
