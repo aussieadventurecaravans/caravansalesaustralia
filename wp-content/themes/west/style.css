@@ -1611,7 +1611,7 @@ body.single-post {
 }
 .availability-block a:first-child{
 	font-weight: bold;
-    text-decoration: underline;
+    text-decoration: none;
 }
 .availability-block a {
 	color: #666;
@@ -1784,11 +1784,10 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
     float: none;
     width: 50%;
 }
-.post-heading-block .entry-header .entry-title,
+
 .singlePost-content .text.top {
-	width: 48%;
+	width: auto;
 }
-.post-heading-block .entry-header h3.price,
 .blog-listing-wrapper article .price {
 	color: #55c040;
 	margin-top: 10px;
@@ -2435,4 +2434,18 @@ form#filter button.filter-button
 	font-weight: 500;
 	color: #fff;
 	width: 100%;
+}
+
+
+.entry-header .post-heading-block h3.price
+{
+	color: #55c040;
+	margin-top: 10px;
+}
+
+div#product-tab-menu .tab-content
+{
+	margin-top: 18px;
+	margin-left: 10px;
+	margin-right: 10px;
 }

@@ -32,7 +32,7 @@ get_header(); ?>
                                             .'</p>';
                                     endif;
                                 endforeach;
-                                echo '<h3 class="filter-heading">brands</h3>';
+                                echo '<h3 class="filter-heading">Brands</h3>';
                                 foreach ( $terms as $term ) :
                                     if(in_array( $term->name ,array('Kokoda','Dreamseeker'))):
                                         echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="brandfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
