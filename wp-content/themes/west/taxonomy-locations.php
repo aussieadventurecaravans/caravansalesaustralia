@@ -1,116 +1,163 @@
 <?php
+/*
+Template Name: All Caravans
+*/
 
 get_header(); ?>
-	<div id="primary" class="content-area fullwidth">
-		<main id="main" class="site-main" role="main">
-			<div id="dslc-content" class="dslc-content dslc-clearfix">
-				<div id="dslc-main">
-		         <div class="dslc-modules-section dslc-no-columns-spacing outer-wrapper" style="background-color:rgb(71, 71, 71);padding-bottom:35px;padding-top:35px;" data-section-id="">
-		<div class="dslc-modules-section-wrapper">
-		<?php if ( have_posts() ) : ?>
+<div id="primary" class="fullwidth">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2" style=" margin-bottom: 26px;">
+                <h2 class="filter-title">Refine By: </h2>
+                <form action="<?php echo site_url() ?>/wp-admin/admin-ajax.php" method="POST" id="filter">
+                    <?php
 
-			    <div class="cat-title"><h1>Caravans For Sale <?php echo single_cat_title(); ?></h1></div>
-                 <?php
-                   // vars
-					$queried_object = get_queried_object(); 
-					$taxonomy = $queried_object->taxonomy;
-					$term_id = $queried_object->term_id;  
-					$location_title_post = get_field('location_title_post', $taxonomy . '_' . $term_id);
-					$address_location_post = get_field('address_location_post', $taxonomy . '_' . $term_id);
-					$location_phone_post = get_field('location_phone_post', $taxonomy . '_' . $term_id);
-					$location_mobile_post = get_field('location_mobile_post', $taxonomy . '_' . $term_id);
-					$location_fax_post = get_field('location_fax_post', $taxonomy . '_' . $term_id);
-					$location_email_post = get_field('location_email_post', $taxonomy . '_' . $term_id);
-					$map_location_post = get_field('map_location_post', $taxonomy . '_' . $term_id);
-					?>
-			    <div class="address-bar">
-			    	<div class="dslc-text-module-content">
-			    		<div class="col-xs-12 col-sm-6 col-md-6">
-				    		<address class="address-inner-pages">
-								<?php if(!empty($location_title_post)){ ?>
-								    <h3><?php echo $location_title_post; ?></h3>
-								<?php } ?>
-								<?php if(!empty($address_location_post)) { echo $address_location_post; } ?><br>
-								<?php if(!empty($location_phone_post)) {?>
-								Phone: <a href="tel:<?php echo $location_phone_post; ?>"><?php echo $location_phone_post; ?></a><br>
-								<?php } ?>
-								<?php if(!empty($location_mobile_post)) {?>
-								Mob: <a href="tel:<?php echo $location_mobile_post; ?>"><?php echo $location_mobile_post; ?></a><br>
-								<?php } ?>
-								<?php if(!empty($location_fax_post)) {?>
-								Fax: <a href="fax:<?php echo $location_fax_post; ?>"><?php echo $location_fax_post; ?></a><br>
-								<?php } ?>
-								<?php if(!empty($location_email_post)) {?>
-								Email: <a href="mailto:<?php echo $location_email_post; ?>"><?php echo $location_email_post; ?></a>
-								<?php } ?>
-							</address>
-							<a href="#" class="trigger-popup btn btn-default btn-block">Enquire Now</a></div>
-						</div>
-						<div class="col-xs-12 col-sm-6 col-md-6 map-area">
-							<div class="google-map">
-								<?php if(!empty($map_location_post)){ echo $map_location_post; } ?>
-							</div>
-						</div>
-			    </div>
-			<div class="blog-listing-wrapper">
-			<div class="posts-layout">
-			<?php /* Start the Loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
-					<article id="post-<?php the_ID(); ?>" class="col-xs-12 col-sm-6 col-md-6 post-wrapper">
-						
-							<?php if ( has_post_thumbnail() && ( get_theme_mod( 'index_feat_image' ) != 1 ) ) : ?>
-								<div class="col-xs-12 col-sm-12 col-md-12 entry-thumb">
-									<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_post_thumbnail('west-small-thumb'); ?></a>
-								</div>
-							<?php endif; ?>
+                    $queries = get_queried_object();
 
+                    echo ' <div class="form-check">';
+                    if( $terms = get_terms( 'locations', 'orderby=name' ) ) : // to make it simple I use default categories
+                        echo '<h3 class="filter-heading">Location</h3>';
+                        foreach ( $terms as $term ) :
 
-							<div class="col-xs-12 col-sm-12 col-md-12 inner-content">
-								<header class="entry-header">
-									<?php the_title( sprintf( '<h2><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
-								</header><!-- .entry-header -->
+                            if($term->name == $queries->name):
+                                echo  '<p class="location-filter"><input type="checkbox" checked class="form-check-input" name="locationfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                    .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                    .'</p>';
 
-								<?php if(get_field('post_price')): echo '<p class="price">$' . get_field('post_price') . ' ' . get_field('orc_field') . '</p>' ; endif; ?>
+                            else:
+                                echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="locationfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                    .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                    .'</p>';
+                            endif;
 
-							</div>
+                        endforeach;
+                    endif;
+                    if( $terms = get_terms( 'category', 'orderby=name' ) ) : // to make it simple I use default categories
+                        echo '<h3 class="filter-heading">Types</h3>';
+                        foreach ( $terms as $term ) :
+                            if(in_array( $term->name ,array('New Caravans','Used Caravans'))):
+                                echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="typefilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                    .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                    .'</p>';
+                            endif;
+                        endforeach;
+                        echo '<h3 class="filter-heading">Brands</h3>';
+                        foreach ( $terms as $term ) :
+                            if(in_array( $term->name ,array('Kokoda','Dreamseeker'))):
+                                echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="brandfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                    .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                    .'</p>';
+                            endif;
+                        endforeach;
+                    endif;
+                    echo '</div>';
+                    ?>
+                    <button class="filter-button">Filter</button>
+                    <input type="hidden" name="action" value="myfilter">
+                </form>
+            </div>
+            <div class="col-md-10">
+                <div id="caravans-category">
+                    <?php
+                    $args = array(
+                        'post_type' => 'post',
+                        'orderby' => 'date',
+                        'order' => 'DESC',
+                        'nopaging' => true,
+                        'post_status'      => 'publish'
 
-					</article><!-- #post-## -->
+                    );
+                    $args['tax_query'] = array(
+                            array(
+                            'taxonomy' => 'locations',
+                            'field' => 'id',
+                            'terms' => $queries->term_id
+                            )
+                    );
+                    ?>
 
-			<?php endwhile; ?>
-			</div>
+                    <?php query_posts($args); $count = 0;?>
+                    <?php while (have_posts()): the_post(); ?>
 
-			<?php // the_posts_navigation(); ?>
+                        <?php if($count ==  0): ?>
+                            <div class="row">
+                        <?php endif; ?>
+                        <?php
+                        $post_price = get_field( "post_price" );
 
-			<?php the_posts_pagination( array(
-			    'mid_size' => 2,
-			    'prev_text' => __( 'Previous', 'textdomain' ),
-			    'next_text' => __( 'Next', 'textdomain' ),
-			) ); ?>
-		</div>
+                        if(!empty($post_price)): ?>
 
-		<?php else : ?>
+                            <?php if($count <  3): ?>
+                                <?php $product_img = get_the_post_thumbnail_url(get_post(),'west-large-thumb'); ?>
+                                <div class="product-list col-sm-4">
+                                    <div class="item-img">
+                                        <?php if($product_img): ?>
+                                            <a href="<?php the_permalink(); ?>" >
+                                                <img src="<?php echo $product_img ?>" class="product-img"/>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="item-details">
+                                        <div class="details">
+                                            <a href="<?php the_permalink(); ?>" >
+                                                <h4 class="item-title"><?php the_title(); ?></h4>
+                                                <?php
+                                                $post_price = get_field( "post_price" );
+                                                $orc_field = get_field( "orc_field" );
+                                                ?>
+                                                <h3 class="price"><?php if(!empty($post_price)) { echo '$'. $post_price; }
+                                                    if(!empty($orc_field))
+                                                    {
+                                                        echo $orc_field;
+                                                    }
+                                                    ?>
+                                                </h3>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php  $count++; $open_element = true ;?>
+                            <?php endif; ?>
 
-			<?php get_template_part( 'template-parts/content', 'none' ); ?>
+                            <?php if($count ==  3): ?>
+                                </div>
+                                <?php  $count= 0; $open_element = false; ?>
+                            <?php endif; ?>
 
-		<?php endif; ?>
-			</div>
-         </div>
-     </div>
- </div>
-		</main><!-- #main -->
-		
-		<?php
-			$enquire_popup = get_field('enquire_popup', $taxonomy . '_' . $term_id);
-		?>
-		<?php if(!empty($enquire_popup)){ ?>
-		    <div class="enquire-popup">
-				<a class="close-btninner" href="#">x</a>
-				<div style="display:none;" class="sucess">
-					<h1>Thank you for your enquiry, I’,ll be in contact soon</h1>
-				</div>
-		    	<?php echo do_shortcode($enquire_popup) ; ?>
-	    	</div>
-		<?php } ?>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
 
-	</div><!-- #primary -->
+                    <?php if($open_element ==  true): ?>
+                </div>
+                <?php endif; ?>
+
+                <?php wp_reset_query(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $('#filter').submit(function(){
+            var filter = $('#filter');
+            $.ajax({
+                url:filter.attr('action'),
+                data:filter.serialize(), // form data
+                type:filter.attr('method'), // POST
+                beforeSend:function(xhr){
+                    filter.find('button').text('Processing...'); // changing the button label
+                },
+                success:function(data){
+                    filter.find('button').text('Filter'); // changing the button label back
+                    $('#caravans-category').html(data); // insert data
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>
+
 <?php get_footer(); ?>

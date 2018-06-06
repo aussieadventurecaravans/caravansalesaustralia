@@ -552,27 +552,39 @@ function css_js_versioning() {
 
 function misha_filter_function(){
     // for taxonomies / categories
+
+    $args = array('posts_per_page' => -1);
     if( isset( $_POST['locationfilter'] ) ||  isset( $_POST['brandfilter'] ) ||  isset( $_POST['typefilter'] ) ):
         //show all posts at per page
-        $args = array('posts_per_page' => -1);
         $args['tax_query'] = array(
-                'relation' => 'OR',
-            array(
-                'taxonomy' => 'locations',
-                'field' => 'id',
-                'terms' => $_POST['locationfilter']
-            ),
-            array(
+            'relation' => 'AND'
+        );
+        if( isset( $_POST['locationfilter'] )):
+            $locationFilter = array(
+                            'taxonomy' => 'locations',
+                            'field' => 'id',
+                            'terms' => $_POST['locationfilter']
+                            );
+            array_push($args['tax_query'],$locationFilter);
+        endif;
+        if( isset( $_POST['brandfilter'] )):
+            $brandFilter =   array(
                 'taxonomy' => 'category',
                 'field' => 'id',
                 'terms' => $_POST['brandfilter']
-            ),
-            array(
+            );
+            array_push($args['tax_query'],$brandFilter);
+        endif;
+
+        if( isset( $_POST['typefilter'] )):
+            $typeFilter =   array(
                 'taxonomy' => 'category',
                 'field' => 'id',
                 'terms' => $_POST['typefilter']
-            )
-        );
+            );
+            array_push($args['tax_query'],$typeFilter);
+        endif;
+
     else :
         //do nothing and display all caravans
         $args = array(
@@ -643,14 +655,20 @@ function misha_filter_function(){
         <?php endwhile; ?>
 
         <?php if($open_element ==  true): ?>
-
             </div>
-
         <?php endif; ?>
+    <?php else: ?>
+        <div class="row">
+            <div class="col-sm-12">
+                    <h3>There are no caravans meet this filter</h3>
+            </div>
+        </div>
+
 
     <?php endif; ?>
 
     <?php  wp_reset_postdata();
+    die();
 
 }
 
