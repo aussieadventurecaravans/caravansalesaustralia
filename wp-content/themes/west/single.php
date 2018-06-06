@@ -23,7 +23,7 @@ $orc_field = get_field( "orc_field" );
 				<div class="post-title-thumb-header">
                     <header class="entry-header">
                         <div class="row post-heading-block">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-md-5 col-sm-5 col-xs-12">
                                 <div class="post-thumbnail-block ">
                                     <?php if ( has_post_thumbnail() && ( get_theme_mod( 'post_feat_image' ) != 1 ) ) : ?>
                                         <div class="single-thumb">
@@ -33,7 +33,7 @@ $orc_field = get_field( "orc_field" );
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-md-7 col-sm-7 col-xs-12">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="post-title">
