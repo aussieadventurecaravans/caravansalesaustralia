@@ -120,6 +120,35 @@ get_header(); ?>
                     </div>
                 </div>
             </div>
+            <div class="custom-dealership-section" style="background-color:#ffffff;padding-bottom:39px;padding-top:39px;padding-left:5%;padding-right:5%;">
+                <div class="custom-dealership-section-wrapper">
+                    <div class="custom-dealership-detail" >
+                        <div class="dealership-heading"><h2>DEALERSHIPS</h2></div>
+                    </div>
+                    <div class="custom-dealership-detail" >
+
+
+                        <div  class="custom-dealer-range" style="animation: forwards 0.65s ease none;">
+
+                            <div class="dslc-text-module-content"><h3>MANDURAH</h3></div>
+                            <div class="dslc-button">
+                                <a href="/locations/mandurah" target="_self" onclick="" class="">
+                                    MANDURAH STOCK																	</a>
+                            </div><!-- .dslc-button -->
+
+                        </div><!-- .dslc-module -->
+
+                        <div class="custom-dealer-range last-col"  style="animation: forwards 0.65s ease none;">
+
+                            <div class="dslc-text-module-content"><h3>GERALDTON</h3></div>
+                            <div class="dslc-button">
+                                <a href="/locations/geraldton" target="_self" onclick="" class="">
+                                    GERALDTON STOCK																	</a>
+                            </div><!-- .dslc-button -->
+                        </div><!-- .dslc-module -->
+                    </div>
+                </div>
+            </div>
 			<?php while ( have_posts() ) : the_post(); ?>
 				<?php the_content(); ?>
 			<?php endwhile; ?>

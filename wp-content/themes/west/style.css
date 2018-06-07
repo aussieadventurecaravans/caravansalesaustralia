@@ -2545,8 +2545,123 @@ div#product-tab-menu .tab-content
 	opacity: .8;
 }
 
+.custom-dealership-section{
 
+	border-width: 0px;
+	border-style: solid;
+	margin-left: 0%;
+	margin-right: 0%;
+	margin-bottom: 0px;
+}
 
+.custom-dealership-section .custom-dealership-section-wrapper
+{
+
+	max-width: 100%;
+	margin: 0 auto;
+	width: 1170px;
+}
+.custom-dealership-section .custom-dealership-section-wrapper:before,
+.custom-dealership-section .custom-dealership-section-wrapper:after
+{
+	content: " ";
+	display: table;
+}
+.custom-dealership-section .custom-dealership-section-wrapper:after
+{
+	clear: both;
+}
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail
+{
+	display: block;
+	float: left;
+	min-height: 1px;
+	margin-right: 0;
+	width: 100%;
+}
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range
+{
+	font-family: "Helvetica Neue", sans-serif;
+	width: 48.93617%;
+	display: block;
+	float: left;
+	margin-right: 2.12766%;
+	min-height: 1px;
+	position: relative;
+}
+@media only screen and (max-width: 767px)
+{
+	.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range
+	{
+		width: 100%;
+		margin: 0;
+		margin-bottom: 30px;
+		min-width: 0px;
+	}
+}
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range.last-col
+{
+	margin-right:0;
+}
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range .dslc-button {
+	text-align: center;
+	background-repeat: repeat;
+	background-attachment: scroll;
+	background-position: top left;
+}
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range .dslc-button a {
+	background-color: rgb(230, 120, 23);
+	border-radius: 0px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 40px;
+	padding-right: 40px;
+	display: inline-block;
+	color: #ffffff;
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: 0px;
+	font-family: "Roboto";
+	text-decoration: none;
+	line-height: 1;
+}
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range .dslc-button a:hover
+{
+	text-decoration: none;
+	background-color: rgba(230, 120, 23, 0.89);
+	color: #ffffff;
+}
+
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range .dslc-text-module-content
+{
+	color: #474747;
+	font-size: 29px;
+	font-weight: 400;
+	font-style: normal;
+	line-height: 40px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+@media only screen and (max-width: 767px)
+{
+	.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range .dslc-text-module-content
+	{
+		text-align: center;
+	}
+}
+.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .dealership-heading h2
+{
+	text-align: center;
+	color: #000;
+}
+@media only screen and (max-width: 767px)
+{
+	.custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .dealership-heading h2
+	{
+		font-size: 30px !important;
+	}
+}
 #sidebar-footer.footer-widgets a:hover,
 #sidebar-footer.footer-widgets a:focus{
 	text-decoration: none;
