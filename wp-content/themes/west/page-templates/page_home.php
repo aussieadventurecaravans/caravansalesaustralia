@@ -56,7 +56,70 @@ get_header(); ?>
                     </div>
                 </div>
             </div>
+            <div class="custom-service-section " style="background-color:#0393dd;padding-bottom:35px;padding-top:35px;">
+                <div class="custom-service-section-wrapper">
+                    <div class="service-section first-col">
+                        <div class="service-section-detail" style="animation: forwards 0.65s ease none;">
+                            <div class="dslc-image-container">
+                                <div class="dslc-image">
+                                    <a class="" href="<?php site_url(); ?>/all-caravans/" target="_self">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-03-80x80.png" alt="" title="">
+                                    </a>
+                                    <div class="dslc-image-caption">
+                                        BROWSE RANGE
+                                    </div>
+                                </div><!-- .dslc-image -->
+                            </div>
 
+                        </div><!-- .dslc-module -->
+                    </div>
+                    <div class="service-section">
+                        <div class="service-section-detail" style="animation: forwards 0.65s ease none;">
+                            <div class="dslc-image-container">
+                                <div class="dslc-image">
+                                    <a class="" href="<?php site_url(); ?>/service-repairs/" target="_self">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-04-80x80.png" alt="" title="">
+                                    </a>
+                                    <div class="dslc-image-caption">
+                                        BOOK A SERVICE
+                                    </div>
+                                </div><!-- .dslc-image -->
+                            </div>
+
+                        </div><!-- .dslc-module -->
+                    </div>
+                    <div class="service-section">
+                        <div class="service-section-detail" style="animation: forwards 0.65s ease none;">
+                            <div class="dslc-image-container">
+                                <div class="dslc-image">
+                                    <a class="" href="<?php site_url(); ?>/caravan-accessories-and-spare-parts/" target="_self">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-01-80x80.png" alt="" title="">
+                                    </a>
+                                    <div class="dslc-image-caption">
+                                        SHOP FOR PARTS
+                                    </div>
+                                </div><!-- .dslc-image -->
+                            </div>
+
+                        </div><!-- .dslc-module -->
+                    </div>
+                    <div class="service-section last-col">
+                        <div class="service-section-detail" style="animation: forwards 0.65s ease none;">
+                            <div class="dslc-image-container">
+                                <div class="dslc-image">
+                                    <a class="" href="<?php site_url(); ?>/consignment-trade-in/" target="_self">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-02-80x80.png" alt="" title="">
+                                    </a>
+                                    <div class="dslc-image-caption">
+                                        TRADE IN &amp; CONSIGNMENT
+                                    </div>
+                                </div><!-- .dslc-image -->
+                            </div>
+
+                        </div><!-- .dslc-module -->
+                    </div>
+                </div>
+            </div>
 			<?php while ( have_posts() ) : the_post(); ?>
 				<?php the_content(); ?>
 			<?php endwhile; ?>

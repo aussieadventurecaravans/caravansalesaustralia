@@ -2447,7 +2447,99 @@ div#product-tab-menu .tab-content
 	margin-right: 10px;
 }
 
-#dslc-content .dslc-image img:hover
+.custom-service-section {
+	padding-left: 4%;
+	padding-right: 4%;
+	background-repeat: repeat;
+	background-position: left top;
+	background-attachment: scroll;
+	background-size: auto;
+	border-width: 0px;
+	border-style: solid;
+	margin-left: 0%;
+	margin-right: 0%;
+	margin-bottom: 0px;
+}
+.custom-service-section .custom-service-section-wrapper
+{
+	max-width: 100%;
+	margin: 0 auto;
+	width: 1170px;
+}
+.custom-service-section .custom-service-section-wrapper:before,
+.custom-service-section .custom-service-section-wrapper:after
+{
+	content: " ";
+	display: table;
+}
+.custom-service-section .custom-service-section-wrapper:after
+{
+	clear: both;
+}
+.custom-service-section .custom-service-section-wrapper .service-section
+{
+	display: block;
+	float: left;
+	margin-right: 2.12766%;
+	min-height: 1px;
+	width: 23.40425%;
+
+}
+@media only screen and (max-width: 767px)
+{
+	.custom-service-section .custom-service-section-wrapper .service-section
+	{
+		width: 100%;
+		margin: 0;
+		margin-bottom: 30px;
+		min-width: 0px;
+	}
+}
+
+.custom-service-section .custom-service-section-wrapper .service-section.first-col
+{
+	clear: both;
+}
+.custom-service-section .custom-service-section-wrapper .service-section.last-col
+{
+	margin-right:0;
+}
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail
+{
+	font-family: "Helvetica Neue", sans-serif;
+	width: 100%;
+	margin-right: 0;
+	display: block;
+	float: left;
+	min-height: 1px;
+}
+
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container
+{
+	text-align: center;
+}
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image
+{
+	width: auto;
+	border: 0;
+	box-shadow: none;
+}
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image a
+{
+	text-decoration: none;    width: auto;
+}
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image .dslc-image-caption
+{
+	text-align: center;
+	color: #ffffff;
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 22px;
+	margin-top: 20px;
+}
+
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image img:hover
 {
 	opacity: .8;
 }
+
