@@ -2446,3 +2446,8 @@ div#product-tab-menu .tab-content
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
+#dslc-content .dslc-image img:hover
+{
+	opacity: .8;
+}
