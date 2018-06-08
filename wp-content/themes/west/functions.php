@@ -523,6 +523,11 @@ function js_css_version_number_setting_callback_function()
 
 function set_custom_ver_css_js( $src ) {
     // version number from settings / general field
+    //add default value when option isnot set yet
+    if ( get_option( 'js-css_version-id' ) === false ) // Nothing yet saved
+        update_option( 'js-css_version-id', '1' );
+
+    // version number from settings / general field
     $version =  get_option( 'js-css_version-id');
     if ( $version ) {
 
