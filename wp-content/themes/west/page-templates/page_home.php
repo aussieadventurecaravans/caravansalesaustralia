@@ -63,7 +63,7 @@ get_header(); ?>
                             <div class="dslc-image-container">
                                 <div class="dslc-image">
                                     <a class="" href="<?php site_url(); ?>/all-caravans/" target="_self">
-                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-03-80x80.png" alt="" title="">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-03.png" alt="" title="">
                                     </a>
                                     <div class="dslc-image-caption">
                                         BROWSE RANGE
@@ -78,7 +78,7 @@ get_header(); ?>
                             <div class="dslc-image-container">
                                 <div class="dslc-image">
                                     <a class="" href="<?php site_url(); ?>/service-repairs/" target="_self">
-                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-04-80x80.png" alt="" title="">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-04.png" alt="" title="">
                                     </a>
                                     <div class="dslc-image-caption">
                                         BOOK A SERVICE
@@ -93,7 +93,7 @@ get_header(); ?>
                             <div class="dslc-image-container">
                                 <div class="dslc-image">
                                     <a class="" href="<?php site_url(); ?>/caravan-accessories-and-spare-parts/" target="_self">
-                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-01-80x80.png" alt="" title="">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-01.png" alt="" title="">
                                     </a>
                                     <div class="dslc-image-caption">
                                         SHOP FOR PARTS
@@ -108,7 +108,7 @@ get_header(); ?>
                             <div class="dslc-image-container">
                                 <div class="dslc-image">
                                     <a class="" href="<?php site_url(); ?>/consignment-trade-in/" target="_self">
-                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-02-80x80.png" alt="" title="">
+                                        <img src="<?php site_url(); ?>/wp-content/uploads/2018/05/Downunder-RV-Icons-White-02.png" alt="" title="">
                                     </a>
                                     <div class="dslc-image-caption">
                                         TRADE IN &amp; CONSIGNMENT
@@ -133,7 +133,8 @@ get_header(); ?>
                             <div class="dslc-text-module-content"><h3>MANDURAH</h3></div>
                             <div class="dslc-button">
                                 <a href="/locations/mandurah" target="_self" onclick="" class="">
-                                    MANDURAH STOCK																	</a>
+                                    MANDURAH STOCK
+                                </a>
                             </div><!-- .dslc-button -->
 
                         </div><!-- .dslc-module -->

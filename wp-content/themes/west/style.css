@@ -2539,7 +2539,11 @@ div#product-tab-menu .tab-content
 	line-height: 22px;
 	margin-top: 20px;
 }
-
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image img {
+	border: 0;
+	box-shadow: none;
+	width: 80px;
+}
 .custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image img:hover
 {
 	opacity: .8;
