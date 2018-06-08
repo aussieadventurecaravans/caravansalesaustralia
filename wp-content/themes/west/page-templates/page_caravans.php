@@ -52,7 +52,7 @@ get_header(); ?>
                     <?php
                         $args = array(
                             'post_type' => 'post',
-                            'orderby' => 'date',
+                            'orderby' => 'modified',
                             'order' => 'DESC',
                             'nopaging' => true,
                             'post_status'      => 'publish'
