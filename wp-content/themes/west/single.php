@@ -43,7 +43,11 @@ $orc_field = get_field( "orc_field" );
                                                 ?>
                                             </h3>
                                         </div>
-
+                                        <?php if(get_field('attributes')): ?>
+                                            <div class="product-attributes">
+                                                <?php echo get_field('attributes'); ?>
+                                            </div>
+                                        <?php endif; ?>
                                         <div class="availability-block">
                                             <h3>Available at</h3>
                                             <?php
