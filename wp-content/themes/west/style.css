@@ -2150,6 +2150,8 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	font-size: 44px;
 	color: #0193dd!important;
 }
+
+
 .consignment-trade-in-form
 {
 	background: #fff;
@@ -2190,7 +2192,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 
 .consignment-trade-in-form h1.consignment-trade-in-title
 {
-	padding: 20px 0px;
+	padding: 20px 0px 40px;
 	text-transform: uppercase;
 	margin: 0;
 	font-size: 32px;
@@ -2427,7 +2429,7 @@ form#filter .form-check .location-filter .form-check-label
 
 form#filter button.filter-button
 {
-	font-size: 19px;
+	font-size: 17px;
 	padding: 7px 27px;
 	border: 0;
 	font-weight: 500;
@@ -2677,10 +2679,21 @@ div#product-tab-menu .tab-content
 	color: #e67719;
 }
 
-
-
 .product-attributes
 {
 	color: #2b2e3ba6;
 	font-style: italic;
+}
+
+
+.page-template .site-content {
+	margin: 29px 0 50px;
+}
+
+
+.dealership-section h1.dealership-section-title {
+	padding: 20px 4% 40px;
+	text-transform: uppercase;
+	margin: 0;
+	font-size: 32px;
 }

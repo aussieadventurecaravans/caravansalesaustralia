@@ -592,13 +592,20 @@ function misha_filter_function(){
 
     else :
         //do nothing and display all caravans
-        $args = array(
+       /* $args = array(
             'post_type' => 'post',
             'orderby' => 'date',
             'order' => 'DESC',
             'nopaging' => true,
             'post_status'      => 'publish',
             'posts_per_page' => -1
+        );*/
+        $args = array(
+            'post_type' => 'post',
+            'orderby' => 'modified',
+            'order' => 'DESC',
+            'nopaging' => true,
+            'post_status'      => 'publish'
         );
     endif;
 
