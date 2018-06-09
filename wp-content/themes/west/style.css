@@ -628,7 +628,7 @@ a:active {
 	text-align: left;
 }
 .social-menu-widget a {
-	background-color: #eaab1c;
+	background-color: #e67817;
 	text-decoration: none;
 	display: inline-block;
 	width: 40px;
@@ -2676,7 +2676,8 @@ div#product-tab-menu .tab-content
 #sidebar-footer.footer-widgets a:hover,
 #sidebar-footer.footer-widgets a:focus{
 	text-decoration: none;
-	color: #e67719;
+	color: #fff;
+	opacity: .8;
 }
 
 .product-attributes
