@@ -2427,12 +2427,13 @@ form#filter .form-check .location-filter .form-check-label
 
 form#filter button.filter-button
 {
-	font-size: 13px;
-	padding: 6px 25px;
+	font-size: 19px;
+	padding: 7px 27px;
 	border: 0;
 	font-weight: 500;
 	color: #fff;
 	width: 100%;
+	background-color: #0192dd;
 }
 
 
@@ -2659,7 +2660,9 @@ div#product-tab-menu .tab-content
 .custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .dealership-heading h2
 {
 	text-align: center;
-	color: #000;
+	color: #474747;
+	margin-top: 0;
+	text-transform: uppercase;
 }
 @media only screen and (max-width: 767px)
 {
