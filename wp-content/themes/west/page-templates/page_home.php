@@ -120,7 +120,7 @@ get_header(); ?>
                     </div>
                 </div>
             </div>
-            <div class="custom-dealership-section" style="background-color:#ffffff;padding-bottom:39px;padding-top:39px;padding-left:5%;padding-right:5%;">
+            <div class="custom-dealership-section" style="background-color:#ffffff;padding-bottom:39px;padding-top:39px;">
                 <div class="custom-dealership-section-wrapper">
                     <div class="custom-dealership-detail" >
                         <div class="dealership-heading"><h2>Dealership Locations</h2></div>
