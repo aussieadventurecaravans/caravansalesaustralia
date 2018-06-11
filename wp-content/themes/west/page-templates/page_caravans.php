@@ -8,7 +8,7 @@ get_header(); ?>
 <div id="primary" class="fullwidth">
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-2" style=" margin-bottom: 46px;">
                 <h2 class="filter-title">Refine By: </h2>
                 <form action="<?php echo site_url() ?>/wp-admin/admin-ajax.php" method="POST" id="filter">
                     <?php
@@ -48,7 +48,7 @@ get_header(); ?>
                 </form>
             </div>
             <div class="col-md-10">
-                <div id="carvans-category">
+                <div id="caravans-category">
                     <?php
                         $args = array(
                             'post_type' => 'post',

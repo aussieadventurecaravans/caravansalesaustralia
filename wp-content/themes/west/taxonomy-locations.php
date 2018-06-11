@@ -1,13 +1,13 @@
 <?php
 /*
-Template Name: All Caravans
+Template Name: locations
 */
 
 get_header(); ?>
 <div id="primary" class="fullwidth">
     <div class="container">
         <div class="row">
-            <div class="col-md-2" style=" margin-bottom: 26px;">
+            <div class="col-md-2" style=" margin-bottom: 46px;">
                 <h2 class="filter-title">Refine By: </h2>
                 <form action="<?php echo site_url() ?>/wp-admin/admin-ajax.php" method="POST" id="filter">
                     <?php
