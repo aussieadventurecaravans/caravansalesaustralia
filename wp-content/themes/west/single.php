@@ -118,11 +118,11 @@ $orc_field = get_field( "orc_field" );
                                              while(have_rows('accordion')): the_row(); ?>
                                             <div class="panel panel-default">
                                                 <div class="panel-heading" role="tab" id="heading<?php echo $i; ?>">
-                                                    <h4 class="panel-title">
-                                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i; ?>" aria-expanded="true" aria-controls="collapse<?php echo $i; ?>">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i; ?>" aria-expanded="true" aria-controls="collapse<?php echo $i; ?>">
+                                                        <h4 class="panel-title">
                                                             <?php the_sub_field('title'); ?>
-                                                        </a>
-                                                    </h4>
+                                                        </h4>
+                                                    </a>
                                                 </div>
                                                 <div id="collapse<?php echo $i; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<?php echo $i; ?>">
                                                     <div class="panel-body">

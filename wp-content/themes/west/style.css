@@ -1784,6 +1784,16 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	width: 100%;
 
 }
+.singlePost-content #accordion .panel-heading a {
+	color: #333;
+	background-color: #f5f5f5;
+}
+.singlePost-content #accordion .panel-heading a:hover,
+.singlePost-content #accordion .panel-heading a:focus
+{
+	text-decoration: none;
+	
+}
 .singlePost-content{
 	display:block
 }
