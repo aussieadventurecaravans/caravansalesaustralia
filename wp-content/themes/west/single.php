@@ -263,14 +263,14 @@ $orc_field = get_field( "orc_field" );
 
                                 <?php  if(get_field('bottom_text')): ?>
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading-menu4">
+                                        <div class="panel-heading" role="tab" id="heading-menu5">
                                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-menu5" aria-expanded="true" aria-controls="collapse-menu5">
                                                 <h4 class="panel-title">
                                                     Other Info
                                                 </h4>
                                             </a>
                                         </div>
-                                        <div id="collapse-menu4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-menu5">
+                                        <div id="collapse-menu5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-menu5">
                                             <div class="panel-body">
                                                 <?php  echo '<div class="text bottom">' . get_field('bottom_text') . '</div>'; ?>
                                             </div>
