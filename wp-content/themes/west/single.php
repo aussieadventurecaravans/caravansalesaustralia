@@ -164,6 +164,124 @@ $orc_field = get_field( "orc_field" );
                     </div>
                 </div>
 
+                <div class="mobile-singlePost-content">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <?php if(get_the_content()): ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading-menu1">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-menu1" aria-expanded="true" aria-controls="collapse-menu1">
+                                                <h4 class="panel-title">
+                                                    Intro
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-menu1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-menu1">
+                                            <div class="panel-body">
+                                                <?php echo get_the_content();?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if( get_field('intro_text')): ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading-menu2">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-menu2" aria-expanded="true" aria-controls="collapse-menu2">
+                                                <h4 class="panel-title">
+                                                    Description
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-menu2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-menu2">
+                                            <div class="panel-body">
+                                                <?php echo '<div class="text top">' . get_field('intro_text') . '</div>'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php  if(have_rows('accordion')): ?>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading-menu3">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-menu3" aria-expanded="true" aria-controls="collapse-menu3">
+                                                <h4 class="panel-title">
+                                                    Specification
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-menu3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-menu3">
+                                            <div class="panel-body">
+                                                <?php  $i=0;
+                                                echo '<div class="panel-group" id="specification-accordion" role="tablist" aria-multiselectable="true">';
+                                                while(have_rows('accordion')): the_row(); ?>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="mobi-heading<?php echo $i; ?>">
+                                                                <a role="button" data-toggle="collapse" data-parent="#specification-accordion" href="#mobi-collapse<?php echo $i; ?>" aria-expanded="true" aria-controls="collapse<?php echo $i; ?>">
+                                                                    <h4 class="panel-title">
+                                                                        <?php the_sub_field('title'); ?>
+                                                                    </h4>
+                                                                </a>
+                                                        </div>
+                                                        <div id="mobi-collapse<?php echo $i; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="mobi-heading<?php echo $i; ?>">
+                                                            <div class="panel-body">
+                                                                <?php the_sub_field('content'); ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <?php $i++;
+                                                endwhile;
+                                                echo '</div>'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php endif; ?>
+
+                                <?php  if(get_field('floorplan')):?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading-menu4">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-menu4" aria-expanded="true" aria-controls="collapse-menu4">
+                                                <h4 class="panel-title">
+                                                    Floor Plan
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-menu4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-menu4">
+                                            <div class="panel-body">
+                                                <?php  $floorplan = get_field('floorplan'); ?>
+                                                <?php echo '<img class="floorplan" src="' . $floorplan['sizes']['large'] . '">';?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
+
+
+                                <?php  if(get_field('bottom_text')): ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading-menu4">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-menu5" aria-expanded="true" aria-controls="collapse-menu5">
+                                                <h4 class="panel-title">
+                                                    Other Info
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-menu4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-menu5">
+                                            <div class="panel-body">
+                                                <?php  echo '<div class="text bottom">' . get_field('bottom_text') . '</div>'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <div class="clearfix"></div>

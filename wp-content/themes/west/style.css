@@ -1600,6 +1600,11 @@ body.single-post {
 .post-heading-block{
 	padding: 0 !important;
 }
+
+.post-heading-block .post-title
+{
+	margin-top: 20px;
+}
 .post-thumbnail-block .single-thumb img {
     max-height: 405px;
     -webkit-object-fit: cover;
@@ -1770,7 +1775,18 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
     margin-bottom: 50px !important;
 }
 .singlePost-content #accordion {
-	max-width: 550px;
+	width: 100%;
+
+}
+.singlePost-content{
+	display:block
+}
+@media only screen and (max-width: 767px)
+{
+	.singlePost-content
+	{
+		display:none;
+	}
 }
 .single-post-content-wrap .entry-footer {
 	display: none!important;
@@ -2714,4 +2730,43 @@ div#product-tab-menu .tab-content
 	text-transform: uppercase;
 	margin: 0;
 	font-size: 32px;
+}
+
+.mobile-singlePost-content
+{
+	display:none;
+}
+@media only screen and (max-width: 767px)
+{
+	.mobile-singlePost-content
+	{
+		display:block;
+	}
+}
+
+.mobile-singlePost-content .panel-default >.panel-heading{
+	color: #fff;
+	background-color: #0192dd;
+	border-color: #ddd;
+}
+.mobile-singlePost-content .panel-default >.panel-heading >a
+{
+	color:#fff;
+}
+.mobile-singlePost-content .panel-default >.panel-heading >a:hover
+{
+	text-decoration: none;
+}
+.mobile-singlePost-content  #specification-accordion .panel-default >.panel-heading {
+	color: #333;
+	background-color: #f5f5f5;
+	border-color: #ddd;
+}
+.mobile-singlePost-content  #specification-accordion .panel-default >.panel-heading a
+{
+	color: #333;
+}
+.mobile-singlePost-content  #specification-accordion .panel-default >.panel-heading a:hover
+{
+	text-decoration: none;
 }
