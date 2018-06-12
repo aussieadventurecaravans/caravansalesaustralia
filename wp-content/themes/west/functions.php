@@ -161,7 +161,7 @@ function west_scripts() {
 
 	wp_enqueue_script( 'west-main', get_template_directory_uri() . '/js/main.js', array('jquery'), '', true );	
 
-	wp_enqueue_script( 'west-scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), '', true );
+	wp_enqueue_script( 'west-scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '', true );
 	wp_enqueue_script( 'slick-main', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.js', array('jquery'), '', true );
 	// Custom js only for demo post
 	// if(is_single('11742')) {
@@ -182,7 +182,8 @@ add_action( 'wp_enqueue_scripts', 'west_scripts' );
  * Enqueue Bootstrap
  */
 function west_enqueue_bootstrap() {
-	wp_enqueue_script( 'bootstrap-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array('jquery'), '');
+	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.js', array('jquery'), '');
+    wp_enqueue_script( 'bootstrap-tabcollapse-js', get_template_directory_uri() . '/js/bootstrap-tabcollapse.js', array('jquery'), '');
 	wp_enqueue_style( 'west-bootstrap-collapse', get_template_directory_uri() . '/css/bootstrap/bootstrap-collapse.min.css', array() );
 	wp_enqueue_style( 'west-bootstrap', get_template_directory_uri() . '/css/bootstrap/bootstrap.min.css', array() );
 }

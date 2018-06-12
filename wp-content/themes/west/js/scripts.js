@@ -86,6 +86,7 @@ jQuery(function($) {
 });
 
 //Smooth scrolling
+/*
 jQuery(function($) {
 	$('a[href*="#"]:not([href="#"],.wc-tabs a,.panel-title,.panel-title a)').click(function() {
 		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
@@ -99,4 +100,4 @@ jQuery(function($) {
 		    }
 		}
 	});
-});
+});*/

@@ -81,26 +81,26 @@ $orc_field = get_field( "orc_field" );
 
                             <div class="container" id="product-tab-menu">
                                 <!-- Nav tabs -->
-                                <ul  class="nav nav-tabs">
+                                <ul id="producttab" class="nav nav-tabs">
                                     <?php if(get_the_content()): ?>
-                                        <li><a href="#menu1" data-toggle="tab" class="nav-item nav-link">Intro</a></li>
+                                        <li><a href="#menu1" data-toggle="tab" >Intro</a></li>
                                     <?php endif; ?>
                                      <?php if( get_field('intro_text')): ?>
-                                        <li><a href="#menu2" data-toggle="tab" class="nav-item nav-link">Description</a></li>
+                                        <li><a href="#menu2" data-toggle="tab">Description</a></li>
                                      <?php endif; ?>
 
                                     <?php  if(have_rows('accordion')): ?>
-                                        <li><a href="#menu3" data-toggle="tab" class="nav-item nav-link">Specification</a></li>
+                                        <li><a href="#menu3" data-toggle="tab">Specification</a></li>
                                     <?php endif; ?>
                                     <?php  if(get_field('floorplan')):?>
-                                        <li><a href="#menu4" data-toggle="tab" class="nav-item nav-link">Floor Plan</a></li>
+                                        <li><a href="#menu4" data-toggle="tab">Floor Plan</a></li>
                                     <?php endif; ?>
                                     <?php  if(get_field('bottom_text')): ?>
-                                        <li><a href="#menu5" data-toggle="tab" class="nav-item nav-link">Other Info</a></li>
+                                        <li><a href="#menu5" data-toggle="tab">Other Info</a></li>
                                     <?php endif; ?>
                                 </ul>
 
-                                <div class="tab-content">
+                                <div id="producttabContent"  class="tab-content">
                                     <?php if(get_the_content()): ?>
                                         <div id="menu1" class="tab-pane fade in active">
                                             <?php  echo get_the_content();?>
@@ -155,9 +155,8 @@ $orc_field = get_field( "orc_field" );
                                             event.stopPropagation();
 
                                         });
-
-                                        $("ul.nav.nav-tabs li:first-child").addClass('active');
-                                        $("div.tab-content div.tab-pane:first-child").addClass('active in');
+                                        $("#product-tab-menu ul.nav.nav-tabs li:first-child").addClass('active');
+                                        $("div#producttabContent.tab-content div.tab-pane:first-child").addClass('active in');
                                     });
                                 </script>
                             </div>
@@ -210,3 +209,6 @@ $orc_field = get_field( "orc_field" );
 
 ?>
 </div>
+
+
+
