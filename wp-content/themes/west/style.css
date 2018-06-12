@@ -1605,6 +1605,12 @@ body.single-post {
 {
 	margin-top: 20px;
 }
+@media  (max-width:766px){
+	.post-heading-block .post-title
+	{
+		margin-left:15px;
+	}
+}
 .post-thumbnail-block .single-thumb img {
     max-height: 405px;
     -webkit-object-fit: cover;
@@ -1801,6 +1807,12 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
     margin: 0 0 5%;
     float: none;
     width: 50%;
+}
+@media all and (max-width: 767px)
+{
+	.availability-block{
+		margin-left:15px;
+	}
 }
 
 .singlePost-content .text.top {
