@@ -31,6 +31,20 @@ $orc_field = get_field( "orc_field" );
                                         </div>
                                     <?php endif; ?>
                                 </div>
+                                <div class="post-image-gallery-block">
+                                    <?php
+                                    /*Check if this product has Image Gallery add*/
+                                    if(get_post_meta(get_the_ID(), '_easy_image_gallery_v2')):
+                                        ?>
+                                        <?php $get_galleries = get_post_meta(get_the_ID(), '_easy_image_gallery_v2');?>
+                                        <?php foreach ($get_galleries[0] as $gallery): ?>
+                                        <?php if(!empty($gallery['SHORTCODE'])): ?>
+                                            <?php echo do_shortcode('[easy_image_gallery gallery="'. $gallery['SHORTCODE'] .'"]'); ?>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
+
+                                </div>
                             </div>
 
                             <div class="col-lg-6 col-md-7 col-sm-7 col-xs-12">

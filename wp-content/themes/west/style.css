@@ -1791,8 +1791,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 .singlePost-content #accordion .panel-heading a:hover,
 .singlePost-content #accordion .panel-heading a:focus
 {
-	text-decoration: none;
-	
+	text-decoration:none
 }
 .singlePost-content{
 	display:block
@@ -2791,4 +2790,32 @@ div#product-tab-menu .tab-content
 .mobile-singlePost-content  #specification-accordion .panel-default >.panel-heading a:hover
 {
 	text-decoration: none;
+}
+
+
+
+.post-image-gallery-block
+{
+	margin-top: 50px;
+}
+@media all and (max-width: 595px) {
+	.post-image-gallery-block
+	{
+		display: none;
+	}
+}
+.post-image-gallery-block .image-gallery .slick-arrow
+{
+	z-index: 981 !important;
+}
+.post-image-gallery-block .image-gallery .slick-arrow:before
+{
+	font-size: 29px;
+	color: #e67719!important;
+}
+
+.post-image-gallery-block .image-gallery .slick-arrow.slick-next,
+.post-image-gallery-block .image-gallery .slick-arrow.slick-prev
+{
+	top: 40%;
 }
