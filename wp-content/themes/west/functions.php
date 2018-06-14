@@ -688,3 +688,16 @@ function misha_filter_function(){
 add_action('wp_ajax_myfilter', 'misha_filter_function');
 add_action('wp_ajax_nopriv_myfilter', 'misha_filter_function');
 /**  ENDING FUNCTION  **/
+
+
+/** add popup link to each image thumbnai at image gallery of product page **/
+add_filter('easy_image_gallery_html','customize_easy_image_gallery_html',999,6);
+function customize_easy_image_gallery_html($html, $rel, $image_link, $image_class, $image_caption, $image)
+{
+
+    $customizedhtml = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
+
+    return $customizedhtml;
+}
+
+/**  ENDING THE CUSTOMIZATION  **/

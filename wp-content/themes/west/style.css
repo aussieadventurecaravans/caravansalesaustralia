@@ -2819,3 +2819,48 @@ div#product-tab-menu .tab-content
 {
 	top: 40%;
 }
+
+.post-image-gallery-wrap
+{
+	display: none;
+}
+.post-image-gallery-wrap h3{
+	font-size: 28px;
+	font-weight: 600;
+	font-family: "Open Sans";
+	font-style: normal;
+	text-align: center;
+	text-transform: uppercase;
+}
+@media all and (max-width: 595px) {
+	.post-image-gallery-wrap h3{
+		font-size: 28px !important;
+	}
+}
+.mobile-image-gallery-block
+{
+	margin-top: 50px;
+	display: none;
+}
+
+@media all and (max-width: 595px) {
+	.mobile-image-gallery-block,
+	.post-image-gallery-wrap
+	{
+		display: block;
+	}
+}
+.mobile-image-gallery-block .image-gallery .slick-arrow
+{
+	z-index: 981 !important;
+}
+.mobile-image-gallery-block .image-gallery .slick-arrow:before
+{
+	color: #e67719!important;
+}
+
+.mobile-image-gallery-block .image-gallery .slick-arrow.slick-next,
+.mobile-image-gallery-block .image-gallery .slick-arrow.slick-prev
+{
+	top: 40%;
+}
