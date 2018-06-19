@@ -55,11 +55,11 @@ $orc_field = get_field( "orc_field" );
                                             <h3 class="price"><?php if(!empty($post_price)) { echo '$'. $post_price; }
                                                 if(!empty($orc_field))
                                                 {
-                                                    echo ' <span style="color:#8f8f8f;font-size: 15px;font-weight: 400;"> '.$orc_field . '</span>';
+                                                    echo ' <span class="orc-field"> '.$orc_field . '</span>';
                                                 }
                                                 else
                                                 {
-                                                    echo '<span style="color:#8f8f8f;font-size: 15px;font-weight: 400;">Drive Away</span>';
+                                                    echo '<span class="orc-field">Drive Away</span>';
                                                 }
                                                 ?>
                                             </h3>

@@ -2497,10 +2497,15 @@ form#filter button.filter-button
 
 .entry-header .post-heading-block h3.price
 {
-	color: #55c040;
+	color: #000000;
 	margin-top: 10px;
 }
 
+.entry-header .post-heading-block .post-title .orc-field{
+	color:#e67817;
+	font-size: 15px;
+	font-style: italic;
+}
 div#product-tab-menu .tab-content
 {
 	margin-top: 18px;
