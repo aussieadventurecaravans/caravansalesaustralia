@@ -335,6 +335,12 @@ a:active {
 .main-navigation ul ul .current_page_ancestor > a {
 	border-bottom: 0;
 }
+.main-navigation ul ul .current_page_item > a:focus,
+.main-navigation ul ul .current-menu-item > a:focus,
+.main-navigation ul ul .current_page_ancestor > a:focus
+{
+	color: #e67817;
+}
 /* Mobile menu */
 .mobile-nav {
 	display: none;
@@ -2430,7 +2436,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 }
 .product-list .item-details .details a .price
 {
-	color: #55c040;
+	color: #000;
 	font-size: 20px;
 	margin: 10px auto;
 }
@@ -2682,8 +2688,9 @@ div#product-tab-menu .tab-content
 .custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range .dslc-button a:hover
 {
 	text-decoration: none;
-	background-color: rgba(230, 120, 23, 0.89);
+	background-color: rgba(230, 120, 23, 0.56);
 	color: #ffffff;
+	opacity:0.8;
 }
 
 .custom-dealership-section .custom-dealership-section-wrapper .custom-dealership-detail .custom-dealer-range .dslc-text-module-content
@@ -2811,7 +2818,8 @@ div#product-tab-menu .tab-content
 .post-image-gallery-block .image-gallery .slick-arrow:before
 {
 	font-size: 29px;
-	color: #e67719!important;
+	color: #0192dd!important;
+	opacity: 1;
 }
 
 .post-image-gallery-block .image-gallery .slick-arrow.slick-next,
