@@ -1652,6 +1652,7 @@ body.single-post {
 .availability-block .btn:active,
 .availability-block .btn:focus {
 	background-color: #da6804;
+	color: #fff;
 }
 .single-post-content-wrap {
     padding-top: 25px;
