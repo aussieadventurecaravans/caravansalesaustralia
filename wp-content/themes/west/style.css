@@ -2421,6 +2421,11 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	margin:20px auto;
 	color: rgb(230, 120, 23);
 }
+.product-list .item-details .orc-field{
+	color:#e67817;
+	font-size: 15px;
+	font-style: italic;
+}
 .product-list .item-details .details a
 {
 	text-decoration: none;
@@ -2872,3 +2877,5 @@ div#product-tab-menu .tab-content
 {
 	top: 40%;
 }
+
+
