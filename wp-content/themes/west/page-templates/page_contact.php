@@ -11,6 +11,10 @@ Template Name: Contact Us
 	<div id="primary" class="content-area fullwidth">
 		<main id="main" class="site-main" role="main">
 
+
+
+            <?php echo do_shortcode('[wpsl template="default" map_type="roadmap" auto_locate="true" start_marker="red" store_marker="blue"]'); ?>
+
 			<?php while ( have_posts() ) : the_post(); ?>
 
 				<?php get_template_part( 'template-parts/content', 'page' ); ?>
@@ -26,7 +30,7 @@ Template Name: Contact Us
 
 			<?php endwhile; // end of the loop. ?>
 
-            <?php echo do_shortcode('[wpsl template="default" map_type="roadmap" auto_locate="true" start_marker="red" store_marker="blue"]'); ?>
+
 
 		</main><!-- #main -->
 	</div><!-- #primary -->

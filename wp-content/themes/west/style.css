@@ -2593,7 +2593,9 @@ div#product-tab-menu .tab-content
 }
 .custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image a
 {
-	text-decoration: none;    width: auto;
+	text-decoration: none;
+	width: auto;
+	color: #fff;
 }
 .custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image .dslc-image-caption
 {
@@ -2885,3 +2887,13 @@ div#product-tab-menu .tab-content
 }
 
 
+/**
+CUSTOMIZE THE STORE LOCATOR MAP
+ */
+
+.wpsl-search {
+	margin-bottom: 12px;
+	padding: 12px 12px 0;
+	background: #f4f3f3;
+	display: none;
+}
