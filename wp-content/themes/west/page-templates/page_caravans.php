@@ -55,19 +55,19 @@ get_header(); ?>
                             'orderby' => 'modified',
                             'order' => 'DESC',
                             'nopaging' => true,
-                            'post_status'      => 'publish'
+                            'post_status'  => 'publish'
                         );
                     ?>
 
                     <?php query_posts($args); $count = 0;?>
                     <?php while (have_posts()): the_post(); ?>
-
+                            <?php //Starting Element Row ?>
                             <?php if($count ==  0): ?>
                                <div class="row">
                             <?php endif; ?>
+
                             <?php
                             $post_price = get_field( "post_price" );
-
                             if(!empty($post_price)): ?>
 
                                 <?php if($count <  3): ?>
@@ -106,18 +106,19 @@ get_header(); ?>
                                     <?php  $count++; $open_element = true ;?>
                                 <?php endif; ?>
 
+                                <?php //close element Row ?>
                                 <?php if($count ==  3): ?>
                                        </div>
                                     <?php  $count= 0; $open_element = false; ?>
                                 <?php endif; ?>
-
                             <?php endif; ?>
                     <?php endwhile; ?>
 
+
+                    <?php //close element Row at last product ?>
                     <?php if($open_element ==  true): ?>
                         </div>
                     <?php endif; ?>
-
                     <?php wp_reset_query(); ?>
             </div>
         </div>
@@ -137,7 +138,7 @@ get_header(); ?>
                 },
                 success:function(data){
                     filter.find('button').text('Filter'); // changing the button label back
-                    $('#carvans-category').html(data); // insert data
+                    $('#caravans-category').html(data); // insert data
                 }
             });
             return false;
