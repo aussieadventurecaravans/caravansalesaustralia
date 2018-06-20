@@ -2597,6 +2597,10 @@ div#product-tab-menu .tab-content
 	width: auto;
 	color: #fff;
 }
+.custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image a:hover .dslc-image-caption
+{
+	opacity: .8;
+}
 .custom-service-section .custom-service-section-wrapper .service-section .service-section-detail .dslc-image-container .dslc-image .dslc-image-caption
 {
 	text-align: center;
