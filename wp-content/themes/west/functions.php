@@ -590,48 +590,70 @@ function misha_filter_function(){
             );
             array_push($args['tax_query'],$typeFilter);
         endif;
-
+        $caravans = get_posts( $args );
     else :
         //do nothing and display all caravans
-       /* $args = array(
-            'post_type' => 'post',
-            'orderby' => 'date',
-            'order' => 'DESC',
-            'nopaging' => true,
-            'post_status'      => 'publish',
-            'posts_per_page' => -1
-        );*/
+
+        //load all uncategorized caravans query
         $args = array(
             'post_type' => 'post',
             'orderby' => 'modified',
             'order' => 'DESC',
             'nopaging' => true,
-            'post_status'      => 'publish'
+            'post_status'  => 'publish',
+            'tax_query' => array(
+                array
+                (
+                    'taxonomy' => 'category',
+                    'field' => 'slug',
+                    'terms' => array('kokoda','dreamseeker'),
+                    'operator' => 'NOT IN'
+                )
+            )
         );
+        $brand_args=array(
+            'post_type' => 'post',
+            'orderby' => 'modified',
+            'order' => 'DESC',
+            'nopaging' => true,
+            'post_status'  => 'publish',
+            'tax_query'=> array(
+                array(
+                    'taxonomy' => 'category',
+                    'field' => 'slug',
+                    'terms' => array('kokoda','dreamseeker'),
+                    'operator' => 'IN'
+                )
+            )
+        );
+
+        $dreamseekers_kokoda_caravans = get_posts( $brand_args );
+        $not_dreamseeker_kokoda_caravans =  get_posts( $args );
+
+        $caravans = array_merge($dreamseekers_kokoda_caravans,$not_dreamseeker_kokoda_caravans);
     endif;
 
     $query = new WP_Query( $args );
 
-    if( $query->have_posts() ) :
+    if( sizeof($caravans) > 0 ) :
         $count = 0;
-        while( $query->have_posts() ):
-            $query->the_post();
+        foreach( $caravans as $caravan ):
         ?>
 
             <?php if($count ==  0): ?>
                 <div class="row">
             <?php endif; ?>
             <?php
-            $post_price = get_field( "post_price" );
+            $post_price = get_field( "post_price",$caravan->ID );
 
             if(!empty($post_price)): ?>
 
                 <?php if($count <  3): ?>
-                    <?php $product_img = get_the_post_thumbnail_url(get_post(),'west-large-thumb'); ?>
+                    <?php $product_img = get_the_post_thumbnail_url($caravan,'west-large-thumb'); ?>
                     <div class="product-list col-sm-4">
                         <div class="item-img">
                             <?php if($product_img): ?>
-                                <a href="<?php the_permalink(); ?>" >
+                                <a href="<?php the_permalink($caravan); ?>" >
                                     <img src="<?php echo $product_img ?>" class="product-img"/>
                                 </a>
                             <?php endif; ?>
@@ -639,15 +661,19 @@ function misha_filter_function(){
                         <div class="item-details">
                             <div class="details">
                                 <a href="<?php the_permalink(); ?>" >
-                                    <h4 class="item-title"><?php the_title(); ?></h4>
+                                    <h4 class="item-title"><?php echo get_the_title($caravan); ?></h4>
                                     <?php
-                                    $post_price = get_field( "post_price" );
-                                    $orc_field = get_field( "orc_field" );
+                                    $post_price = get_field( "post_price" , $caravan->ID );
+                                    $orc_field = get_field( "orc_field", $caravan->ID );
                                     ?>
                                     <h3 class="price"><?php if(!empty($post_price)) { echo '$'. $post_price; }
                                         if(!empty($orc_field))
                                         {
-                                            echo $orc_field;
+                                            echo ' <span class="orc-field">  '.$orc_field . '</span>';
+                                        }
+                                        else
+                                        {
+                                            echo '<span class="orc-field"> Drive Away </span>';
                                         }
                                         ?>
                                     </h3>
@@ -665,7 +691,7 @@ function misha_filter_function(){
 
             <?php endif; ?>
 
-        <?php endwhile; ?>
+        <?php endforeach; ?>
 
         <?php if($open_element ==  true): ?>
             </div>
@@ -680,7 +706,7 @@ function misha_filter_function(){
 
     <?php endif; ?>
 
-    <?php  wp_reset_postdata();
+    <?php
     die();
 
 }

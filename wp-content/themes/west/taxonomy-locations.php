@@ -71,7 +71,8 @@ get_header(); ?>
                             array(
                             'taxonomy' => 'locations',
                             'field' => 'id',
-                            'terms' => $queries->term_id
+                            'terms' => array($queries->term_id),
+                            'Operator' => 'IN'
                             )
                     );
                     ?>
@@ -108,7 +109,11 @@ get_header(); ?>
                                                 <h3 class="price"><?php if(!empty($post_price)) { echo '$'. $post_price; }
                                                     if(!empty($orc_field))
                                                     {
-                                                        echo $orc_field;
+                                                        echo ' <span class="orc-field">  '.$orc_field . '</span>';
+                                                    }
+                                                    else
+                                                    {
+                                                        echo '<span class="orc-field"> Drive Away </span>';
                                                     }
                                                     ?>
                                                 </h3>
