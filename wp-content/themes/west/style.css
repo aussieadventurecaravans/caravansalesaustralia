@@ -2423,7 +2423,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	color: rgb(230, 120, 23);
 }
 .product-list .item-details .orc-field{
-	color:#e67817;
+	color: #010204;
 	font-size: 15px;
 	font-style: italic;
 }
@@ -2503,7 +2503,7 @@ form#filter button.filter-button
 }
 
 .entry-header .post-heading-block .post-title .orc-field{
-	color:#e67817;
+	color:#010204;
 	font-size: 15px;
 	font-style: italic;
 }

@@ -727,3 +727,14 @@ function customize_easy_image_gallery_html($html, $rel, $image_link, $image_clas
 }
 
 /**  ENDING THE CUSTOMIZATION  **/
+
+/**  HIDE THE START LOCATION AT STORE LOCATOR MAP  **/
+add_filter( 'wpsl_js_settings', 'hide_start_location_settings' );
+
+function hide_start_location_settings( $settings ) {
+
+    $settings['startMarker'] = '';
+
+    return $settings;
+}
+/**  ENDING THE CUSTOMIZATION  **/
