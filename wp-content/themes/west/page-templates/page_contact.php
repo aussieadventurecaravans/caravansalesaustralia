@@ -5,35 +5,32 @@
 Template Name: Contact Us
 
 */
-	get_header();
+
 ?>
+<?php get_header(); ?>
+<div class="container consignment-trade-in-form">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="consignment-trade-in-title"><?php echo single_post_title();  ?></h1>
+        </div>
+    </div>
 
-	<div id="primary" class="content-area fullwidth">
-		<main id="main" class="site-main" role="main">
 
+    <div class="row">
+        <div class="col-md-12">
+            <?php echo do_shortcode('[wpsl template="default" map_type="roadmap" auto_locate="true" start_marker="red" store_marker="orange"]'); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
 
-
-            <?php echo do_shortcode('[wpsl template="default" map_type="roadmap" auto_locate="true" start_marker="red" store_marker="blue"]'); ?>
-
+            <?php echo do_shortcode("[qcf]"); ?>
 			<?php while ( have_posts() ) : the_post(); ?>
-
-				<?php get_template_part( 'template-parts/content', 'page' ); ?>
-
-				<?php
-
-					if ( comments_open() || '0' != get_comments_number() ) :
-
-						comments_template();
-
-					endif;
-				?>
-
+				<?php the_content();?>
 			<?php endwhile; // end of the loop. ?>
-
-
-
-		</main><!-- #main -->
-	</div><!-- #primary -->
+        </div>
+    </div>
+</div><!-- #primary -->
 
 <?php get_footer(); ?>
 

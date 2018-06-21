@@ -52,14 +52,17 @@
 	<?php endif; ?>
 
 	<div id="content" class="site-content">
-     <?php if(is_page_template('page-templates/page_consignment-trade-in.php')){?>
-        <div class="container-fluid">
-    <?php } elseif(is_page_template('page-templates/page_caravans.php')){?>
+
+        <?php if(is_page_template('page-templates/page_contact.php')): ?>
+            <div class="container-fluid">
+         <?php elseif(is_page_template('page-templates/page_consignment-trade-in.php')):?>
+            <div class="container-fluid">
+        <?php elseif(is_page_template('page-templates/page_caravans.php')): ?>
+                <div class="fullwidth">
+        <?php  elseif(is_tax() == 1):?>
             <div class="fullwidth">
-	<?php } elseif(is_tax() == 1){?>
-	    <div class="fullwidth">
-	<?php }  elseif ( !is_page_template('page-templates/page_composer.php') && !is_page_template('page-templates/page_home.php')) { ?>
-		<div class="container">
-	<?php }  else { ?>
-		<div class="fullwidth">
-	<?php } ?>
+        <?php elseif ( !is_page_template('page-templates/page_composer.php') && !is_page_template('page-templates/page_home.php')) : ?>
+            <div class="container">
+        <?php  else : ?>
+            <div class="fullwidth">
+        <?php endif; ?>
