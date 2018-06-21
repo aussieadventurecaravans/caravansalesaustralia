@@ -18,7 +18,7 @@ Template Name: Contact Us
 
     <div class="row">
         <div class="col-md-12">
-            <?php echo do_shortcode('[wpsl template="default" map_type="roadmap" auto_locate="true" start_marker="red" store_marker="orange"]'); ?>
+            <?php echo do_shortcode('[wpsl template="default" map_type="roadmap"'); ?>
         </div>
     </div>
     <div class="row">
