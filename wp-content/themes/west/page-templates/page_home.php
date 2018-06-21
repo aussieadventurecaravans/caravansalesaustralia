@@ -32,7 +32,7 @@ get_header(); ?>
 
 
                 <div class="banner-image-section-wrapper">
-                    <img class="banner-image" src="/wp-content/themes/west/images/CaravanPerthSale5.jpg" alt="background image"/>
+                    <img class="banner-image" src="/wp-content/themes/west/images/Kokoda_Force_II_X_Trail_GT.jpg" alt="background image"/>
                 </div>
             </div>
 
@@ -125,7 +125,7 @@ get_header(); ?>
             <div class="custom-dealership-section" style="background-color:#ffffff;padding-bottom:39px;padding-top:39px;">
                 <div class="custom-dealership-section-wrapper">
                     <div class="custom-dealership-detail" >
-                        <div class="dealership-heading"><h2>Dealership Locations</h2></div>
+                        <div class="dealership-heading"><h2>Downunder RV Locations</h2></div>
                     </div>
                     <div class="custom-dealership-detail" >
 
