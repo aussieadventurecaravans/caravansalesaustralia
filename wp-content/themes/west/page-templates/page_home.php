@@ -135,7 +135,7 @@ get_header(); ?>
                             <div class="dslc-text-module-content"><h3>MANDURAH</h3></div>
                             <div class="dslc-button">
                                 <a href="/locations/mandurah" target="_self" onclick="" class="">
-                                    MANDURAH STOCK
+                                    VIEW STOCK
                                 </a>
                             </div><!-- .dslc-button -->
 
@@ -146,7 +146,7 @@ get_header(); ?>
                             <div class="dslc-text-module-content"><h3>GERALDTON</h3></div>
                             <div class="dslc-button">
                                 <a href="/locations/geraldton" target="_self" onclick="" class="">
-                                    GERALDTON STOCK																	</a>
+                                    VIEW STOCK																	</a>
                             </div><!-- .dslc-button -->
                         </div><!-- .dslc-module -->
                     </div>
