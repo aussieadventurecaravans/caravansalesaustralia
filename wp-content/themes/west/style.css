@@ -2925,3 +2925,8 @@ CUSTOMIZE THE QUICK CONTACT FORM
 {
 	border: 1px solid #000000 !important;
 }
+
+.qcf-style.default input:focus, .qcf-style.default textarea:focus
+{
+	background: #ffffff !important;
+}
