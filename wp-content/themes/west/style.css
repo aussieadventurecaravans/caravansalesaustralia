@@ -2930,3 +2930,8 @@ CUSTOMIZE THE QUICK CONTACT FORM
 {
 	background: #ffffff !important;
 }
+
+.qcf-style.default input[type=text]
+{
+	width:60%;
+}
