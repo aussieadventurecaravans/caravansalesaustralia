@@ -2916,3 +2916,12 @@ CUSTOMIZE THE STORE LOCATOR MAP
 	background: #f4f3f3;
 	display: none;
 }
+
+
+/**
+CUSTOMIZE THE QUICK CONTACT FORM
+ */
+.qcf-style.default input[type=text].required, .qcf-style.default select.required, .qcf-style.default textarea.required
+{
+	border: 1px solid #000000 !important;
+}
