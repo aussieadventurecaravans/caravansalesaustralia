@@ -728,6 +728,17 @@ function customize_easy_image_gallery_html($html, $rel, $image_link, $image_clas
 
 /**  ENDING THE CUSTOMIZATION  **/
 
+/* customize the thumbnail image size at product page */
+add_filter('easy_image_gallery_thumbnail_image_size','customize_asy_image_gallery_thumbnail_image_size',999);
+
+function customize_asy_image_gallery_thumbnail_image_size()
+{
+    //return width 500px and height approx 400px
+    return array('500', '400');
+}
+/**  ENDING THE CUSTOMIZATION  **/
+
+
 /**  HIDE THE START LOCATION AT STORE LOCATOR MAP  **/
 add_filter( 'wpsl_js_settings', 'hide_start_location_settings' );
 
