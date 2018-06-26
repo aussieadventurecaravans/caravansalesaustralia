@@ -2328,6 +2328,10 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 {
 	position: relative;
 }
+.home.page .custom-banner-section .banner-image-section-wrapper img {
+	vertical-align: middle;
+	width: 100%;
+}
 .home.page .custom-banner-section .banner-section-wrapper
 {
 	width: 100%;
