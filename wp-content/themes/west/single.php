@@ -178,6 +178,11 @@ $orc_field = get_field( "orc_field" );
                                         });
                                         $("#product-tab-menu ul.nav.nav-tabs li:first-child").addClass('active');
                                         $("div#producttabContent.tab-content div.tab-pane:first-child").addClass('active in');
+
+
+                                        $(window).on('hashchange', function(e){
+                                            history.replaceState ("", document.title, e.originalEvent.oldURL);
+                                        });
                                     });
                                 </script>
                             </div>
