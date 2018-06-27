@@ -267,8 +267,11 @@ get_header(); ?>
 
             <div class="custom-brands-section" style="background-image:url(/wp-content/uploads/caravanperth-sl2.jpg);background-repeat:no-repeat;background-position:center center;background-attachment:fixed;background-size:cover;">
                 <div class="custom-brands-section-wrapper">
-                    <div class="custom-brands-panel">
 
+                    <div class="custom-brands-panel">
+                        <div class="custom-brands-heading"><h2>Our Brands</h2></div>
+                    </div>
+                    <div class="custom-brands-panel">
                         <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;">
                             <div class="custom-brands-content">
                                 <a href="https://www.kokodacaravans.com.au" target="_self">

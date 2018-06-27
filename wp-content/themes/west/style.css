@@ -3132,10 +3132,10 @@ customize the feature caravans at homepage
 	max-width: 100%;
 	margin: 0 auto;
 	background-color:#131313ad;
-	padding-bottom: 80px;
-	padding-top: 80px;
-	padding-left: 4%;
-	padding-right: 4%;
+	padding-bottom: 60px;
+	padding-top: 60px;
+	padding-left: 8%;
+	padding-right: 8%;
 }
 .custom-brands-section .custom-brands-section-wrapper:after,
 .custom-brands-section .custom-brands-section-wrapper:before
@@ -3156,6 +3156,27 @@ customize the feature caravans at homepage
 	min-width: 0px;
 	margin: 0;
 }
+.custom-brands-section .custom-brands-section-wrapper .custom-brands-panel .custom-brands-heading{
+	display: block;
+	float: left;
+	min-height: 1px;
+	margin-right: 0;
+	width: 100%;
+}
+.custom-brands-section .custom-brands-section-wrapper .custom-brands-panel .custom-brands-heading h2
+{
+	text-align: center;
+	color: #fff;
+	margin-top: 0;
+	text-transform: uppercase;
+	font-size: 36px;
+}
+@media only screen and (max-width: 767px) {
+	.custom-brands-section .custom-brands-section-wrapper .custom-brands-panel .custom-brands-heading h2
+	{
+		font-size: 36px !important;
+	}
+}
 .custom-brands-section .custom-brands-section-wrapper .custom-brands-panel .custom-brands-detail
 {
 	font-family: "Helvetica Neue", sans-serif;
@@ -3165,6 +3186,13 @@ customize the feature caravans at homepage
 	margin:0;
 	min-height: 1px;
 	position: relative;
+	margin-top: 80px;
+}
+@media only screen and (max-width: 767px) {
+	.custom-brands-section .custom-brands-section-wrapper .custom-brands-panel .custom-brands-detail
+	{
+		width:100%;margin-top: 80px;
+	}
 }
 .custom-brands-section .custom-brands-section-wrapper .custom-brands-panel .custom-brands-detail .custom-brands-content
 {
