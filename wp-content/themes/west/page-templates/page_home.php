@@ -268,6 +268,24 @@ get_header(); ?>
             <div class="custom-brands-section" style="background-image:url(/wp-content/uploads/caravanperth-sl2.jpg);background-repeat:no-repeat;background-position:center center;background-attachment:fixed;background-size:cover;">
                 <div class="custom-brands-section-wrapper">
                     <div class="custom-brands-panel">
+
+                        <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;">
+                            <div class="custom-brands-content">
+                                <a href="https://www.kokodacaravans.com.au" target="_self">
+                                    <img src="/wp-content/themes/west/images/kokoda_logo.png" alt="dreamseeker">
+                                </a>
+                            </div>
+                        </div><!-- .dslc-module -->
+
+
+                        <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;">
+                            <div class="custom-brands-content">
+                                <a href="https://www.dreamseekercaravans.com.au" target="_self">
+                                    <img src="/wp-content/themes/west/images/dreamseeker_logo.png" alt="kokoda">
+                                </a>
+                            </div>
+                        </div><!-- .dslc-module -->
+
                     </div>
                 </div>
             </div>
