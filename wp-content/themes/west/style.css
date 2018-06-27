@@ -3118,6 +3118,133 @@ customize the feature caravans at homepage
 	opacity: 0.8;
 	text-decoration: none;
 }
+
+.custom-brands-section
+{
+	border-width: 0px;
+	border-style: solid;
+	margin-left: 0%;
+	margin-right: 0%;
+	margin-bottom: 0px;
+	padding-bottom: 80px;
+	padding-top: 80px;
+	padding-left: 4%;
+	padding-right: 4%;
+}
+.custom-brands-section .custom-brands-section-wrapper
+{
+	max-width: 100%;
+	margin: 0 auto;
+}
+.custom-brands-section .custom-brands-section-wrapper:after,
+.custom-brands-section .custom-brands-section-wrapper:before
+{
+	content: " ";
+	display: table;
+}
+.custom-brands-section .custom-brands-section-wrapper:after
+{
+	clear: both;
+}
+.custom-brands-section .custom-brands-section-wrapper .custom-brands-panel
+{
+	display: block;
+	float: left;
+	width: 100%;
+	min-height: 1px;
+	min-width: 0px;
+	margin: 0;
+}
+.custom-quote-section
+{
+	border-width: 0px;
+	border-style: solid;
+	margin-left: 0%;
+	margin-right: 0%;
+	margin-bottom: 0px;
+	padding-bottom: 80px;
+	padding-top: 80px;
+	padding-left: 4%;
+	padding-right: 4%;
+}
+.custom-quote-section .custom-quote-section-wrapper
+{
+
+	max-width: 100%;
+	margin: 0 auto;
+	width: 1170px;
+}
+
+.custom-quote-section .custom-quote-section-wrapper:before,
+.custom-quote-section .custom-quote-section-wrapper:after
+{
+	content: " ";
+	display: table;
+}
+.custom-quote-section .custom-quote-section-wrapper:after
+{
+	clear: both;
+}
+
+.custom-quote-section .custom-quote-section-wrapper .custom-quote-panel
+{
+	display: block;
+	float: left;
+	min-height: 1px;
+	margin-right: 0;
+	width: 100%;
+}
+.custom-quote-section .custom-quote-section-wrapper .custom-quote-panel .dslc-text-module-content
+{
+	color: #131313;
+	font-size: 23px;
+	font-weight: 100;
+	font-style: normal;
+	line-height: 30px;
+	text-align: center;
+}
+
+
+.custom-quote-section .custom-quote-section-wrapper .custom-quote-panel .dslc-text-module-content h2 {
+	color: #131313;
+	font-size: 37px;
+	font-weight: 300;
+	font-style: normal;
+	line-height: 33px;
+	margin-bottom: 15px;
+	text-align: center;
+}
+@media only screen and (max-width: 767px)
+{
+	.custom-quote-section .custom-quote-section-wrapper .custom-quote-panel .dslc-text-module-content h2
+	{
+		font-size: 29px !important;
+		line-height: 30px;
+		margin-bottom: 15px;
+		text-align: center;
+	}
+}
+.custom-quote-section .custom-quote-section-wrapper .custom-quote-panel .dslc-text-module-content p
+{
+	color: #131313;
+	font-size: 23px;
+	font-weight: 100;
+	font-style: normal;
+	line-height: 30px;
+	text-align: center;
+	margin-bottom: 25px;
+	font-family: sans-serif;
+}
+@media only screen and (max-width: 767px)
+{
+	.custom-quote-section .custom-quote-section-wrapper .custom-quote-panel .dslc-text-module-content p
+	{
+		font-size: 18px;
+		line-height: 25px;
+		text-align: left;
+	}
+}
+
 #sidebar-footer.footer-widgets a:hover,
 #sidebar-footer.footer-widgets a:focus{
 	text-decoration: none;
