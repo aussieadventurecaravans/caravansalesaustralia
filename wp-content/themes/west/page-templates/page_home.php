@@ -177,7 +177,7 @@ get_header(); ?>
 
                                         <div class="dslc-post-main dslc-cpt-post-main">
                                             <div class="dslc-cpt-post-title">
-                                                <h2><a href="/kokoda-veteran-xli-veteran-semi-off-road-caravan">Kokoda Veteran XLI Platinum</a></h2>
+                                                <h2><a href="/kokoda-veteran-xli-veteran-semi-off-road-caravan"><i class="fa">&#xf105;</i>  Kokoda Veteran XLI Platinum</a></h2>
                                             </div><!-- .dslc-cpt-post-title -->
                                         </div><!-- .dslc-cpt-post-main -->
 
@@ -194,7 +194,7 @@ get_header(); ?>
 
                                         <div class="dslc-post-main dslc-cpt-post-main">
                                             <div class="dslc-cpt-post-title">
-                                                <h2><a href="/cadet-ii-xli-platinum">Cadet II XLI Platinum</a></h2>
+                                                <h2><a href="/cadet-ii-xli-platinum"><i class="fa">&#xf105;</i>  Cadet II XLI Platinum</a></h2>
                                             </div><!-- .dslc-cpt-post-title -->
                                         </div><!-- .dslc-cpt-post-main -->
 
@@ -211,7 +211,7 @@ get_header(); ?>
 
                                         <div class="dslc-post-main dslc-cpt-post-main">
                                             <div class="dslc-cpt-post-title">
-                                                <h2><a href="/force-ii-gt">Force II GT</a></h2>
+                                                <h2><a href="/force-ii-gt"><i class="fa">&#xf105;</i>   Force II GT </a></h2>
                                             </div><!-- .dslc-cpt-post-title -->
                                         </div><!-- .dslc-cpt-post-main -->
 
@@ -229,7 +229,7 @@ get_header(); ?>
 
                                         <div class="dslc-post-main dslc-cpt-post-main">
                                             <div class="dslc-cpt-post-title">
-                                                <h2><a href="/major-x-treme-gt">Major X-Treme GT</a></h2>
+                                                <h2><a href="/major-x-treme-gt"><i class="fa">&#xf105;</i>   Major X-Treme GT</a></h2>
                                             </div><!-- .dslc-cpt-post-title -->
                                         </div><!-- .dslc-cpt-post-main -->
                                     </div><!-- .dslc-cpt-post -->

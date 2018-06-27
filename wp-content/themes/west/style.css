@@ -2827,6 +2827,8 @@ customize the feature caravans at homepage
 	padding-top: 80px;
 	padding-left: 0%;
 	padding-right: 0%;
+	background-color: #131313;
+
 }
 .custom-featured-caravans-section .custom-featured-caravans-section-wrapper
 {
@@ -2872,9 +2874,8 @@ customize the feature caravans at homepage
 .featured-caravans .featured-caravan .dslc-cpt-post-title h2,
 .featured-caravans .featured-caravan .dslc-cpt-post-title h2 a {
 	color: rgb(255, 255, 255);
-	font-size: 20px;
+	font-size: 1.2em;
 	font-weight: 100;
-	line-height: 20px;
 	text-transform: uppercase;
 }
 .featured-caravans .featured-caravan .dslc-cpt-post-title h2 a:hover
@@ -3049,7 +3050,6 @@ customize the feature caravans at homepage
 	.custom-contact-section .custom-contact-section-wrapper .custom-contact-detail .custom-contact-content .dslc-text-module-content h2
 	{
 		font-size: 32px !important;
-		line-height: 13px;
 		margin-bottom: 0px;
 		text-align: center;
 	}
