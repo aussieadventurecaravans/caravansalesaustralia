@@ -22,7 +22,7 @@ Template Name: Contact Us
     </div>
 
 
-    <div class="row" style="background-color: #d3d3d3;padding: 15px 7px 0;">
+    <div class="row" style="background-color: #eceef1;padding: 15px 7px 0;">
         <div class="col-md-6">
             <?php echo FrmFormsController::show_form('', $key = 'general-contact', $title=false, $description=true); ?>
             <?php while ( have_posts() ) : the_post(); ?>
