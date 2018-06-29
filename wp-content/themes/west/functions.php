@@ -749,3 +749,47 @@ function hide_start_location_settings( $settings ) {
     return $settings;
 }
 /**  ENDING THE CUSTOMIZATION  **/
+
+
+
+/** Wordpres Custom Store locator template **/
+
+add_filter( 'wpsl_templates', 'custom_store_locator_map_template' );
+
+function custom_store_locator_map_template( $templates ) {
+
+    /**
+     * The 'id' is for internal use and must be unique ( since 2.0 ).
+     * The 'name' is used in the template dropdown on the settings page.
+     * The 'path' points to the location of the custom template,
+     * in this case the folder of your active theme.
+     */
+    $templates[] = array (
+        'id'   => 'custom_locator_map',
+        'name' => 'Custom Sotre Locator Map template',
+        'path' => get_template_directory() . '/' . 'wpsl-templates/custom_locator_map.php',
+    );
+
+    return $templates;
+}
+
+add_filter( 'wpsl_templates', 'custom_store_list_template' );
+
+function custom_store_list_template( $templates ) {
+
+    /**
+     * The 'id' is for internal use and must be unique ( since 2.0 ).
+     * The 'name' is used in the template dropdown on the settings page.
+     * The 'path' points to the location of the custom template,
+     * in this case the folder of your active theme.
+     */
+    $templates[] = array (
+        'id'   => 'custom_store_list',
+        'name' => 'Custom Sotre Locator Map template',
+        'path' => get_template_directory() . '/' . 'wpsl-templates/custom_store_list.php',
+    );
+
+    return $templates;
+}
+
+/**  ENDING THE CUSTOMIZATION  **/
