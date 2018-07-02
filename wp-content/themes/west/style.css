@@ -1170,11 +1170,23 @@ img {
 	color: #fff;
 	text-align: right;
 }
+@media all and (max-width: 767px)
+{
+	.site-header .custom-top-contact-section  .custom-top-contact
+	{
+		text-align: center;
+	}
+	.site-header .custom-top-contact-section  .custom-top-contact .contact-detail
+	{
+		display: block
+	}
+
+}
 .site-header .custom-top-contact-section  .custom-top-contact p
 {
 	margin:0;
 }
-.site-header .custom-top-contact-section  .custom-top-contact span
+.site-header .custom-top-contact-section  .custom-top-contact span.icon
 {
 	display: inline-block;
 	margin-right: 10px;
