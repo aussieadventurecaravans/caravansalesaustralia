@@ -20,17 +20,38 @@
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'west' ); ?></a>
-
 	<header id="masthead" class="site-header <?php echo west_has_header(); ?>" role="banner">
-		<div class="container">
-			<div class="site-branding col-md-4 col-sm-6 col-xs-12">
-				<?php west_branding(); ?>
-			</div><!-- .site-branding -->
+        <div class="custom-top-contact-section container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="custom-top-contact">
+                            <p>
+                                <span><i class="fa fa-home"></i></span><a href="https://www.google.com.au/maps/place/100+Pinjarra+Rd,+Mandurah+WA+6210/@-32.5343657,115.7249287,17z/data=!3m1!4b1!4m5!3m4!1s0x2a327eccb28b0153:0xf0a34e3b15cd45f7!8m2!3d-32.5343657!4d115.7271174">
+                                    100 Pinjarra Road, Mandurah WA 6210
+                                </a>
+                                <span><i class="fa fa-phone"></i></span><a href="tel:(08)95349466">(08) 9534 9466</a>
+                                <span><i class="fa fa-envelope"></i></span><a href="mailto:sales@downunderrv.com.au">sales@downunderrv.com.au</a>
+                            </p>
 
-			<nav id="site-navigation" class="main-navigation col-md-8" role="navigation">
-				<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
-			</nav><!-- #site-navigation -->
-			<nav class="mobile-nav"></nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="container">
+            <div class="row">
+                <div class="site-branding col-md-4 col-sm-6 col-xs-12">
+                    <?php west_branding(); ?>
+                </div><!-- .site-branding -->
+
+                <nav id="site-navigation" class="main-navigation col-md-8" role="navigation">
+                    <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
+                </nav><!-- #site-navigation -->
+                <nav class="mobile-nav"></nav>
+
+
+            </div>
 		</div>
 	</header><!-- #masthead -->
 

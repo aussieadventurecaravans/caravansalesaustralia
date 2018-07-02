@@ -1149,7 +1149,7 @@ img {
 ## Header
 --------------------------------------------------------------*/
 .site-header {
-	padding: 15px 0;
+	padding: 0px 0 30px;
 	width: 100%;
 	z-index: 999;
 	position: relative;
@@ -1158,11 +1158,45 @@ img {
 .site-header.has-header {
 	background-color: transparent;
 }
+.site-header .custom-top-contact-section
+{
+	padding: 12px 0px;
+	margin: 0px 0 15px;
+	background-color: #0393dd;
+}
+.site-header .custom-top-contact-section  .custom-top-contact
+{
+	background-color: #0393dd;
+	color: #fff;
+	text-align: right;
+}
+.site-header .custom-top-contact-section  .custom-top-contact p
+{
+	margin:0;
+}
+.site-header .custom-top-contact-section  .custom-top-contact span
+{
+	display: inline-block;
+	margin-right: 10px;
+	width: 30px;
+	height: 30px;
+	font-size: 16px;
+}
+
+.site-header .custom-top-contact-section  .custom-top-contact p a {
+	color: #fff;
+	text-decoration: none;
+}
+.site-header .custom-top-contact-section  .custom-top-contact p a:hover
+{
+	text-decoration: none;
+	color:#e67818;
+}
 .site-header.header-scrolled {
 	-webkit-transition: all 0.5s;
 	transition: all 0.5s;
-	background-color: rgba(255, 255, 255, 0.9);
-	padding: 5px 0;
+	background-color: rgba(0,0,0,1) !important;
+	padding: 0 0 10px;
 }
 .header-scrolled a,
 .header-scrolled .site-title a {
@@ -1527,9 +1561,6 @@ img {
 }*/
 body.single-post {
 	background-color: #fff;
-}
-.site-header.header-scrolled {
-    background-color: rgba(0,0,0,1) !important;
 }
 .site-branding.col-md-4.col-sm-6.col-xs-12 {
     width: 25% !important;
@@ -3478,3 +3509,4 @@ CUSTOMIZE THE QUICK CONTACT FORM
 {
 	width:60%;
 }
+
