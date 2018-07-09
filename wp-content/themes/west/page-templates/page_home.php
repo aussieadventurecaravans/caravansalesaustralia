@@ -300,7 +300,10 @@ get_header(); ?>
 
                             <div class="dslc-text-module-content">
                                 <h2>DOWNUNDER RV AUSTRALIA</h2>
-                                <p class="sub-title">VERY tough off road big caravan sales for rugged outback Western Australian conditions. DownunderRV Caravans manufacturer high quality caravans suited for WA and NT travelers, caravan park homes and mine workers at mining camps and mining towns of WA. Visit our big new and used caravan display centre in Mandurah, near Perth, or Geraldton in the Midwest. DownunderRV Caravan sales can find the perfect caravans to your specifications. Small single axle caravans, BIG tandem axle caravans, and Full Off-road Caravans sales WA and NT.</p>
+                                <p class="sub-title">Downunder RV Australia are Kokoda Caravans
+                                    and Dreamseeker Caravans exclusive dealer in Western Australia.
+                                    These caravans are tough off road vehicles built for the rugged Australian conditions. with over 50 models available we have caravans that suit a variety of needs including caravan park touring, off road adventures and mining camp accomodation. Visit our large new and used caravan display centre in Mandurah, near Perth, or Geraldton in the Midwest. Downunder RV Caravan sales can help you find the perfect caravan for your needs.
+                                    Whether you need a compact single axle caravan or a spacious tandem axle caravan we have a caravan for you! We also offer caravan sales to the Northern Territory as well as Western Australia.</p>
                             </div>
                         </div><!-- .dslc-module -->
                     </div>
