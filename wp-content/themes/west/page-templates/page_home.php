@@ -289,6 +289,15 @@ get_header(); ?>
                             </div>
                         </div><!-- .dslc-module -->
 
+
+                        <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;margin-top: 50px;">
+                            <div class="custom-brands-content">
+                                <a href="https://www.gransalute.com.au" target="_self">
+                                    <img src="/wp-content/themes/west/images/grandsalute_logo.png" alt="grandsalute" style="width: 200px">
+                                </a>
+                            </div>
+                        </div><!-- .dslc-module -->
+
                     </div>
                 </div>
             </div>
