@@ -281,7 +281,7 @@ get_header(); ?>
                         </div><!-- .dslc-module -->
 
 
-                        <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;">
+                        <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;margin-top: 68px;">
                             <div class="custom-brands-content">
                                 <a href="https://www.dreamseekercaravans.com.au" target="_self">
                                     <img src="/wp-content/themes/west/images/dreamseeker_logo.png" alt="kokoda">
@@ -290,10 +290,10 @@ get_header(); ?>
                         </div><!-- .dslc-module -->
 
 
-                        <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;margin-top: 50px;">
+                        <div class="custom-brands-detail" style="animation: forwards 0.65s ease none;margin-top: 10px;">
                             <div class="custom-brands-content">
                                 <a href="https://www.grandsalute.com.au" target="_self">
-                                    <img src="/wp-content/themes/west/images/grandsalute_logo.png" alt="grandsalute" style="width: 200px">
+                                    <img src="/wp-content/themes/west/images/grandsalute_logo.png" alt="grandsalute" style="width: 250px">
                                 </a>
                             </div>
                         </div><!-- .dslc-module -->
