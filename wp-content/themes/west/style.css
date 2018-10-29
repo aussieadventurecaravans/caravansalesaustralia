@@ -2575,13 +2575,14 @@ form#filter .form-check .filter-heading
 {
 	font-weight: 400;
 	font-family: "Open Sans";
-	font-size: 16px;
+	font-size: 13px;
 	margin: 0;
 	background-color: #e67719;
 	width: 100%;
-	line-height: 29px;
+	line-height: 30px;
 	color: #fff;
-	padding: 0 10px;
+	padding: 0 11px;
+	text-transform: uppercase;
 }
 form#filter .form-check .location-filter
 {
