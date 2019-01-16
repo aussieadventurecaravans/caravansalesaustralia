@@ -3523,3 +3523,13 @@ CUSTOMIZE THE QUICK CONTACT FORM
 	width:60%;
 }
 
+/**
+CUSTOMIZE  CONTACT FOOTER
+ */
+
+
+.footer-widgets .west_contact_info_widget .widget-title
+{
+	font-size: 15px;
+	padding: 0px;
+}

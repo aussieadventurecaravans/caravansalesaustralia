@@ -27,6 +27,12 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="custom-top-contact">
                             <p>
+                                 <span class="contact-detail">
+                                    <span class="icon"><i class="fa fa-home"></i></span>
+                                     <a href="https://www.google.com/maps/place/2+Gray+St,+Geraldton+WA+6530/@-28.7764834,114.6231787,17z/data=!3m1!4b1!4m5!3m4!1s0x2bda4425d6ea761d:0x9471acd04e01fb8f!8m2!3d-28.7764834!4d114.6253674">
+                                       2 Gray Street, Geraldton WA 6530
+                                    </a>
+                                </span>
                                 <span class="contact-detail">
                                     <span class="icon"><i class="fa fa-home"></i></span><a href="https://www.google.com.au/maps/place/100+Pinjarra+Rd,+Mandurah+WA+6210/@-32.5343657,115.7249287,17z/data=!3m1!4b1!4m5!3m4!1s0x2a327eccb28b0153:0xf0a34e3b15cd45f7!8m2!3d-32.5343657!4d115.7271174">
                                         100 Pinjarra Road, Mandurah WA 6210
