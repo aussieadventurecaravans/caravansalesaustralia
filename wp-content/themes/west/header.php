@@ -42,10 +42,7 @@
                                      <span  class="icon"><i class="fa fa-phone"></i></span><a href="tel:(08)95349466">(08) 9534 9466</a>
                                 </span>
                                 <span class="contact-detail">
-                                    <span  class="icon"><i class="fa fa-envelope"></i></span><a href="mailto:mandurah@downunderrv.com.au"> mandurah@downunderrv.com.au</a>
-                                </span>
-                                <span class="contact-detail">
-                                    <span  class="icon"><i class="fa fa-envelope"></i></span><a href="mailto:geraldton@downunderrv.com.au"> geraldton@downunderrv.com.au</a>
+                                    <span  class="icon"><i class="fa fa-envelope"></i></span><a href="mailto:sales@downunderrv.com.au">sales@downunderrv.com.au</a>
                                 </span>
                             </p>
 
