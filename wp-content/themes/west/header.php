@@ -34,6 +34,10 @@
                                     </a>
                                 </span>
                                 <span class="contact-detail">
+                                     <span  class="icon"><i class="fa fa-phone"></i></span><a href="tel:(08)99645056">(08) 9964 5056</a>
+                                </span>
+
+                                <span class="contact-detail">
                                     <span class="icon"><i class="fa fa-home"></i></span><a href="https://www.google.com.au/maps/place/100+Pinjarra+Rd,+Mandurah+WA+6210/@-32.5343657,115.7249287,17z/data=!3m1!4b1!4m5!3m4!1s0x2a327eccb28b0153:0xf0a34e3b15cd45f7!8m2!3d-32.5343657!4d115.7271174">
                                         100 Pinjarra Road, Mandurah WA 6210
                                     </a>
@@ -45,7 +49,6 @@
                                     <span  class="icon"><i class="fa fa-envelope"></i></span><a href="mailto:sales@downunderrv.com.au">sales@downunderrv.com.au</a>
                                 </span>
                             </p>
-
                         </div>
                     </div>
                 </div>
