@@ -1575,7 +1575,7 @@ body.single-post {
 	background-color: #fff;
 }
 .site-branding.col-md-4.col-sm-6.col-xs-12 {
-    width: 25% !important;
+
     max-width: 114px !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -1639,6 +1639,7 @@ body.single-post {
 .mobile-nav{
     float: right;
     width: 45px;
+	margin: 13px;
 }
 @media (max-width:1199px){
 	.main-navigation li{
