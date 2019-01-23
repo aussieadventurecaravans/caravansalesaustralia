@@ -21,7 +21,7 @@
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'west' ); ?></a>
 	<header id="masthead" class="site-header <?php echo west_has_header(); ?>" role="banner">
-        <div class="custom-top-contact-section container-fluid">
+        <!--<div class="custom-top-contact-section container-fluid">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 		<div class="container">
             <div class="row">
                 <div class="site-branding col-md-4 col-sm-6 col-xs-12">
