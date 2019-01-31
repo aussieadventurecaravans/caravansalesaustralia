@@ -57,7 +57,7 @@
 		<div class="container">
             <div class="row">
                 <div class="site-branding col-md-4 col-sm-6 col-xs-12">
-                    <?php west_branding(); ?>
+                    <?php //west_branding(); ?>
                 </div><!-- .site-branding -->
 
                 <nav id="site-navigation" class="main-navigation col-md-8" role="navigation">

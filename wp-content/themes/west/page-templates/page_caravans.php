@@ -9,38 +9,41 @@ get_header(); ?>
 <div id="primary" class="fullwidth">
     <div class="container">
         <div class="row">
-            <div class="col-md-2" style=" margin-bottom: 46px;">
+            <div class="col-md-3" style=" margin-bottom: 46px;">
                 <h2 class="filter-title">Refine By: </h2>
                 <form action="<?php echo site_url() ?>/wp-admin/admin-ajax.php" method="POST" id="filter">
                     <?php
-
-
                         echo ' <div class="form-check">';
-                            if( $terms = get_terms( 'locations', 'orderby=name' ) ) : // to make it simple I use default categories
-                            echo '<h3 class="filter-heading">Location</h3>';
+                            if( $terms = get_terms( 'dealers', 'orderby=name' ) ) : // to make it simple I use default categories
+                                echo '<h3 class="filter-heading">Dealers</h3>';
+                                    foreach ( $terms as $term ) :
+                                        echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="dealerfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                                .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                                .'</p>';
+                                    endforeach;
+                            endif;
+                            if( $terms = get_terms( 'states', 'orderby=name' ) ) : // to make it simple I use default categories
+                                echo '<h3 class="filter-heading">States</h3>';
                                 foreach ( $terms as $term ) :
-                                    echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="locationfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
-                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
-                                            .'</p>';
+                                    echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="statefilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                        .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                        .'</p>';
                                 endforeach;
                             endif;
-                            if( $terms = get_terms( 'category', 'orderby=name' ) ) : // to make it simple I use default categories
-                                echo '<h3 class="filter-heading">Types</h3>';
+                            if( $terms = get_terms( 'conditions', 'orderby=name' ) ) : // to make it simple I use default categories
+                                echo '<h3 class="filter-heading">Conditions</h3>';
                                 foreach ( $terms as $term ) :
-                                    if(in_array( $term->name ,array('New Caravans','Used Caravans'))):
-                                        echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="typefilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
-                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
-                                            .'</p>';
-                                    endif;
+                                    echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="conditionfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                        .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                        .'</p>';
                                 endforeach;
+                            endif;
+                            if( $terms = get_terms( 'brands', 'orderby=name' ) ) : // to make it simple I use default categories
                                 echo '<h3 class="filter-heading">Brands</h3>';
                                 foreach ( $terms as $term ) :
-                                    if(in_array( $term->name ,array('Kokoda','Dreamseeker'))):
-                                        $kokoda_dreamseeker_cat[] =$term->term_id;
-                                        echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="brandfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
-                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
-                                            .'</p>';
-                                    endif;
+                                    echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="brandfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                        .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                        .'</p>';
                                 endforeach;
                             endif;
                         echo '</div>';
@@ -49,47 +52,20 @@ get_header(); ?>
                     <input type="hidden" name="action" value="myfilter">
                 </form>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <div id="caravans-category">
                     <?php
 
-                        //load all uncategorized caravans query
+                        //load all caravans query
                         $args = array(
                             'post_type' => 'post',
                             'orderby' => 'modified',
                             'order' => 'DESC',
                             'nopaging' => true,
-                            'post_status'  => 'publish',
-                            'tax_query' => array(
-                                array
-                                (
-                                    'taxonomy' => 'category',
-                                    'field' => 'id',
-                                    'terms' => $kokoda_dreamseeker_cat,
-                                    'operator' => 'NOT IN'
-                                )
-                            )
-                        );
-                        $brand_args=array(
-                            'post_type' => 'post',
-                            'orderby' => 'modified',
-                            'order' => 'DESC',
-                            'nopaging' => true,
-                            'post_status'  => 'publish',
-                            'tax_query'=> array(
-                                array(
-                                    'taxonomy' => 'category',
-                                    'field' => 'id',
-                                    'terms' => $kokoda_dreamseeker_cat,
-                                    'operator' => 'IN'
-                                )
-                            )
+                            'post_status'  => 'publish'
                         );
 
-                        $dreamseekers_kokoda_caravans = get_posts( $brand_args );
-                        $not_dreamseeker_kokoda_caravans =  get_posts( $args );
-
-                        $caravans = array_merge($dreamseekers_kokoda_caravans,$not_dreamseeker_kokoda_caravans)
+                        $caravans =  get_posts( $args );
 
                     ?>
 

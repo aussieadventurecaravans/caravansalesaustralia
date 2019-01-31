@@ -560,36 +560,53 @@ function misha_filter_function(){
     // for taxonomies / categories
 
     $args = array('posts_per_page' => -1);
-    if( isset( $_POST['locationfilter'] ) ||  isset( $_POST['brandfilter'] ) ||  isset( $_POST['typefilter'] ) ):
+    if( isset( $_POST['dealerfilter'] )
+        ||  isset( $_POST['brandfilter'] )
+        ||  isset( $_POST['statefilter'])
+        ||  isset( $_POST['conditionfilter'])):
+
+
         //show all posts at per page
         $args['tax_query'] = array(
             'relation' => 'AND'
         );
-        if( isset( $_POST['locationfilter'] )):
-            $locationFilter = array(
-                            'taxonomy' => 'locations',
+        if( isset( $_POST['dealerfilter'] )):
+            $dealerFilter = array(
+                            'taxonomy' => 'dealers',
                             'field' => 'id',
-                            'terms' => $_POST['locationfilter']
+                            'terms' => $_POST['dealerfilter']
                             );
-            array_push($args['tax_query'],$locationFilter);
+            array_push($args['tax_query'],$dealerFilter);
         endif;
         if( isset( $_POST['brandfilter'] )):
             $brandFilter =   array(
-                'taxonomy' => 'category',
+                'taxonomy' => 'brands',
                 'field' => 'id',
                 'terms' => $_POST['brandfilter']
             );
             array_push($args['tax_query'],$brandFilter);
         endif;
 
-        if( isset( $_POST['typefilter'] )):
-            $typeFilter =   array(
-                'taxonomy' => 'category',
+        if( isset( $_POST['conditionfilter'] )):
+            $conditionFilter =   array(
+                'taxonomy' => 'conditions',
                 'field' => 'id',
-                'terms' => $_POST['typefilter']
+                'terms' => $_POST['conditionfilter']
             );
-            array_push($args['tax_query'],$typeFilter);
+            array_push($args['tax_query'],$conditionFilter);
         endif;
+
+
+        if( isset( $_POST['statefilter'] )):
+            $stateFilter =   array(
+                'taxonomy' => 'states',
+                'field' => 'id',
+                'terms' => $_POST['statefilter']
+            );
+            array_push($args['tax_query'],$stateFilter);
+        endif;
+
+
         $caravans = get_posts( $args );
     else :
         //do nothing and display all caravans
@@ -600,40 +617,10 @@ function misha_filter_function(){
             'orderby' => 'modified',
             'order' => 'DESC',
             'nopaging' => true,
-            'post_status'  => 'publish',
-            'tax_query' => array(
-                array
-                (
-                    'taxonomy' => 'category',
-                    'field' => 'slug',
-                    'terms' => array('kokoda','dreamseeker'),
-                    'operator' => 'NOT IN'
-                )
-            )
+            'post_status'  => 'publish'
         );
-        $brand_args=array(
-            'post_type' => 'post',
-            'orderby' => 'modified',
-            'order' => 'DESC',
-            'nopaging' => true,
-            'post_status'  => 'publish',
-            'tax_query'=> array(
-                array(
-                    'taxonomy' => 'category',
-                    'field' => 'slug',
-                    'terms' => array('kokoda','dreamseeker'),
-                    'operator' => 'IN'
-                )
-            )
-        );
-
-        $dreamseekers_kokoda_caravans = get_posts( $brand_args );
-        $not_dreamseeker_kokoda_caravans =  get_posts( $args );
-
-        $caravans = array_merge($dreamseekers_kokoda_caravans,$not_dreamseeker_kokoda_caravans);
+        $caravans =  get_posts( $args );
     endif;
-
-    $query = new WP_Query( $args );
 
     if( sizeof($caravans) > 0 ) :
         $count = 0;
@@ -791,5 +778,279 @@ function custom_store_list_template( $templates ) {
 
     return $templates;
 }
+
+
+/**  ENDING THE CUSTOMIZATION  **/
+
+
+/** ADD THE DEALER TAXONOMY, STATES TAXONOMY AND BRANDS TAXONOMY **/
+
+
+function dealer_custom_taxonomies()
+{
+    // Custom Taxonomy dealer
+    $dealers = array(
+        'name' => _x( 'Dealers', 'taxonomy general name' ),
+        'singular_name' => _x( 'Location', 'taxonomy singular name' ),
+        'search_items' =>  __( 'Search in Dealers' ),
+        'all_items' => __( 'All Dealers' ),
+        'most_used_items' => null,
+        'parent_item' => null,
+        'parent_item_colon' => null,
+        'edit_item' => __( 'Edit Dealer' ),
+        'update_item' => __( 'Update Dealer' ),
+        'add_new_item' => __( 'Add new Dealer' ),
+        'new_item_name' => __( 'New Dealer' ),
+        'menu_name' => __( 'Dealers' ),
+    );
+    $args = array(
+        'hierarchical' => true,
+        'labels' => $dealers,
+        'show_ui' => true,
+        'query_var' => true,
+        'rewrite' => array( 'slug' => 'dealers' , 'with_front' => false),
+        'show_admin_column' => true
+    );
+    register_taxonomy( 'dealers', array('post'), $args );
+}
+add_action( 'init', 'dealer_custom_taxonomies', 0 );
+
+
+// Custom taxonomy dealer display for Posts
+add_action('restrict_manage_posts', 'filter_by_tax_dealers');
+function filter_by_tax_dealers()
+{
+    global $typenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'dealers'; // change to your taxonomy
+    if ($typenow == $post_type) {
+        $selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+        $info_taxonomy = get_taxonomy($taxonomy);
+        wp_dropdown_categories(array(
+            'show_option_all' => __("Show All {$info_taxonomy->label}"),
+            'taxonomy'        => $taxonomy,
+            'name'            => $taxonomy,
+            'orderby'         => 'name',
+            'selected'        => $selected,
+            'show_count'      => true,
+            'hide_empty'      => true,
+        ));
+    };
+}
+
+// Filter posts by tax dealers for Posts
+add_filter('parse_query', 'tax_dealers_convert_id_to_term_in_query');
+function tax_dealers_convert_id_to_term_in_query($query)
+{
+    global $pagenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'dealers'; // change to your taxonomy
+    $q_vars    = &$query->query_vars;
+    if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+        $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+        $q_vars[$taxonomy] = $term->slug;
+    }
+}
+
+function states_custom_taxonomies()
+{
+    // Custom Taxonomy dealer
+    $states = array(
+        'name' => _x( 'States', 'taxonomy general name' ),
+        'singular_name' => _x( 'State', 'taxonomy singular name' ),
+        'search_items' =>  __( 'Search in States' ),
+        'all_items' => __( 'All States' ),
+        'most_used_items' => null,
+        'parent_item' => null,
+        'parent_item_colon' => null,
+        'edit_item' => __( 'Edit State' ),
+        'update_item' => __( 'Update State' ),
+        'add_new_item' => __( 'Add New State' ),
+        'new_item_name' => __( 'New State' ),
+        'menu_name' => __( 'States' ),
+    );
+    $args = array(
+        'hierarchical' => true,
+        'labels' => $states,
+        'show_ui' => true,
+        'query_var' => true,
+        'rewrite' => array( 'slug' => 'states' , 'with_front' => false),
+        'show_admin_column' => true
+    );
+    register_taxonomy( 'states', array('post'), $args );
+}
+add_action( 'init', 'states_custom_taxonomies', 0 );
+
+
+// Custom taxonomy states display for Posts
+add_action('restrict_manage_posts', 'filter_by_tax_states');
+function filter_by_tax_states()
+{
+    global $typenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'states'; // change to your taxonomy
+    if ($typenow == $post_type) {
+        $selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+        $info_taxonomy = get_taxonomy($taxonomy);
+        wp_dropdown_categories(array(
+            'show_option_all' => __("Show All {$info_taxonomy->label}"),
+            'taxonomy'        => $taxonomy,
+            'name'            => $taxonomy,
+            'orderby'         => 'name',
+            'selected'        => $selected,
+            'show_count'      => true,
+            'hide_empty'      => true,
+        ));
+    };
+}
+
+// Filter posts by tax states for Posts
+add_filter('parse_query', 'tax_states_convert_id_to_term_in_query');
+function tax_states_convert_id_to_term_in_query($query)
+{
+    global $pagenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'states'; // change to your taxonomy
+    $q_vars    = &$query->query_vars;
+    if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+        $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+        $q_vars[$taxonomy] = $term->slug;
+    }
+}
+
+function brands_custom_taxonomies()
+{
+    // Custom Taxonomy dealer
+    $brands = array(
+        'name' => _x( 'Brands', 'taxonomy general name' ),
+        'singular_name' => _x( 'Brand', 'taxonomy singular name' ),
+        'search_items' =>  __( 'Search in Brands' ),
+        'all_items' => __( 'All Brands' ),
+        'most_used_items' => null,
+        'parent_item' => null,
+        'parent_item_colon' => null,
+        'edit_item' => __( 'Edit Brand' ),
+        'update_item' => __( 'Update Brand' ),
+        'add_new_item' => __( 'Add New Brand' ),
+        'new_item_name' => __( 'New Brand' ),
+        'menu_name' => __( 'Brands' ),
+    );
+    $args = array(
+        'hierarchical' => true,
+        'labels' => $brands,
+        'show_ui' => true,
+        'query_var' => true,
+        'rewrite' => array( 'slug' => 'brands' , 'with_front' => false),
+        'show_admin_column' => true
+    );
+    register_taxonomy( 'brands', array('post'), $args );
+}
+add_action( 'init', 'brands_custom_taxonomies', 0 );
+
+
+// Custom taxonomy brands display for Posts
+add_action('restrict_manage_posts', 'filter_by_tax_brands');
+function filter_by_tax_brands()
+{
+    global $typenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'brands'; // change to your taxonomy
+    if ($typenow == $post_type) {
+        $selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+        $info_taxonomy = get_taxonomy($taxonomy);
+        wp_dropdown_categories(array(
+            'show_option_all' => __("Show All {$info_taxonomy->label}"),
+            'taxonomy'        => $taxonomy,
+            'name'            => $taxonomy,
+            'orderby'         => 'name',
+            'selected'        => $selected,
+            'show_count'      => true,
+            'hide_empty'      => true,
+        ));
+    };
+}
+
+// Filter posts by tax brands for Posts
+add_filter('parse_query', 'tax_brands_convert_id_to_term_in_query');
+function tax_brands_convert_id_to_term_in_query($query)
+{
+    global $pagenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'brands'; // change to your taxonomy
+    $q_vars    = &$query->query_vars;
+    if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+        $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+        $q_vars[$taxonomy] = $term->slug;
+    }
+}
+
+function conditions_custom_taxonomies()
+{
+    // Custom Taxonomy dealer
+    $conditions = array(
+        'name' => _x( 'Conditions', 'taxonomy general name' ),
+        'singular_name' => _x( 'Condition', 'taxonomy singular name' ),
+        'search_items' =>  __( 'Search in Conditions' ),
+        'all_items' => __( 'All Conditions' ),
+        'most_used_items' => null,
+        'parent_item' => null,
+        'parent_item_colon' => null,
+        'edit_item' => __( 'Edit Condition' ),
+        'update_item' => __( 'Update Condition' ),
+        'add_new_item' => __( 'Add New Condition' ),
+        'new_item_name' => __( 'New Condition' ),
+        'menu_name' => __( 'Conditions' ),
+    );
+    $args = array(
+        'hierarchical' => true,
+        'labels' => $conditions,
+        'show_ui' => true,
+        'query_var' => true,
+        'rewrite' => array( 'slug' => 'conditions' , 'with_front' => false),
+        'show_admin_column' => true
+    );
+    register_taxonomy( 'conditions', array('post'), $args );
+}
+add_action( 'init', 'conditions_custom_taxonomies', 0 );
+
+
+// Custom taxonomy condition display for Posts
+add_action('restrict_manage_posts', 'filter_by_tax_conditions');
+function filter_by_tax_conditions()
+{
+    global $typenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'conditions'; // change to your taxonomy
+    if ($typenow == $post_type) {
+        $selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
+        $info_taxonomy = get_taxonomy($taxonomy);
+        wp_dropdown_categories(array(
+            'show_option_all' => __("Show All {$info_taxonomy->label}"),
+            'taxonomy'        => $taxonomy,
+            'name'            => $taxonomy,
+            'orderby'         => 'name',
+            'selected'        => $selected,
+            'show_count'      => true,
+            'hide_empty'      => true,
+        ));
+    };
+}
+
+// Filter posts by taxonomy conditionss for Posts
+add_filter('parse_query', 'tax_conditions_convert_id_to_term_in_query');
+function tax_conditions_convert_id_to_term_in_query($query)
+{
+    global $pagenow;
+    $post_type = 'post'; // change to your post type
+    $taxonomy  = 'conditions'; // change to your taxonomy
+    $q_vars    = &$query->query_vars;
+    if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
+        $term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
+        $q_vars[$taxonomy] = $term->slug;
+    }
+}
+
+
+
 
 /**  ENDING THE CUSTOMIZATION  **/
