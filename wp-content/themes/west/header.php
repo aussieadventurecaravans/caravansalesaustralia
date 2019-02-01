@@ -56,14 +56,14 @@
         </div>-->
 		<div class="container">
             <div class="row">
-                <div class="site-branding col-md-3">
+                <div class="site-branding col-md-4">
                     <?php //west_branding(); ?>
                     <a href="<?php echo home_url(); ?>" title="CARAVAN SALES AUSTRALIA">
-                        <label class="top-heading">CARAVAN SALES AUSTRALIA</label>
+                        <img src="<?php echo get_template_directory_uri() .  '/images/caravan_sales_australia_logo-01.png'; ?>" class="header-image" >
                     </a>
                 </div><!-- .site-branding -->
 
-                <nav id="site-navigation" class="main-navigation col-md-9" role="navigation">
+                <nav id="site-navigation" class="main-navigation col-md-8" role="navigation">
                     <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
                 </nav><!-- #site-navigation -->
                 <nav class="mobile-nav"></nav>

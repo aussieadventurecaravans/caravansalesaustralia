@@ -266,13 +266,14 @@ a:active {
 .main-navigation a {
 	display: inline-block;
 	text-decoration: none;
-	color: #00c405;
-	-webkit-transition: color 0.3s;
-	transition: color 0.3s;
+	color:#4B8A3F;
+	font-weight: 400;
+	font-family: 'Rubik', sans-serif;
+	font-size: 15px;
 }
 .main-navigation ul li a:hover
 {
-	color:#fff !important;
+	color:#FAC745 !important;
 }
 .main-navigation ul ul {
 	float: left;
@@ -1141,7 +1142,8 @@ img {
 	width: 100%;
 	z-index: 999;
 	position: relative;
-	background-color: #1C1E21;
+	background-color: #ffffff !important;
+	border-bottom: 3px solid #4B8A3F;
 }
 /*
 @media all and (max-width: 850px)
@@ -1214,12 +1216,12 @@ img {
 .site-header.header-scrolled {
 	-webkit-transition: all 0.5s;
 	transition: all 0.5s;
-	background-color: rgba(0,0,0,1) !important;
+	background-color: #fff !important;
 	padding: 0 0 10px;
 }
 .header-scrolled a,
 .header-scrolled .site-title a {
-	color: #fff;;
+	color: #4B8A3F;
 }
 .header-scrolled .site-title a:hover {
 	color: #1c1c1c;
@@ -1420,8 +1422,12 @@ img {
 	padding: 45px 0;
 }
 .footer-widgets .widget-title {
-    color: #EBEEF1;
+    color: #FAC745;
     font-weight: 400;
+	margin: 0 0 10px;
+	position: relative;
+	padding-bottom: 10px;
+}
 }
 .sidebar-column {
 	padding-top: 15px;
@@ -1433,6 +1439,29 @@ img {
 .footer-widgets,
 .footer-widgets a {
 	color: #9FA7AF;
+}
+.footer-widgets li
+{
+	padding-top: 2px;
+	padding-bottom: 2px;
+	list-style: none;
+}
+.footer-widgets ul
+{
+	padding:0;
+}
+.footer-widgets li a
+{
+	color: #FAC745;
+}
+.footer-widgets .widget-title::after {
+	position: absolute;
+	content: '';
+	width: 50px;
+	height: 2px;
+	background-color:#FAC745;
+	bottom: 0;
+	left: 0;
 }
 /*--------------------------------------------------------------
 ## Responsive
@@ -1598,6 +1627,12 @@ body.single-post {
     padding: 0 !important;
     margin: 0 !important;
 }
+.main-navigation
+{
+	margin-top: 25px;
+}
+
+
 .main-navigation ul{
 	float: right !important;
 }
@@ -1695,7 +1730,7 @@ body.single-post {
 }
 .availability-block .btn, .inner-address .btn, .address-bar .btn {
 	max-width: 240px;
-	background: #0fc22d;
+	background: #4B8A3F;
     border: none;
     box-shadow: none;
     color: #fff;
@@ -1711,9 +1746,10 @@ body.single-post {
 
 .availability-block .btn:hover,
 .availability-block .btn:active,
-.availability-block .btn:focus {
-	background-color: #000000;
-	color: #fff;
+.availability-block .btn:focus
+{
+	background-color: #FAC745;
+	color: #ffffff;
 }
 .single-post-content-wrap {
     padding-top: 25px;
@@ -1892,7 +1928,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	top: 0;
 	left: 0;
 	content: '';
-	border-top: 1px solid #0393dd;
+	border-top: 1px solid #FAC745;
 	opacity: 0;
 	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
 	transition: opacity 0.35s, transform 0.35s;
@@ -1904,7 +1940,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 .singlePost-content .nav-tabs>li.active a::after
 {
 	border-width: 2px;
-	border-color: #0393dd;
+	border-color:#FAC745;
 	opacity: 1;
 	-webkit-transition: border-width 0.2s, -webkit-transform 0.35s;
 	transition: border-width 0.2s, transform 0.35s;
@@ -2219,7 +2255,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
     color: rgb(255, 255, 255);
     font-size: 25px;
     font-weight: 400;
-    font-family: "Open Sans";
+    font-family: "Roboto", sans-serif;
     line-height: 40px;
     text-align: left;
     /*text-transform: uppercase;*/
@@ -2228,7 +2264,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	color: rgb(153, 160, 168);
     font-size: 14px;
     font-weight: 400;
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
     line-height: 23px;
 }
 .outer-wrapper .navigation.pagination{
@@ -2243,7 +2279,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 .address-inner-pages h3 {
     font-size: 21px;
     font-weight: 400;
-    font-family: "Open Sans";
+    font-family: "Roboto", sans-serif;
     font-style: normal;
     line-height: 31px;
     margin-bottom: 15px;
@@ -2525,7 +2561,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	color: rgb(230, 120, 23);
 }
 .product-list .item-details .orc-field{
-	color: #010204;
+	color: #FAC745;
 	font-size: 15px;
 	font-style: italic;
 }
@@ -2566,10 +2602,10 @@ form#filter .form-check
 form#filter .form-check .filter-heading
 {
 	font-weight: 400;
-	font-family: "Open Sans";
+	font-family: "Open Sans",sans-serif;
 	font-size: 15px;
 	margin: 0;
-	background-color: #0fc22d;
+	background-color:#4B8A3F;
 	width: 100%;
 	line-height: 30px;
 	color: #fff;
@@ -2595,7 +2631,7 @@ form#filter button.filter-button
 	font-weight: 500;
 	color: #fff;
 	width: 100%;
-	background-color: #FFEB3B;
+	background-color: #FAC745;
 	text-transform: uppercase;
 }
 
@@ -3526,3 +3562,4 @@ CUSTOMIZE  CONTACT FOOTER
 	font-size: 15px;
 	padding: 0px;
 }
+
