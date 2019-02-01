@@ -266,10 +266,13 @@ a:active {
 .main-navigation a {
 	display: inline-block;
 	text-decoration: none;
-	color: #fff;
-	padding-bottom: 5px;
+	color: #00c405;
 	-webkit-transition: color 0.3s;
 	transition: color 0.3s;
+}
+.main-navigation ul li a:hover
+{
+	color:#fff !important;
 }
 .main-navigation ul ul {
 	float: left;
@@ -1134,7 +1137,7 @@ img {
 --------------------------------------------------------------*/
 .site-header
 {
-	padding: 20px 0 30px;
+	padding: 20px 0 20px;
 	width: 100%;
 	z-index: 999;
 	position: relative;
@@ -1245,7 +1248,18 @@ img {
 }
 .site-branding {
 	padding-left: 0;
+	margin-bottom: 0 !important;
 }
+.site-branding .top-heading
+{
+	font-size: 19px;
+	color: #ffff;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+	margin:0;
+}
+
 .main-navigation {
 	padding-right: 0;
 }
@@ -1585,7 +1599,7 @@ body.single-post {
     margin: 0 !important;
 }
 .main-navigation ul{
-	float: left !important;
+	float: right !important;
 }
 .main-navigation li{
 	padding: 10px 8px;

@@ -56,7 +56,14 @@
         </div>-->
 		<div class="container">
             <div class="row">
-                <nav id="site-navigation" class="main-navigation col-md-12" role="navigation">
+                <div class="site-branding col-md-3">
+                    <?php //west_branding(); ?>
+                    <a href="<?php echo home_url(); ?>" title="CARAVAN SALES AUSTRALIA">
+                        <label class="top-heading">CARAVAN SALES AUSTRALIA</label>
+                    </a>
+                </div><!-- .site-branding -->
+
+                <nav id="site-navigation" class="main-navigation col-md-9" role="navigation">
                     <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
                 </nav><!-- #site-navigation -->
                 <nav class="mobile-nav"></nav>
