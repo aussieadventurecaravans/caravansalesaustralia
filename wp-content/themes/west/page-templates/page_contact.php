@@ -21,11 +21,9 @@ Template Name: Contact Us
     </div>
 
     <div class="row" style="background-color: #eceef1;padding: 15px 7px 0;">
-        <div class="col-md-6">
-            <?php echo FrmFormsController::show_form('', $key = 'general-contact', $title=false, $description=true); ?>
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <?php echo do_shortcode('[wpsl template="custom_store_list" map_type="roadmap"]'); ?>
+            <?php //echo FrmFormsController::show_form('', $key = 'general-contact', $title=false, $description=true); ?>
         </div>
     </div>
 

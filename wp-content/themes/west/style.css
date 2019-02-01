@@ -1681,14 +1681,14 @@ body.single-post {
 }
 .availability-block .btn, .inner-address .btn, .address-bar .btn {
 	max-width: 240px;
-    background: #e67817;
+	background: #0fc22d;
     border: none;
     box-shadow: none;
     color: #fff;
     font-weight: 500;
     border-radius: 0;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 	margin-top: 15px;
 	margin-bottom: 15px;
 
@@ -1697,7 +1697,7 @@ body.single-post {
 .availability-block .btn:hover,
 .availability-block .btn:active,
 .availability-block .btn:focus {
-	background-color: #da6804;
+	background-color: #000000;
 	color: #fff;
 }
 .single-post-content-wrap {
