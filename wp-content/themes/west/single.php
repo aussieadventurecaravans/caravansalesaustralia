@@ -72,13 +72,14 @@ $orc_field = get_field( "orc_field" );
                                         <div class="availability-block">
                                             <h3>Available at</h3>
                                             <?php
-                                            $arts = wp_get_post_terms(get_the_ID(),'locations', array("fields" => "all"));
+                                            $arts = wp_get_post_terms(get_the_ID(),'dealers', array("fields" => "all"));
                                             ?>
                                             <?php foreach ($arts as $ar): ?>
                                                 <?php if(!empty($ar->name)): ?>
-                                                    <a href="<?php echo get_site_url().'/locations/'.$ar->slug; ?>">Downunder RV <?php echo $ar->name; ?></a>
+                                                  <?php echo $ar->name; ?>
                                                 <?php endif; ?>
-                                                <a data-ps='<?php echo $ar->name.'-s'; ?>' href="#" class="<?php echo $ar->slug; ?>open popen btn btn-default btn-block">Enquire Now</a>
+                                                <a href="<?php echo home_url();?>/contact-us" target="_self" class="<?php echo $ar->slug; ?>open btn btn-default btn-block">Enquire Now</a>
+
                                                 <?php if($ar->name == 'Mandurah'): ?>
                                                     <a href="http://www.ufswa.com.au/broker/ufswa-mandurah-downunder-rv/" class="btn btn-default btn-block" target="_blank" >Finance</a>
                                                 <?php elseif($ar->name == 'Geraldton'): ?>
@@ -336,21 +337,6 @@ $orc_field = get_field( "orc_field" );
 	<?php //get_sidebar(); ?>
 <?php endif; ?>
 <?php get_footer(); ?>
-<div class="geraldtonpop newp" style="display: none;">
-<a class="close-btn" href="#">x</a>
-<div style="display:none;" class="sucess">
-	<h1>Thank you for your enquiry, we'll be in contact soon</h1>
-</div>
-<?php
- $artr = wp_get_post_terms(get_the_ID(),'locations', array("fields" => "all"));
- foreach ($artr as $strs) {
-
-  $enquire_popup = get_field('enquire_popup', 'locations_' . $strs->term_id);
-  echo '<div style="display:none;" class="'.$strs->name.'-s">'.do_shortcode($enquire_popup).'</div>';
-}
-
-?>
-</div>
 
 
 

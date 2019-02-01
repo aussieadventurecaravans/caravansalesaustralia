@@ -1691,6 +1691,7 @@ body.single-post {
     padding-bottom: 10px;
 	margin-top: 15px;
 	margin-bottom: 15px;
+	font-size: 17px;
 
 }
 
@@ -1933,7 +1934,7 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	min-height: 133px;
 	font-size: 16px;
 }
-.availability-block a {
+.availability-block {
     font-size: 16px !important;
 }
 .post-thumbnail-block.pull-right {
