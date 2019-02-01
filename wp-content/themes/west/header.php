@@ -56,11 +56,7 @@
         </div>-->
 		<div class="container">
             <div class="row">
-                <div class="site-branding col-md-4 col-sm-6 col-xs-12">
-                    <?php //west_branding(); ?>
-                </div><!-- .site-branding -->
-
-                <nav id="site-navigation" class="main-navigation col-md-8" role="navigation">
+                <nav id="site-navigation" class="main-navigation col-md-12" role="navigation">
                     <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
                 </nav><!-- #site-navigation -->
                 <nav class="mobile-nav"></nav>

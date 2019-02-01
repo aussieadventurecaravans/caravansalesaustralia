@@ -183,7 +183,6 @@ add_action( 'wp_enqueue_scripts', 'west_scripts' );
  */
 function west_enqueue_bootstrap() {
 	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.js', array('jquery'), '');
-    wp_enqueue_script( 'bootstrap-tabcollapse-js', get_template_directory_uri() . '/js/bootstrap-tabcollapse.js', array('jquery'), '');
 	wp_enqueue_style( 'west-bootstrap-collapse', get_template_directory_uri() . '/css/bootstrap/bootstrap-collapse.min.css', array() );
 	wp_enqueue_style( 'west-bootstrap', get_template_directory_uri() . '/css/bootstrap/bootstrap.min.css', array() );
 }
