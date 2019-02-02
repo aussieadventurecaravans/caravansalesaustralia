@@ -365,13 +365,13 @@ a:active {
 	vertical-align: middle;
 }
 .slicknav_btn {
-    margin: 5px 5px 6px;
+    margin:0;
     text-decoration:none;
     border-radius: 4px;  
     display: inline-block;
 }
 .slicknav_menu  .slicknav_menutxt {
-    color: #fff;
+	color: #358a39;
 }
 .slicknav_menu .slicknav_icon-bar {
   background-color: #f5f5f5;
@@ -388,7 +388,7 @@ a:active {
 .slicknav_nav {
 	position: absolute;
     left: 0;
-    background-color: #0C0E10;
+	background-color: #358a39;
     width: 100%;
     z-index: 999;
     text-align: center;
@@ -401,16 +401,21 @@ a:active {
 .slicknav_nav .slicknav_row {
     padding:10px;
 }
-.slicknav_nav a{
-    padding:10px;
-    text-decoration:none;
-    color:#fff !important;
-    border-bottom: 1px solid #222;
+.slicknav_nav a
+{
+	padding: 10px;
+	text-decoration: none;
+	color: #ffffff !important;
+	border-bottom: 1px solid #ffffff;
 }
 .slicknav_nav .slicknav_item a,
 .slicknav_nav .slicknav_parent-link a {
     padding:0;
     margin:0;
+}
+.slicknav_nav a:hover
+{
+	text-decoration: none;
 }
 .slicknav_nav .slicknav_row:hover {
     color:#fff;
@@ -1680,9 +1685,9 @@ body.single-post {
     pointer-events: none;
 }
 .mobile-nav{
-    float: right;
-    width: 45px;
-	margin: 13px;
+	float: left;
+	width: 45px;
+	margin: 0;
 }
 @media (max-width:1199px){
 	.main-navigation li{
@@ -1731,17 +1736,16 @@ body.single-post {
 .availability-block .btn, .inner-address .btn, .address-bar .btn {
 	max-width: 240px;
 	background: #4B8A3F;
-    border: none;
-    box-shadow: none;
-    color: #fff;
-    font-weight: 500;
-	border-radius: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+	border: none;
+	box-shadow: none;
+	color: #fff;
+	border-radius: 14px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	margin-top: 15px;
 	margin-bottom: 15px;
-	font-size: 17px;
-
+	font-size: 16px;
+	font-family: 'Rubik', sans-serif;
 }
 
 .availability-block .btn:hover,
@@ -2633,7 +2637,7 @@ form#filter button.filter-button
 	width: 100%;
 	background-color: #FAC745;
 	text-transform: uppercase;
-	border-radius: 4px;
+	border-radius: 14px;
 }
 
 

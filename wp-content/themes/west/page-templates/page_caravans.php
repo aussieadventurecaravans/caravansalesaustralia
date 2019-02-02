@@ -9,7 +9,7 @@ get_header(); ?>
 <div id="primary" class="fullwidth">
     <div class="container">
         <div class="row">
-            <div class="col-md-3" style=" margin-bottom: 46px;">
+            <div class="col-md-4" style=" margin-bottom: 46px;">
                 <h2 class="filter-title">Refine By: </h2>
                 <form action="<?php echo site_url() ?>/wp-admin/admin-ajax.php" method="POST" id="filter">
                     <?php
@@ -52,7 +52,7 @@ get_header(); ?>
                     <input type="hidden" name="action" value="myfilter">
                 </form>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div id="caravans-category">
                     <?php
 
