@@ -371,7 +371,7 @@ a:active {
     display: inline-block;
 }
 .slicknav_menu  .slicknav_menutxt {
-	color: #358a39;
+	color: #FAC745;
 }
 .slicknav_menu .slicknav_icon-bar {
   background-color: #f5f5f5;
@@ -407,6 +407,7 @@ a:active {
 	text-decoration: none;
 	color: #ffffff !important;
 	border-bottom: 1px solid #ffffff;
+	text-transform: uppercase;
 }
 .slicknav_nav .slicknav_item a,
 .slicknav_nav .slicknav_parent-link a {
