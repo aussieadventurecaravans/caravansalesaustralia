@@ -2552,8 +2552,8 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 
 .product-list .item-img img
 {
-	width: 300px;
-	height: 200px;
+	width: auto;
+	height: auto;
 }
 .product-list .item-img img:hover
 {
