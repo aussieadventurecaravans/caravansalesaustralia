@@ -385,14 +385,14 @@ a:active {
     list-style: none;
     overflow:hidden;
 }
-.slicknav_nav {
+.slicknav_nav
+{
 	position: absolute;
     left: 0;
-	background-color: #358a39;
+	background-color:#FAC745;
     width: 100%;
     z-index: 999;
     text-align: center;
-    margin-top: 15px;
 }
 .slicknav_nav ul {
     padding:0;
