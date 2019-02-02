@@ -2602,6 +2602,7 @@ form#filter .form-check
 	width: 100%;
 	background: #fff;
 	height: 100%;
+	margin-bottom: 15px;
 }
 form#filter .form-check .filter-heading
 {
@@ -2611,11 +2612,17 @@ form#filter .form-check .filter-heading
 	margin: 0;
 	background-color:#4B8A3F;
 	width: 100%;
-	line-height: 30px;
+	line-height: 40px;
 	color: #fff;
 	padding: 0 11px;
 	text-transform: uppercase;
+	border-bottom: 1px solid #fff;
 }
+form#filter .form-check .filter-heading span.glyphicon
+{
+	margin:12px 0;float:right;
+}
+
 form#filter .form-check .location-filter
 {
 	margin: 10px 8px;

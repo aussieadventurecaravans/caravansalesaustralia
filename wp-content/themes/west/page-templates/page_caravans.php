@@ -15,36 +15,44 @@ get_header(); ?>
                     <?php
                         echo ' <div class="form-check">';
                             if( $terms = get_terms( 'dealers', 'orderby=name' ) ) : // to make it simple I use default categories
-                                echo '<h3 class="filter-heading">Dealers</h3>';
+                                echo '<h3 class="filter-heading collapsed" data-toggle="collapse" href="#filterDealers" role="button" aria-expanded="true" aria-controls="filterDealers">Dealers <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></h3>';
+                                echo  '<div class="collapse" id="filterDealers">';
                                     foreach ( $terms as $term ) :
                                         echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="dealerfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
-                                                .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
-                                                .'</p>';
+                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                            .'</p>';
                                     endforeach;
+                                echo '</div>';
                             endif;
                             if( $terms = get_terms( 'states', 'orderby=name' ) ) : // to make it simple I use default categories
-                                echo '<h3 class="filter-heading">States</h3>';
-                                foreach ( $terms as $term ) :
-                                    echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="statefilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
-                                        .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
-                                        .'</p>';
-                                endforeach;
+                                echo '<h3 class="filter-heading collapsed"  data-toggle="collapse" href="#filterStates" role="button" aria-expanded="true" aria-controls="filterStates">States  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></h3>';
+                                echo  '<div class="collapse" id="filterStates">';
+                                    foreach ( $terms as $term ) :
+                                        echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="statefilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                            .'</p>';
+                                    endforeach;
+                                echo '</div>';
                             endif;
                             if( $terms = get_terms( 'conditions', 'orderby=name' ) ) : // to make it simple I use default categories
-                                echo '<h3 class="filter-heading">Conditions</h3>';
-                                foreach ( $terms as $term ) :
-                                    echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="conditionfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
-                                        .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
-                                        .'</p>';
-                                endforeach;
+                                echo '<h3 class="filter-heading collapsed"  data-toggle="collapse" href="#filterConditions" role="button" aria-expanded="true" aria-controls="filterConditions">Conditions  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></h3>';
+                                echo  '<div class="collapse" id="filterConditions">';
+                                    foreach ( $terms as $term ) :
+                                        echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="conditionfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
+                                            .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
+                                            .'</p>';
+                                    endforeach;
+                                echo '</div>';
                             endif;
                             if( $terms = get_terms( 'brands', 'orderby=name' ) ) : // to make it simple I use default categories
-                                echo '<h3 class="filter-heading">Brands</h3>';
+                                echo '<h3 class="filter-heading collapsed"  data-toggle="collapse" href="#filterBrands" role="button" aria-expanded="true" aria-controls="filterBrands">Brands  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></h3>';
+                                echo  '<div class="collapse" id="filterBrands">';
                                 foreach ( $terms as $term ) :
                                     echo  '<p class="location-filter"><input type="checkbox" class="form-check-input" name="brandfilter[]" value="'.$term->term_id.'" id ="'.$term->name.'" >'
                                         .'<label class="form-check-label" for="'.$term->name.'">'. $term->name .'</label>'
                                         .'</p>';
                                 endforeach;
+                                echo  '</div>';
                             endif;
                         echo '</div>';
                     ?>
@@ -139,6 +147,24 @@ get_header(); ?>
 
 <script type="text/javascript">
     jQuery(document).ready(function($){
+
+        $('h3.filter-heading').on('click', function () {
+
+           if($(this).children('span.glyphicon').hasClass('glyphicon-menu-down'))
+           {
+               $(this).children('span.glyphicon').removeClass('glyphicon-menu-down');
+
+               $(this).children('span.glyphicon').addClass('glyphicon-menu-up');
+           }
+           else
+           {
+               $(this).children('span.glyphicon').removeClass('glyphicon-menu-up');
+               $(this).children('span.glyphicon').addClass('glyphicon-menu-down');
+           }
+        });
+
+
+
         $('#filter').submit(function(){
             var filter = $('#filter');
             $.ajax({
