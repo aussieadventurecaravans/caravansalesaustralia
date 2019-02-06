@@ -3395,7 +3395,7 @@ customize the feature caravans at homepage
 
 
 .page-template .site-content {
-	margin: 29px 0 50px;
+	margin: 29px 0 0;
 }
 
 
@@ -3577,3 +3577,30 @@ CUSTOMIZE  CONTACT FOOTER
 	padding: 0px;
 }
 
+.footer-meta {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-family: "Khula", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	color: #222;
+	text-transform: uppercase;
+}
+
+
+.footer-meta span {
+	margin-right: 20px;
+}
+
+.footer-meta a {
+	color: inherit;
+}
+
+.footer-meta .copyright {
+	padding-top: 8px;
+}
+
+.footer-meta .copyright .notice {
+	display: block;
+	text-transform: none;
+	margin-top: 3px;
+}
