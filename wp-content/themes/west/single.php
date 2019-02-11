@@ -70,23 +70,22 @@ $orc_field = get_field( "orc_field" );
                                             </div>
                                         <?php endif; ?>
                                         <div class="availability-block">
-                                            <h3>Available at</h3>
-                                            <?php
-                                            $arts = wp_get_post_terms(get_the_ID(),'dealers', array("fields" => "all"));
-                                            ?>
-                                            <?php foreach ($arts as $ar): ?>
-                                                <?php if(!empty($ar->name)): ?>
-                                                  <?php echo $ar->name; ?>
-                                                <?php endif; ?>
-                                                <a href="<?php echo home_url();?>/contact-us" target="_self" class="<?php echo $ar->slug; ?>open btn btn-default btn-block">Enquire Now</a>
 
-                                                <?php if($ar->name == 'Mandurah'): ?>
-                                                    <a href="http://www.ufswa.com.au/broker/ufswa-mandurah-downunder-rv/" class="btn btn-default btn-block" target="_blank" >Finance</a>
-                                                <?php elseif($ar->name == 'Geraldton'): ?>
-                                                    <a href=" http://www.ufswa.com.au/broker/cliff-forster-downunder-rv-geraldton/"class="btn btn-default btn-block" target="_blank" >Finance</a>
-                                                <?php endif; ?>
-
-                                            <?php endforeach; ?>
+                                            <?php $stock_status = get_field('stock_status'); ?>
+                                            <?php if($stock_status == 'outOfStock'): ?>
+                                                    <h3 class="out-of-stock">Out Of Stock</h3>
+                                            <?php else: ?>
+                                                <h3>Available at</h3>
+                                                <?php
+                                                $arts = wp_get_post_terms(get_the_ID(),'dealers', array("fields" => "all"));
+                                                ?>
+                                                <?php foreach ($arts as $ar): ?>
+                                                    <?php if(!empty($ar->name)): ?>
+                                                      <?php echo $ar->name; ?>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                            <a href="<?php echo home_url();?>/contact-us" target="_self" class="open btn btn-default btn-block">Enquire Now</a>
                                         </div>
                                     </div>
                                 </div>

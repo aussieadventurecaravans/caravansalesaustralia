@@ -1953,7 +1953,8 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	transform: scale(1);
 }
 
-.single-post-content-wrap .entry-footer {
+.single-post-content-wrap .entry-footer
+{
 	display: none!important;
 }
 .availability-block h3{
@@ -1961,6 +1962,11 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 	font-size: 22px !important;
 	letter-spacing: normal !important;
 	margin: 30px 0 10px 0 !important;
+}
+.availability-block h3.out-of-stock
+{
+	color: red;
+	margin: 0;
 }
 .availability-block{
     margin: 0 0 5%;
@@ -2559,6 +2565,16 @@ div#dslc-module-110, .dslc-module-DSLC_Posts {
 .product-list .item-img img:hover
 {
 	opacity: 0.9;
+}
+.product-list .item-img .sold-badge
+{
+	position: absolute;
+	background-color: rgb(255, 178, 0);
+	color: #fff;
+	font-size:12px;
+	padding: .25rem .5rem;
+	letter-spacing: 1px;
+	top: 0;
 }
 .product-list .item-details .details
 {

@@ -98,12 +98,17 @@ get_header(); ?>
                                                 <a href="<?php the_permalink($caravan); ?>" >
                                                    <img src="<?php echo $product_img ?>" class="product-img"/>
                                                 </a>
+                                                <?php $stock_status = get_field('stock_status',$caravan->ID); ?>
+                                                <?php if($stock_status == 'outOfStock'): ?>
+                                                        <div class="sold-badge">Sold</div>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                         </div>
                                         <div class="item-details">
                                             <div class="details">
                                                 <a href="<?php the_permalink($caravan); ?>" >
                                                     <h4 class="item-title"><?php echo get_the_title($caravan); ?></h4>
+
                                                     <?php
                                                     $post_price = get_field( "post_price",$caravan->ID );
                                                     $orc_field = get_field( "orc_field",$caravan->ID );
